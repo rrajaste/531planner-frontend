@@ -54,26 +54,7 @@
                                 >Workout routine</router-link>
                             </li>
                         </ul>
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <router-link
-                                    to="/bodymeasurements"
-                                    class="nav-link"
-                                    id="navbarBodyMeasurements"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                >Login</router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link
-                                    to="/bodymeasurements"
-                                    class="nav-link"
-                                    id="navbarBodyMeasurements"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                >Register</router-link>
-                            </li>
-                        </ul>
+                        <Identity/>
                     </div>
                 </div>
             </nav>
@@ -85,3 +66,17 @@
         </div>
     </div>
 </template>
+
+<script lang="ts">
+
+import { Component, Prop, Vue } from "vue-property-decorator"
+import Identity from "./components/Identity.vue"
+
+@Component({
+    components: {
+        Identity
+    }
+})
+
+export default class App extends Vue {}
+</script>
