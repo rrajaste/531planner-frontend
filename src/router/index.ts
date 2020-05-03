@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
 
+import AccountLogin from '../views/Account/Login.vue'
+import AccountRegister from '../views/Account/Register.vue'
+
 import BodyMeasurementsIndex from '../views/BodyMeasurements/Index.vue'
 import BodyMeasurementsCreate from '../views/BodyMeasurements/Create.vue'
 import BodyMeasurementsEdit from '../views/BodyMeasurements/Edit.vue'
@@ -24,35 +27,40 @@ Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
 
-  { path: '/', name: 'Home', component: Home },
+    { path: '/', name: 'Home', component: Home },
 
-  // ========================== BODY MEASUREMENTS ====================================
+    // ========================== ACCOUNT ==============================================
 
-  { path: '/bodymeasurements', name: 'BodyMeasurementsIndex', component: BodyMeasurementsIndex },
-  { path: '/bodymeasurements/create', name: 'BodyMeasurementsCreate', component: BodyMeasurementsCreate },
-  { path: '/bodymeasurements/edit/:id', name: 'BodyMeasurementsEdit', component: BodyMeasurementsEdit, props: true },
-  { path: '/bodymeasurements/delete/:id', name: 'BodyMeasurementsDelete', component: BodyMeasurementsDelete, props: true },
-  { path: '/bodymeasurements/details/:id', name: 'BodyMeasurementsDetails', component: BodyMeasurementsDetails, props: true },
+    { path: '/Account/Register', name: 'AccountRegister', component: AccountRegister },
+    { path: '/Account/Login', name: 'AccountLogin', component: AccountLogin },
 
-  // ========================== NUTRITION ============================================
+    // ========================== BODY MEASUREMENTS ====================================
 
-  { path: '/nutrition', name: 'NutritionIndex', component: NutritionIndex },
-  { path: '/nutrition/create', name: 'NutritionCreate', component: NutritionCreate },
-  { path: '/nutrition/edit/:id', name: 'NutritionEdit', component: NutritionEdit, props: true },
-  { path: '/nutrition/delete/:id', name: 'NutritionDelete', component: NutritionDelete, props: true },
-  { path: '/nutrition/details/:id', name: 'NutritionDetails', component: NutritionDetails, props: true },
+    { path: '/bodymeasurements', name: 'BodyMeasurementsIndex', component: BodyMeasurementsIndex },
+    { path: '/bodymeasurements/create', name: 'BodyMeasurementsCreate', component: BodyMeasurementsCreate },
+    { path: '/bodymeasurements/edit/:id', name: 'BodyMeasurementsEdit', component: BodyMeasurementsEdit, props: true },
+    { path: '/bodymeasurements/delete/:id', name: 'BodyMeasurementsDelete', component: BodyMeasurementsDelete, props: true },
+    { path: '/bodymeasurements/details/:id', name: 'BodyMeasurementsDetails', component: BodyMeasurementsDetails, props: true },
 
-  // ========================== ROUTINES =============================================
+    // ========================== NUTRITION ============================================
 
-  { path: '/routines', name: 'RoutinesIndex', component: RoutinesIndex },
-  { path: '/routines/create', name: 'RoutinesCreate', component: RoutinesCreate, props: true },
-  { path: '/routines/edit/:id', name: 'RoutinesEdit', component: RoutinesEdit, props: true },
-  { path: '/routines/delete/:id', name: 'RoutinesDelete', component: RoutinesDelete, props: true },
-  { path: '/routines/Details/:id', name: 'RoutinesDetails', component: RoutinesDetails, props: true }
+    { path: '/nutrition', name: 'NutritionIndex', component: NutritionIndex },
+    { path: '/nutrition/create', name: 'NutritionCreate', component: NutritionCreate },
+    { path: '/nutrition/edit/:id', name: 'NutritionEdit', component: NutritionEdit, props: true },
+    { path: '/nutrition/delete/:id', name: 'NutritionDelete', component: NutritionDelete, props: true },
+    { path: '/nutrition/details/:id', name: 'NutritionDetails', component: NutritionDetails, props: true },
+
+    // ========================== ROUTINES =============================================
+
+    { path: '/routines', name: 'RoutinesIndex', component: RoutinesIndex },
+    { path: '/routines/create', name: 'RoutinesCreate', component: RoutinesCreate, props: true },
+    { path: '/routines/edit/:id', name: 'RoutinesEdit', component: RoutinesEdit, props: true },
+    { path: '/routines/delete/:id', name: 'RoutinesDelete', component: RoutinesDelete, props: true },
+    { path: '/routines/Details/:id', name: 'RoutinesDetails', component: RoutinesDetails, props: true }
 ]
 
 const router = new VueRouter({
-  routes
+    routes
 })
 
 export default router
