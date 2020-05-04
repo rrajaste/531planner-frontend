@@ -1,11 +1,9 @@
-import FormInputObject from './FormInputObject';
+import AbstractFormInputObject from './AbstractFormInputObject';
 
 export default interface IFormInputObjectConfiguration {
     isRequired: boolean,
     max: number,
     min: number,
     displayName: string
-    valueHasToMatch?: FormInputObject
-    valueMisMatchMessage?: string
-    hideLengthErrors?: boolean
+    customValidationFunc?: Function
 }
