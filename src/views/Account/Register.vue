@@ -60,9 +60,16 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Register <i v-if="loadingRequest" class="fa fa-spinner fa-pulse"></i></button>
         </form>
-        <div v-else><h1>Registration was successful, click <router-link to="/account/login">HERE</router-link> to log in.</h1></div>
+        <div v-else>
+            <h1>
+                Registration was successful, click
+                <router-link to="/account/login">
+                    HERE
+                </router-link> to log in.
+            </h1>
+        </div>
     </div>
 </template>
 <script lang=ts>
@@ -77,6 +84,7 @@ import { AccountApi } from '../../services/AccountApi'
 export default class AccountRegister extends Vue {
     private message = "aaaaa";
     private isRegisterSuccessful: boolean | null = null
+    private loadingRequest: boolean | null = false
 
     private username = new StringInputObject({
         displayName: "Username",
@@ -104,12 +112,14 @@ export default class AccountRegister extends Vue {
     async onSubmit () {
         const registerInfo = { email: this.email.value, password: this.password.value, username: this.username.value }
         if (this._isFormValid()) {
+            this.loadingRequest = true
             const result = await AccountApi.registerUser(registerInfo)
             if (result !== null) {
                 this.isRegisterSuccessful = true
             } else {
                 this.setInvalidRegisterErrorMessage()
             }
+            this.loadingRequest = false
         }
     }
 
