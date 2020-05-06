@@ -1,14 +1,28 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import { ILoginDTO } from "@/types/ILoginDTO"
+import { IRegisterDTO } from "@/types/IRegisterDTO"
 import { AccountApi } from "@/services/AccountApi"
+import { MuscleApi } from "@/services/MuscleApi"
+import { Muscle } from "@/domain/Muscle"
+import { UnitType } from "@/domain/UnitType"
+import { MuscleGroup } from "@/domain/MuscleGroup"
+import { UnitTypeApi } from "@/services/UnitTypeApi"
+import { MuscleGroupsApi } from "@/services/MuscleGroupsApi"
+import { NutritionIntake, NutritionIntakeEdit, NutritionIntakeCreate } from "@/domain/NutritionIntake"
+import { IBodyMeasurement, IBodyMeasurementCreate, IBodyMeasurementEdit } from "@/domain/BodyMeasurement"
+import { NutritionApi } from "@/services/NutritionApi"
+import { BodyMeasurementApi } from "@/services/BodyMeasurementApi"
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
         jwt: null as string | null,
-        username: null as string | null
+        username: null as string | null,
+        muscles: null as Muscle[] | null,
+        muscleGroups: null as MuscleGroup[] | null,
+        unitTypes: null as UnitType[] | null
     },
     mutations: {
         setJwt (state, jwt: string | null) {
@@ -16,6 +30,15 @@ export default new Vuex.Store({
         },
         setUserName (state, userName: string | null) {
             state.username = userName
+        },
+        setMuscles (state, muscles: Muscle[] | null) {
+            state.muscles = muscles
+        },
+        setMuscleGroups (state, muscleGroups: MuscleGroup[] | null) {
+            state.muscleGroups = muscleGroups
+        },
+        setUnitTypes (state, unitTypes: UnitType[] | null) {
+            state.unitTypes = unitTypes
         }
     },
     getters: {
@@ -24,18 +47,142 @@ export default new Vuex.Store({
         },
         loggedInUserName (context): string | null {
             return context.username
+        },
+        muscles (context): Muscle[] | null {
+            return context.muscles
+        },
+        muscleGroups (context): MuscleGroup[] | null {
+            return context.muscleGroups
+        },
+        unitTypes (context): UnitType[] | null {
+            return context.unitTypes
+        },
+        jwt (context): string | null {
+            return context.jwt
         }
     },
     actions: {
         logout (context): void {
             context.commit("setJwt", null)
+            context.commit("setUserName", null)
         },
         async login (context, loginInfo: ILoginDTO): Promise<boolean> {
             const jwt = await AccountApi.getJwt(loginInfo)
             context.commit("setJwt", jwt)
             context.commit("setUserName", loginInfo.username)
             return jwt !== null
+        },
+        async register (context, registerInfo: IRegisterDTO): Promise<boolean> {
+            const response = await AccountApi.registerUser(registerInfo)
+            return response !== null
+        },
+        async getMuscles (context): Promise<Muscle[] | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                if (context.getters.muscles === null) {
+                    const muscles = await MuscleApi.getAll(jwt)
+                    context.commit("setMuscles", muscles)
+                    return muscles
+                }
+                return context.getters.muscles
+            }
+            return null
+        },
+        async getUnitTypes (context): Promise<UnitType[] | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                if (context.getters.unitTypes === null) {
+                    const unitTypes = await UnitTypeApi.getAll(jwt)
+                    context.commit("setUnitTypes", unitTypes)
+                    return unitTypes
+                }
+                return context.getters.unitTypes
+            }
+            return null
+        },
+        async getMuscleGroups (context): Promise<MuscleGroup[] | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                if (context.getters.unitTypes === null) {
+                    const muscleGroups = await MuscleGroupsApi.getAll(jwt)
+                    context.commit("setMuscleGroups", muscleGroups)
+                    return muscleGroups
+                }
+                return context.getters.muscleGroups
+            }
+            return null
+        },
+        async getAllNutritionIntakes (context): Promise<NutritionIntake[] | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await NutritionApi.getAll(jwt)
+            }
+            return null
+        },
+        async getSingleNutritionIntake (context, id: string): Promise<NutritionIntake | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await NutritionApi.getSingle(id, jwt)
+            }
+            return null
+        },
+        async deleteNutritionIntake (context, id: string): Promise<NutritionIntake | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await NutritionApi.delete(id, jwt)
+            }
+            return null
+        },
+        async updateNutritionIntake (context, dto: NutritionIntakeEdit): Promise<NutritionIntake | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await NutritionApi.update(dto, jwt)
+            }
+            return null
+        },
+        async createNutritionIntake (context, dto: NutritionIntakeCreate): Promise<NutritionIntake | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await NutritionApi.create(dto, jwt)
+            }
+            return null
+        },
+        async getAllBodyMeasurements (context): Promise<IBodyMeasurement[] | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await BodyMeasurementApi.getAll(jwt)
+            }
+            return null
+        },
+        async getSingleBodyMeasurement (context, id: string): Promise<IBodyMeasurement | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await BodyMeasurementApi.getSingle(id, jwt)
+            }
+            return null
+        },
+        async deleteBodyMeasurement (context, id: string): Promise<IBodyMeasurement | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await BodyMeasurementApi.delete(id, jwt)
+            }
+            return null
+        },
+        async updateBodyMeasurement (context, dto: IBodyMeasurementEdit): Promise<IBodyMeasurement | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await BodyMeasurementApi.update(dto, jwt)
+            }
+            return null
+        },
+        async createBodyMeasurements (context, dto: IBodyMeasurementCreate): Promise<IBodyMeasurement | null> {
+            const jwt = context.getters.jwt
+            if (jwt !== null) {
+                return await BodyMeasurementApi.create(dto, jwt)
+            }
+            return null
         }
+
     },
     modules: {
     }

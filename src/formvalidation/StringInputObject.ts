@@ -16,7 +16,7 @@ export default class StringInputObject extends AbstractFormInputObject<string> {
             return `${this.displayName} has to be at least ${this.minLength} characters long.`
         } else if (this.value.length > this._maxLength) {
             return `${this.displayName} cannot be longer than ${this.maxLength} characters.`
-        } else if (this.value.length === 0) {
+        } else if (this.value.length === 0 && this._isRequired) {
             return `${this.displayName} is required.`
         }
         return ""
