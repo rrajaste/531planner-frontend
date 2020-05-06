@@ -23,7 +23,7 @@ import { INutritionIntake } from "../../domain/NutritionIntake"
         NutritionIntakeDetails
     }
 })
-export default class NutritionIntakeDelete extends Vue {
+export default class NutritionDelete extends Vue {
     @Prop()
     private id!: string
 

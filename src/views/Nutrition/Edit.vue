@@ -1,24 +1,26 @@
 <template>
     <div>
+        <h1>Edit</h1>
+        <hr/>
         <h3 class="text-danger">{{ message }}</h3>
-        <BodyMeasurementCreateForm :bodyMeasurement="bodyMeasurement" v-on:bodymeasurement-form-submitted="onSubmit"/>
+        <NutritionCreateForm :nutritionIntake="nutritionIntake" v-on:nutrition-intake-form-submitted="onSubmit"/>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator"
-import BodyMeasurementCreateForm from "../../components/BodyMeasurementCreateForm.vue"
+import NutritionCreateForm from "../../components/NutritionCreateForm.vue"
 import { INutritionIntakeCreate, INutritionIntakeEdit } from "@/domain/NutritionIntake"
 import store from "../../store"
 import router from '../../router'
 
 @Component({
     components: {
-        BodyMeasurementCreateForm
+        NutritionCreateForm
     }
 })
 
-export default class NutritionIntakeEdit extends Vue {
+export default class NutritionEdit extends Vue {
     @Prop() id!: string
 
     private message = ""
