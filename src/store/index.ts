@@ -9,7 +9,7 @@ import { UnitType } from "@/domain/UnitType"
 import { MuscleGroup } from "@/domain/MuscleGroup"
 import { UnitTypeApi } from "@/services/UnitTypeApi"
 import { MuscleGroupsApi } from "@/services/MuscleGroupsApi"
-import { NutritionIntake, NutritionIntakeEdit, NutritionIntakeCreate } from "@/domain/NutritionIntake"
+import { INutritionIntake, INutritionIntakeEdit, INutritionIntakeCreate } from "@/domain/NutritionIntake"
 import { IBodyMeasurement, IBodyMeasurementCreate, IBodyMeasurementEdit } from "@/domain/BodyMeasurement"
 import { NutritionApi } from "@/services/NutritionApi"
 import { BodyMeasurementApi } from "@/services/BodyMeasurementApi"
@@ -112,35 +112,35 @@ export default new Vuex.Store({
             }
             return null
         },
-        async getAllNutritionIntakes (context): Promise<NutritionIntake[] | null> {
+        async getAllNutritionIntakes (context): Promise<INutritionIntake[] | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.getAll(jwt)
             }
             return null
         },
-        async getSingleNutritionIntake (context, id: string): Promise<NutritionIntake | null> {
+        async getSingleNutritionIntake (context, id: string): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.getSingle(id, jwt)
             }
             return null
         },
-        async deleteNutritionIntake (context, id: string): Promise<NutritionIntake | null> {
+        async deleteNutritionIntake (context, id: string): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.delete(id, jwt)
             }
             return null
         },
-        async updateNutritionIntake (context, dto: NutritionIntakeEdit): Promise<NutritionIntake | null> {
+        async updateNutritionIntake (context, dto: INutritionIntakeEdit): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.update(dto, jwt)
             }
             return null
         },
-        async createNutritionIntake (context, dto: NutritionIntakeCreate): Promise<NutritionIntake | null> {
+        async createNutritionIntake (context, dto: INutritionIntakeCreate): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.create(dto, jwt)

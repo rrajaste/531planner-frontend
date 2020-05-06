@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            Log your body measurements
+            Log
         </h1>
         <h3 class="text-danger">{{message}}</h3>
         <hr/>
