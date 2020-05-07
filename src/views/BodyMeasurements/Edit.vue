@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h1>Edit</h1>
-        <hr/>
         <h3 class="text-danger">{{ message }}</h3>
         <BodyMeasurementCreateForm :bodyMeasurement="bodyMeasurement" v-on:bodymeasurement-form-submitted="onSubmit"/>
     </div>

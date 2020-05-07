@@ -22,7 +22,7 @@ import router from '../../router'
     }
 })
 
-export default class NutritionCreate extends Vue {
+export default class NutritionIntakesCreate extends Vue {
     private message = ""
 
     async created () {

@@ -28,9 +28,9 @@
                     <td >{{ intake.bodyFatPercentage }}</td>
 
                     <td>
-                    <router-link :to="'nutrition/edit/' + intake.id">Edit</router-link> |
-                        <router-link :to="'nutrition/details/' + intake.id">Details</router-link> |
-                        <router-link :to="'nutrition/delete/' + intake.id">Delete</router-link> |
+                    <router-link :to="'nutrtion/edit/' + intake.id">Edit</router-link> |
+                        <router-link :to="'nutrtion/details/' + intake.id">Details</router-link> |
+                        <router-link :to="'nutrtion/delete/' + intake.id">Delete</router-link> |
                     </td>
                 </tr>
             </tbody>
@@ -46,7 +46,7 @@ import router from "@/router"
 
 @Component
 export default class NutritionIndex extends Vue {
-    private nutritionIntakes: INutritionIntake[] | null = null;
+    private nutritionIntake: INutritionIntake | null = null;
     private message = ""
 
     async created () {
@@ -57,10 +57,9 @@ export default class NutritionIndex extends Vue {
             if (apiResponse == null) {
                 this.message = "Failed to communicate with backend api"
             } else {
-                this.nutritionIntakes = apiResponse
+                this.nutritionIntake = apiResponse
             }
         }
-        console.log("fetched", this.nutritionIntakes)
     }
 }
 </script>

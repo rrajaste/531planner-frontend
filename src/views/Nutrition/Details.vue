@@ -20,7 +20,7 @@ import store from '@/store'
         NutritionIntakeDetails
     }
 })
-export default class NutritionDetails extends Vue {
+export default class NutritionIntakesDetails extends Vue {
     @Prop()
     private id!: string
 
