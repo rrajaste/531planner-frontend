@@ -4,7 +4,10 @@ export const ApiUrls = {
     register: "account/register",
     muscles: "muscles/",
     muscleGroups: "musclegroups/",
-    unitTypes: "unittypes/",
     bodyMeasurements: "bodymeasurements/",
-    nutritions: "dailynutritionintakes/"
+    nutritions: "dailynutritionintakes/",
+    userWorkoutRoutines: "userworkoutroutines",
+    baseWorkoutRoutines: "baseworkoutroutines",
+    delete: "delete",
+    active: "active"
 }

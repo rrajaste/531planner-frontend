@@ -6,7 +6,7 @@ export interface IBaseWorkoutRoutine {
     description: string
 }
 
-export interface IUserBaseWorkoutRoutine {
+export interface IFullWorkoutRoutine {
     id: string,
     name: string,
     description: string
