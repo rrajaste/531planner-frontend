@@ -1,4 +1,4 @@
-export interface Muscle {
+export interface IMuscle {
     id: string,
     name: string,
     description: string

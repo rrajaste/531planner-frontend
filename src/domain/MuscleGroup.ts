@@ -1,8 +1,8 @@
-import { Muscle } from "./Muscle"
+import { IMuscle } from "./Muscle"
 
-export interface MuscleGroup {
+export interface IMuscleGroup {
     id: string,
     name: string,
     description: string,
-    muscles: Muscle[]
+    muscles: IMuscle[]
 }
