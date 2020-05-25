@@ -4,9 +4,9 @@ import { ILoginDTO } from "@/types/ILoginDTO"
 import { IRegisterDTO } from "@/types/IRegisterDTO"
 import { AccountApi } from "@/services/AccountApi"
 import { MuscleApi } from "@/services/MuscleApi"
-import { Muscle } from "@/domain/Muscle"
+import { IMuscle } from "@/domain/Muscle"
 import { UnitType } from "@/domain/UnitType"
-import { MuscleGroup } from "@/domain/MuscleGroup"
+import { IMuscleGroup } from "@/domain/MuscleGroup"
 import { UnitTypeApi } from "@/services/UnitTypeApi"
 import { MuscleGroupsApi } from "@/services/MuscleGroupsApi"
 import { INutritionIntake, INutritionIntakeEdit, INutritionIntakeCreate } from "@/domain/NutritionIntake"
@@ -20,8 +20,8 @@ export default new Vuex.Store({
     state: {
         jwt: null as string | null,
         username: null as string | null,
-        muscles: null as Muscle[] | null,
-        muscleGroups: null as MuscleGroup[] | null,
+        muscles: null as IMuscle[] | null,
+        muscleGroups: null as IMuscleGroup[] | null,
         unitTypes: null as UnitType[] | null
     },
     mutations: {
@@ -31,10 +31,10 @@ export default new Vuex.Store({
         setUserName (state, userName: string | null) {
             state.username = userName
         },
-        setMuscles (state, muscles: Muscle[] | null) {
+        setMuscles (state, muscles: IMuscle[] | null) {
             state.muscles = muscles
         },
-        setMuscleGroups (state, muscleGroups: MuscleGroup[] | null) {
+        setMuscleGroups (state, muscleGroups: IMuscleGroup[] | null) {
             state.muscleGroups = muscleGroups
         },
         setUnitTypes (state, unitTypes: UnitType[] | null) {
@@ -48,10 +48,10 @@ export default new Vuex.Store({
         loggedInUserName (context): string | null {
             return context.username
         },
-        muscles (context): Muscle[] | null {
+        muscles (context): IMuscle[] | null {
             return context.muscles
         },
-        muscleGroups (context): MuscleGroup[] | null {
+        muscleGroups (context): IMuscleGroup[] | null {
             return context.muscleGroups
         },
         unitTypes (context): UnitType[] | null {
@@ -68,15 +68,17 @@ export default new Vuex.Store({
         },
         async login (context, loginInfo: ILoginDTO): Promise<boolean> {
             const jwt = await AccountApi.getJwt(loginInfo)
-            context.commit("setJwt", jwt)
-            context.commit("setUserName", loginInfo.username)
+            if (jwt !== null) {
+                context.commit("setJwt", jwt)
+                context.commit("setUserName", loginInfo.username)
+            }
             return jwt !== null
         },
         async register (context, registerInfo: IRegisterDTO): Promise<boolean> {
             const response = await AccountApi.registerUser(registerInfo)
             return response !== null
         },
-        async getMuscles (context): Promise<Muscle[] | null> {
+        async getMuscles (context): Promise<IMuscle[] | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 if (context.getters.muscles === null) {
@@ -88,19 +90,7 @@ export default new Vuex.Store({
             }
             return null
         },
-        async getUnitTypes (context): Promise<UnitType[] | null> {
-            const jwt = context.getters.jwt
-            if (jwt !== null) {
-                if (context.getters.unitTypes === null) {
-                    const unitTypes = await UnitTypeApi.getAll(jwt)
-                    context.commit("setUnitTypes", unitTypes)
-                    return unitTypes
-                }
-                return context.getters.unitTypes
-            }
-            return null
-        },
-        async getMuscleGroups (context): Promise<MuscleGroup[] | null> {
+        async getMuscleGroups (context): Promise<IMuscleGroup[] | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 if (context.getters.unitTypes === null) {

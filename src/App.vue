@@ -1,8 +1,10 @@
 <template>
     <div id="app">
-        <header>
+        <div class="container">
+            <div class="jumbotron shadow rounded bg-white">
+                <header>
             <nav
-                class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+                class="navbar fixed-top navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary border-bottom box-shadow mb-3"
             >
                 <div class="container">
                     <router-link
@@ -64,6 +66,8 @@
                 <router-view></router-view>
             </main>
         </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -80,3 +84,19 @@ import Identity from "./components/Identity.vue"
 
 export default class App extends Vue {}
 </script>
+
+<style>
+body{
+    background-color: #efefef
+}
+.jumbotron{
+    margin-top: 80px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+</style>

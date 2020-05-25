@@ -1,4 +1,5 @@
 <template>
+
     <ul class="navbar-nav mr-auto">
         <template v-if="isLoggedIn">
             <li class="nav-item">
