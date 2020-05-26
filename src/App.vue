@@ -87,7 +87,7 @@ export default class App extends Vue {}
 
 <style>
 body{
-    background-color: #efefef
+    background-color: #d3d3d3
 }
 .jumbotron{
     margin-top: 80px;

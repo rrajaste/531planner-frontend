@@ -3,7 +3,7 @@ import { ApiUrls } from "./ApiUrls"
 import { IBaseWorkoutRoutine, IFullWorkoutRoutine } from "@/domain/WorkoutRoutine"
 import { IRoutineGenerationInfo } from "@/domain/RoutineGenerationInfo"
 
-export abstract class MuscleApi {
+export abstract class WorkoutRoutineApi {
     private static axios = Axios.create({
         baseURL: ApiUrls.apiBaseUrl
     })
@@ -23,7 +23,7 @@ export abstract class MuscleApi {
     }
 
     static async getActiveRoutine (jwt: string): Promise<IFullWorkoutRoutine | null> {
-        const url = ApiUrls.userWorkoutRoutines + ApiUrls.active
+        const url = ApiUrls.userWorkoutRoutines + "/" + ApiUrls.active
         try {
             const response = await this.axios.get(url, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
@@ -37,7 +37,7 @@ export abstract class MuscleApi {
     }
 
     static async deleteActiveRoutine (jwt: string): Promise<IBaseWorkoutRoutine | null> {
-        const url = ApiUrls.userWorkoutRoutines + ApiUrls.delete
+        const url = ApiUrls.userWorkoutRoutines + "/" + ApiUrls.delete
         try {
             const response = await this.axios.get(url, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
@@ -50,12 +50,12 @@ export abstract class MuscleApi {
         }
     }
 
-    static async generateNewRoutine (newRoutineInfo: IRoutineGenerationInfo, jwt: string): Promise<IBaseWorkoutRoutine | null> {
-        const url = ApiUrls.userWorkoutRoutines + ApiUrls.delete
+    static async generateNewRoutine (newRoutineInfo: IRoutineGenerationInfo, jwt: string): Promise<IFullWorkoutRoutine | null> {
+        const url = ApiUrls.userWorkoutRoutines + "/" + ApiUrls.generateRoutine
         try {
             const response = await this.axios.post(url, newRoutineInfo, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
-                return response.data as IBaseWorkoutRoutine
+                return response.data as IFullWorkoutRoutine
             }
             return null
         } catch (error) {

@@ -8,6 +8,8 @@ export const ApiUrls = {
     nutritions: "dailynutritionintakes/",
     userWorkoutRoutines: "userworkoutroutines",
     baseWorkoutRoutines: "baseworkoutroutines",
+    trainingcycles: "trainingcycles",
     delete: "delete",
-    active: "active"
+    active: "active",
+    generateRoutine: "generateRoutine",
 }

@@ -1,5 +1,4 @@
 <template>
-
     <ul class="navbar-nav mr-auto">
         <template v-if="isLoggedIn">
             <li class="nav-item">
@@ -20,6 +19,21 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                 >Hello {{ loggedInUserName }}</router-link>
+            </li>
+            <li class="nav-item dropdown">
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                >Unit types</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">{{ UnitTypes.metric }}</a>
+                    <a class="dropdown-item" href="#">{{ UnitTypes.imperial }}</a>
+                </div>
             </li>
         </template>
         <template v-else>
@@ -46,23 +60,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator"
-import store from "../store"
-import router from "../router"
+import { Component, Prop, Vue } from "vue-property-decorator";
+import store from "../store";
+import router from "../router";
 
 @Component
 export default class Identity extends Vue {
-    get isLoggedIn (): boolean {
-        return store.getters.isLoggedIn
+    get isLoggedIn(): boolean {
+        return store.getters.isLoggedIn;
     }
 
-    get loggedInUserName (): string {
-        return store.getters.loggedInUserName
+    get loggedInUserName(): string {
+        return store.getters.loggedInUserName;
     }
 
-    logoutOnClick () {
-        store.dispatch("logout")
-        router.push("/")
+    logoutOnClick() {
+        store.dispatch("logout");
+        router.push("/");
     }
 }
 </script>

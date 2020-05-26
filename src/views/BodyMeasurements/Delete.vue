@@ -1,8 +1,8 @@
 <template>
-    <div>
-            <h3 class="text-danger">{{message}}</h3>
-            <h1>Delete</h1>
-            <h3>Are you sure you want to delete this?</h3>
+     <div>
+        <h3 class="text-danger">{{message}}</h3>
+        <h1>Delete</h1>
+        <h3>Are you sure you want to delete this?</h3>
         <BodyMeasurementDetails :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
         <form @submit="onSubmit">
             <input type="submit" value="Delete" class="btn btn-danger" /> |

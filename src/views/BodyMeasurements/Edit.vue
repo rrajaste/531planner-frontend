@@ -35,7 +35,6 @@ export default class BodymeasurementsEdit extends Vue {
                 this.displayErrorMessage()
             }
         }
-        console.log("measurement", this.bodyMeasurement)
     }
 
     async onSubmit (dto: IBodyMeasurementEdit) {
