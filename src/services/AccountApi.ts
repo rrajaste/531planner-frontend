@@ -8,17 +8,23 @@ interface IRegisterResponse {
     username?: string;
 }
 
+interface ILoginResponse {
+    token: string;
+    status: string;
+    hasActiveRoutine: boolean;
+}
+
 export abstract class AccountApi {
     private static axios = Axios.create({
         baseURL: ApiUrls.apiBaseUrl
     })
 
-    static async getJwt (loginDTO: ILoginDTO): Promise<string | null> {
+    static async logUserIn (loginDTO: ILoginDTO): Promise<ILoginResponse | null> {
         const url = ApiUrls.login
         try {
             const response = await this.axios.post(url, loginDTO)
             if (response.status === 200) {
-                return response.data.token
+                return response.data as ILoginResponse
             }
             return null
         } catch (error) {
@@ -30,7 +36,6 @@ export abstract class AccountApi {
         const url = ApiUrls.register
         try {
             const response = await this.axios.post(url, registerDTO)
-            console.log(response)
             return response.data as IRegisterResponse
         } catch (error) {
             return null
