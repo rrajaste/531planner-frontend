@@ -15,6 +15,7 @@ import { BodyMeasurementApi } from "@/services/BodyMeasurementApi"
 import { WorkoutRoutineApi } from "@/services/WorkoutRoutineApi"
 import { IFullWorkoutRoutine, IBaseWorkoutRoutine } from "@/domain/WorkoutRoutine"
 import { ITrainingCycle } from '@/domain/TrainingCycle'
+import { ITrainingWeek } from '@/domain/TrainingWeek'
 import { TrainingCycleApi } from '@/services/TrainingCycleApi'
 import { UnitTypes } from '@/types/UnitTypes'
 
@@ -23,22 +24,26 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         jwt: null as string | null,
+        hasActiveRoutine: false as boolean,
         unitType: UnitTypes.metric as string,
         username: null as string | null,
         muscles: {} as IMuscle[] | null,
         muscleGroups: [] as IMuscleGroup[],
-        activeRoutine: {} as IBaseWorkoutRoutine,
-        activeCycle: {} as ITrainingCycle,
+        activeRoutine: null as IBaseWorkoutRoutine | null,
+        activeCycle: null as ITrainingCycle | null,
         baseRoutines: [] as IBaseWorkoutRoutine[]
     },
     mutations: {
         setJwt (state, jwt: string | null) {
             state.jwt = jwt
         },
+        setHasActiveRoutine (state, hasActiveRoutine: boolean) {
+            state.hasActiveRoutine = hasActiveRoutine
+        },
         setUnitType (state, unitType: string) {
             state.unitType = unitType
         },
-        setUserName (state, userName: string) {
+        setUserName (state, userName: string | null) {
             state.username = userName
         },
         setMuscles (state, muscles: IMuscle[]) {
@@ -47,10 +52,10 @@ export default new Vuex.Store({
         setMuscleGroups (state, muscleGroups: IMuscleGroup[]) {
             state.muscleGroups = muscleGroups
         },
-        setActiveRoutine (state, activeRoutine: IBaseWorkoutRoutine) {
+        setActiveRoutine (state, activeRoutine: IBaseWorkoutRoutine | null) {
             state.activeRoutine = activeRoutine
         },
-        setActiveCycle (state, activeCycle: ITrainingCycle) {
+        setActiveCycle (state, activeCycle: ITrainingCycle | null) {
             state.activeCycle = activeCycle
         },
         setBaseRoutines (state, baseRoutines: IBaseWorkoutRoutine[]) {
@@ -66,6 +71,21 @@ export default new Vuex.Store({
         },
         jwt (context): string | null {
             return context.jwt
+        },
+        activeWeek (context): ITrainingWeek | null {
+            if (context.activeCycle == null) {
+                return null;
+            }
+            const currentDate = new Date()
+            // const currentDate = new Date("Mon Jun 05 2020 00:00:00 GMT+0300")
+            let activeWeek = null;
+            context.activeCycle.trainingWeeks.forEach(
+                week => {
+                    if (currentDate >= new Date(week.startingDate) && new Date(week.endingDate) >= currentDate) {
+                        activeWeek = week
+                    }
+                })
+            return activeWeek;
         }
     },
     actions: {
@@ -74,12 +94,13 @@ export default new Vuex.Store({
             context.commit("setUserName", null)
         },
         async login (context, loginInfo: ILoginDTO): Promise<boolean> {
-            const jwt = await AccountApi.getJwt(loginInfo)
-            if (jwt !== null) {
-                context.commit("setJwt", jwt)
+            const response = await AccountApi.logUserIn(loginInfo)
+            if (response !== null) {
+                context.commit("setJwt", response.token)
+                context.commit("setHasActiveRoutine", response.hasActiveRoutine)
                 context.commit("setUserName", loginInfo.username)
             }
-            return jwt !== null
+            return response !== null
         },
         setUnitTypeMetric (context): void {
             context.commit("setUnitType", UnitTypes.metric)
@@ -226,6 +247,19 @@ export default new Vuex.Store({
                 apiResponse = await TrainingCycleApi.getActive(jwt)
                 if (apiResponse !== null) {
                     context.commit("setActiveCycle", apiResponse);
+                }
+            }
+            return apiResponse !== null;
+        },
+        async deleteActiveRoutine (context): Promise<boolean> {
+            const jwt = context.getters.jwt
+            let apiResponse = null;
+            if (jwt !== null) {
+                apiResponse = await WorkoutRoutineApi.deleteActiveRoutine(jwt)
+                if (apiResponse !== null) {
+                    context.commit("setHasActiveRoutine", false);
+                    context.commit("setActiveRoutine", null);
+                    context.commit("setActiveCycle", null);
                 }
             }
             return apiResponse !== null;
