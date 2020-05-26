@@ -108,6 +108,7 @@
             <hr/>
             <div class="row">
                 <button @click="calculate" class="btn btn-primary ml-3">Calculate</button>
+                <router-link v-if="!singleRepMaxesCalculated" to="/routines" class="btn btn-secondary mx-3">Back</router-link>
             </div>
             <hr/>
             <div class="text-left" v-if="singleRepMaxesCalculated === true">
