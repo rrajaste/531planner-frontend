@@ -1,8 +1,8 @@
 <template>
-    <div class="m-1 p-0">
-        <ul class="list-group p-1">
+    <div class="m-1 p-0 training-day mb-3">
+        <ul class="list-group p-1 ">
             <li class="list-group-item">
-            <h5 class="text-uppercase">{{ trainingDay.date }}</h5>
+            <h5 class="text-uppercase"></h5>
             <p class="m-0" :title="trainingDay.description">{{ trainingDay.name }}</p>
         </li>
         <li class="list-group-item p-0">
@@ -40,3 +40,8 @@ export default class TrainingDay extends Vue {
     public trainingDay: ITrainingDay | undefined;
 }
 </script>
+<style scoped>
+.training-day {
+    min-width: 220px;
+}
+</style>
