@@ -82,9 +82,9 @@ import Identity from "./components/Identity.vue"
     }
 })
 
-export default class App extends Vue {}
+export default class App extends Vue {
+}
 </script>
-
 <style>
 body{
     background-color: #d3d3d3
