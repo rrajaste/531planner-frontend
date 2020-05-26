@@ -223,7 +223,7 @@ export default new Vuex.Store({
             if (jwt !== null) {
                 apiResponse = await WorkoutRoutineApi.getBaseRoutines(jwt)
                 if (apiResponse !== null) {
-                    context.commit("setBaseRoutine", apiResponse);
+                    context.commit("setBaseRoutines", apiResponse);
                 }
             }
             return apiResponse !== null
