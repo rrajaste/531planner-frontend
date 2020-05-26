@@ -11,12 +11,9 @@ import BodyMeasurementsEdit from '../views/BodyMeasurements/Edit.vue'
 import BodyMeasurementsDelete from '../views/BodyMeasurements/Delete.vue'
 import BodyMeasurementsDetails from '../views/BodyMeasurements/Details.vue'
 
-import RoutinesIndex from '../views/Routines/Index.vue'
 import RoutinesActive from '../views/Routines/Active.vue'
-import RoutinesCreate from '../views/Routines/Create.vue'
-import RoutinesEdit from '../views/Routines/Edit.vue'
-import RoutinesDelete from '../views/Routines/Delete.vue'
-import RoutinesDetails from '../views/Routines/Details.vue'
+import RoutinesIndex from '../views/Routines/Index.vue'
+import RoutineGenerate from '../views/Routines/Generate.vue'
 
 import NutritionIndex from '../views/Nutrition/Index.vue'
 import NutritionCreate from '../views/Nutrition/Create.vue'
@@ -53,11 +50,9 @@ const routes: Array<RouteConfig> = [
 
     // ========================== ROUTINES =============================================
 
-    { path: '/routines', name: 'RoutinesActive', component: RoutinesActive }
-    // { path: '/routines/create', name: 'RoutinesCreate', component: RoutinesCreate, props: true },
-    // { path: '/routines/edit/:id', name: 'RoutinesEdit', component: RoutinesEdit, props: true },
-    // { path: '/routines/delete/:id', name: 'RoutinesDelete', component: RoutinesDelete, props: true },
-    // { path: '/routines/Details/:id', name: 'RoutinesDetails', component: RoutinesDetails, props: true }
+    { path: '/routines', name: 'RoutinesIndex', component: RoutinesIndex },
+    { path: '/routines/activecycle', name: 'RoutinesActive', component: RoutinesActive },
+    { path: '/routines/generate', name: 'RoutineGenerate', component: RoutineGenerate }
 ]
 
 const router = new VueRouter({
