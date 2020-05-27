@@ -21,7 +21,7 @@
             <div class="form-row my-3 border-top pt-4">
                 <label class="col-sm-3 col-md-2 my-1 text-left">{{ squatMax.displayName }}</label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="squatMax.value"
                     :class="squatMax.bootstrapValidationClass"
@@ -43,14 +43,14 @@
             <div class="form-row my-3">
                 <label class="col-sm-3 col-md-2 my-1 text-left">{{ benchMax.displayName }}</label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="benchMax.value"
                     :class="benchMax.bootstrapValidationClass"
                 />
                 <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="benchReps.value"
                     :class="benchReps.bootstrapValidationClass"
@@ -65,14 +65,14 @@
             <div class="form-row my-3">
                 <label class="col-sm-3 col-md-2 my-1 text-left">{{ deadliftMax.displayName }}</label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="deadliftMax.value"
                     :class="deadliftMax.bootstrapValidationClass"
                 />
                 <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="deadliftReps.value"
                     :class="deadliftReps.bootstrapValidationClass"
@@ -87,14 +87,14 @@
             <div class="form-row my-3">
                 <label class="col-sm-3 col-md-2 my-1 text-left">{{ pressMax.displayName }}</label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="pressMax.value"
                     :class="pressMax.bootstrapValidationClass"
                 />
                 <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
                 <input
-                    type="number"
+                    type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="pressReps.value"
                     :class="pressReps.bootstrapValidationClass"
@@ -207,7 +207,7 @@ export default class RoutineGenerationForm extends Vue {
         displayName: "Bench press max",
         isRequired: true,
         min: 1,
-        max: 100
+        max: 1000
     })
 
     private benchReps = new NumberInputObject({

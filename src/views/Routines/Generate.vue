@@ -64,8 +64,8 @@ export default class RoutineGenerate extends Vue {
                 baseRoutineId: this.baseRoutineId,
                 addDeloadWeek: false
             }
-            // store.dispatch("generateNewRoutine", newRoutineInfo)
-            console.log("dto", newRoutineInfo)
+            store.dispatch("generateNewRoutine", newRoutineInfo)
+            router.push("/routines")
         } else {
             this.message = "Please pick a base routine"
         }

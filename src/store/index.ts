@@ -234,7 +234,7 @@ export default new Vuex.Store({
             if (jwt !== null) {
                 apiResponse = await WorkoutRoutineApi.generateNewRoutine(info, jwt)
                 if (apiResponse !== null) {
-                    context.commit("setActiveCycle", apiResponse?.trainingCycles)
+                    context.commit("setActiveCycle", apiResponse.trainingCycles[0])
                     context.commit("setActiveRoutine", apiResponse as IBaseWorkoutRoutine)
                 }
             }

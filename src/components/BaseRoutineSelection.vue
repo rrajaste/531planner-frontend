@@ -20,7 +20,7 @@
 </template>
 <script lang=ts>
 
-import { Component, Prop, Vue, Emit } from "vue-property-decorator"
+import { Component, Vue } from "vue-property-decorator"
 import store from "../store"
 
 @Component
