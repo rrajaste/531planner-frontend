@@ -2,7 +2,10 @@
     <div class="text-center">
         <h1 class="text-uppercase display-4">{{ activeRoutine.name }}</h1>
         <h3 class="text-uppercase text-danger">{{ message }}</h3>
-        <p class="text-muted border-bottom mb-3 pb-3 ">{{ activeRoutine.description }}</p>
+        <p class="text-muted ">{{ activeRoutine.description }}</p>
+        <div class="border-bottom mb-3 pb-3" >
+            <router-link to="/routines/">BACK</router-link>
+        </div>
         <div class="row justify-content-center">
             <div
                 v-for="trainingWeek in activeCycle.trainingWeeks.sort((a, b) => a.weekNumber - b.weekNumber)"

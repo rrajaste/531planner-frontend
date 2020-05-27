@@ -86,6 +86,21 @@ export default new Vuex.Store({
                     }
                 })
             return activeWeek;
+        },
+        isCycleOver (context): boolean | null {
+            if (!context.activeCycle || !context.activeCycle.trainingWeeks) {
+                return null
+            }
+            const currentDate = new Date()
+            const lastWeek = context.activeCycle.trainingWeeks[context.activeCycle.trainingWeeks.length - 1]
+            return lastWeek.endingDate < currentDate
+        },
+        firstWeekStartingDate (context): Date | null {
+            if (!context.activeCycle || !context.activeCycle.trainingWeeks) {
+                return null
+            }
+            const firstWeek = context.activeCycle.trainingWeeks[0]
+            return firstWeek.startingDate
         }
     },
     actions: {

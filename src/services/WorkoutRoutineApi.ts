@@ -39,7 +39,6 @@ export abstract class WorkoutRoutineApi {
     static async deleteActiveRoutine (jwt: string): Promise<IBaseWorkoutRoutine | null> {
         const url = ApiUrls.userWorkoutRoutines + "/" + ApiUrls.delete
         try {
-            console.log(jwt)
             const response = await this.axios.post(url, {}, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
                 return response.data as IBaseWorkoutRoutine
