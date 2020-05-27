@@ -1,6 +1,7 @@
 <template>
     <div>
-        <h3 class="pb-4 border-bottom">Routine templates</h3>
+        <h3 class="pb-1">Routine templates</h3>
+        <p class="pb-2 border-bottom text-muted">Please choose a base routine template</p>
         <div v-if="baseRoutines" class="row d-flex justify-content-center">
             <div v-for="routine in baseRoutines" :key="routine.id" class="card shadow rounded mb-3 mx-1 col-sm-12 col-md-8 col-xl-5">
                 <div class="card-body text-center">

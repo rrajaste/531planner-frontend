@@ -4,6 +4,7 @@
             <h1 class="display-4 text-uppercase">Generate...</h1>
             <h3 class="">...a new workout routine</h3>
             <p class="text-secondary">Fill out the form below to generate a new 5/3/1 workout routine</p>
+            <router-link to="/routines" class="text-uppercase">BACK</router-link>
         </div>
         <hr/>
         <div v-if="hasActiveRoutine">
@@ -12,7 +13,13 @@
         </div>
         <div v-else>
             <BaseRoutineSelection v-if="!baseRoutineId" @routine-selected="setBaseRoutineId" />
-            <RoutineGenerationForm v-else/>
+            <div v-else>
+                <button class="btn btn-info text-uppercase btn-sm mb-3" @click="setBaseRoutineId('')">Repick</button>
+            </div>
+            <RoutineGenerationForm @wendler-maxes-submitted="submitForm"/>
+            <div class="row">
+                <span class="text-danger ml-3 mt-1">{{ message }}</span>
+            </div>
         </div>
     </div>
 </template>
@@ -22,6 +29,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import store from "../../store";
 import router from "../../router";
 import { IRoutineGenerationInfo } from "../../domain/RoutineGenerationInfo";
+import { IWendlerMaxes } from "../../domain/WendlerMaxes";
 import RoutineGenerationForm from "../../components/RoutineGenerationForm.vue";
 import BaseRoutineSelection from "../../components/BaseRoutineSelection.vue";
 
@@ -32,12 +40,12 @@ import BaseRoutineSelection from "../../components/BaseRoutineSelection.vue";
     }
 })
 export default class RoutineGenerate extends Vue {
-    get activeRoutine(): boolean | null {
+    get hasActiveRoutine(): boolean | null {
         return store.state.activeRoutine !== null;
     }
 
-    private generationInfo = {} as IRoutineGenerationInfo
     private baseRoutineId: string | null = null;
+    private message = "";
 
     mounted() {
         if (!store.getters.isLoggedIn) {
@@ -45,8 +53,22 @@ export default class RoutineGenerate extends Vue {
         }
     }
 
-    submitForm() {
-        store.dispatch("generateNewRoutine", this.generationInfo)
+    submitForm(wendlerMaxes: IWendlerMaxes) {
+        if (this.baseRoutineId) {
+            const newRoutineInfo: IRoutineGenerationInfo = {
+                benchPressMax: wendlerMaxes.benchMax,
+                deadliftMax: wendlerMaxes.deadliftMax,
+                squatMax: wendlerMaxes.squatMax,
+                overHeadPressMax: wendlerMaxes.pressMax,
+                startingDate: new Date(),
+                baseRoutineId: this.baseRoutineId,
+                addDeloadWeek: false
+            }
+            // store.dispatch("generateNewRoutine", newRoutineInfo)
+            console.log("dto", newRoutineInfo)
+        } else {
+            this.message = "Please pick a base routine"
+        }
     }
 
     setBaseRoutineId(id: string) {

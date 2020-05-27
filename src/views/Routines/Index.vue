@@ -7,10 +7,14 @@
             </p>
         </div>
         <hr/>
-        <div class="row text-center justify-content-center">
+        <div v-on:click="toggleShowActiveRoutine" class="row clickable text-center justify-content-center">
             <h3 class="text-success text-center text-uppercase">Active routine</h3>
-            <div class="clickable" v-if="showActiveRoutine" v-on:click="hideActiveRoutine()"><font-awesome-icon icon="minus" class="text-danger mx-2 my-2"/></div>
-            <div class="clickable" v-else v-on:click="displayActiveRoutine()"><font-awesome-icon icon="plus" class="text-success mx-2 my-2"/></div>
+            <div class="clickable" v-if="showActiveRoutine">
+                <font-awesome-icon icon="minus" class="text-danger mx-2 my-2"/>
+            </div>
+            <div class="clickable" v-else>
+                <font-awesome-icon icon="plus" class="text-success mx-2 my-2"/>
+            </div>
         </div>
         <div v-if="activeRoutine && showActiveRoutine" class="row justify-content-center my-2">
             <div class="card shadow rounded col-sm-11 col-md-10 my-2">
@@ -23,26 +27,6 @@
             </div>
             <div class="card-footer">
                 <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#removeRoutineModal" title="Remove this routine">REMOVE</button>
-                <div id="removeRoutineModal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title text-danger text-center">Are you sure you wish to remove this routine?</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <h4 class="text-center">{{ activeRoutine.name }}</h4>
-                                <p class="text-muted text-center">{{ activeRoutine.description }}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button v-on:click="deleteActiveRoutine()" type="button" class="btn btn-danger">DELETE</button>
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         </div>
@@ -54,10 +38,14 @@
         <div>
         </div>
         <hr/>
-        <div class="row text-center justify-content-center">
+        <div v-on:click="toggleShowCurrentWeek" class="row clickable text-center justify-content-center">
             <h3 class="text-success text-center text-uppercase">current week</h3>
-            <div class="clickable" v-if="showCurrentWeek" v-on:click="hideCurrentWeek()"><font-awesome-icon icon="minus" class="text-danger mx-2 my-2"/></div>
-            <div class="clickable" v-else v-on:click="displayCurrentWeek()"><font-awesome-icon icon="plus" size="xl" class="text-success mx-2 my-2"/></div>
+            <div class="clickable" v-if="showCurrentWeek">
+                <font-awesome-icon icon="minus" class="text-danger mx-2 my-2"/>
+            </div>
+            <div class="clickable" v-else>
+                <font-awesome-icon icon="plus" size="xl" class="text-success mx-2 my-2"/>
+            </div>
         </div>
         <hr/>
         <div v-if="activeWeek && showCurrentWeek">
@@ -109,20 +97,12 @@ export default class RoutineIndex extends Vue {
         }
     }
 
-    private hideCurrentWeek() {
-        this.showCurrentWeek = false
+    private toggleShowCurrentWeek() {
+        this.showCurrentWeek = !this.showCurrentWeek;
     }
 
-    private displayCurrentWeek() {
-        this.showCurrentWeek = true
-    }
-
-    private hideActiveRoutine() {
-        this.showActiveRoutine = false
-    }
-
-    private displayActiveRoutine() {
-        this.showActiveRoutine = true
+    private toggleShowActiveRoutine() {
+        this.showActiveRoutine = !this.showActiveRoutine;
     }
 
     private async deleteActiveRoutine() {

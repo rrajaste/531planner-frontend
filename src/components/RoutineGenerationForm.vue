@@ -5,18 +5,19 @@
             <div class="form-row">
                 <div class="radio col-2">
                     <label class="text-left">
-                        <input class="col-1" type="radio" name="optradio" checked @click="setUnitTypeMetric()"> Metric
+                        <input class="col-1" type="radio" name="optradio" :checked="isDefaultMetric" @click="setUnitTypeMetric()"> Metric
                     </label>
                 </div>
             </div>
             <div class="form-row">
                 <div class="radio col-2">
                     <label class="text-left">
-                        <input class="col-1" type="radio" name="optradio" checked @click="setUnitTypeMetric()"> Imperial
+                        <input class="col-1" type="radio" name="optradio" :checked="!isDefaultMetric" @click="setUnitTypeImperial()"> Imperial
                     </label>
                 </div>
             </div>
-            <h5 class="text-left text-uppercase pb-1 pt-3 border-top"><b>Lift maxes</b></h5>
+            <h5 class="text-left text-uppercase pb-1 pt-3 border-top"><b>Lift maxes</b>
+            <span class="text-lowercase">({{unitTypeAbbreviation}})</span></h5>
             <div class="form-row my-3 border-top pt-4">
                 <label class="col-sm-3 col-md-2 my-1 text-left">{{ squatMax.displayName }}</label>
                 <input
@@ -107,19 +108,20 @@
             </div>
             <hr/>
             <div class="row">
-                <button @click="calculate" class="btn btn-primary ml-3">Calculate</button>
+                <button type="button" @click="calculate" class="btn btn-primary ml-3">Calculate</button>
                 <router-link v-if="!singleRepMaxesCalculated" to="/routines" class="btn btn-secondary mx-3">Back</router-link>
             </div>
             <hr/>
             <div class="text-left" v-if="singleRepMaxesCalculated === true">
-                <h5 class="text-left text-uppercase pb-3 pt-3 border-top border-bottom"><b>Estimated one rep maxes</b></h5>
+                <h5 class="text-left text-uppercase pb-3 pt-3 border-top border-bottom"><b>Estimated one rep maxes</b>
+                <span class="text-lowercase">({{unitTypeAbbreviation}})</span> </h5>
                 <table class="table table-bordered my-3">
                     <tr>
                         <th>
                             Squat
                         </th>
                         <th class="px-3">
-                            {{ squatOneRepMax }}
+                            {{ squatOneRepMax }} {{ unitTypeAbbreviation }}
                         </th>
                     </tr>
                     <tr>
@@ -127,7 +129,7 @@
                             Bench press
                         </th>
                         <th class="px-3">
-                            {{ benchOneRepMax }}
+                            {{ benchOneRepMax }} {{ unitTypeAbbreviation }}
                         </th>
                     </tr>
                     <tr>
@@ -135,7 +137,7 @@
                             Deadlift
                         </th>
                         <th class="px-3">
-                            {{ deadliftOneRepMax }}
+                            {{ deadliftOneRepMax }} {{ unitTypeAbbreviation }}
                         </th>
                     </tr>
                     <tr>
@@ -143,7 +145,7 @@
                             Overhead press
                         </th>
                         <th class="px-3">
-                            {{ pressOneRepMax }}
+                            {{ pressOneRepMax }} {{ unitTypeAbbreviation }}
                         </th>
                     </tr>
                 </table>
@@ -158,14 +160,28 @@
 </template>
 <script lang=ts>
 
-import { Component, Prop, Vue, Watch } from "vue-property-decorator"
+import { Component, Vue } from "vue-property-decorator"
 import { UnitTypes } from "../types/UnitTypes"
 import NumberInputObject from "../formvalidation/NumberInputObject"
 import RepMaxCalculator from "../calculators/singleRepetitionMaxCalculator"
+import { UnitTypeConverter } from "../calculators/unitTypeConverter"
+import { IWendlerMaxes } from "../domain/WendlerMaxes"
+import store from '@/store'
 
 @Component
 export default class RoutineGenerationForm extends Vue {
-    private unitType = UnitTypes.metric
+    get unitType() {
+        return store.state.unitType
+    }
+
+    get isDefaultMetric() {
+        return this.unitType === UnitTypes.metric
+    }
+
+    get unitTypeAbbreviation() {
+        return this.unitType === UnitTypes.metric ? "kg" : "lb"
+    }
+
     private singleRepMaxesCalculated = false;
 
     private squatOneRepMax = 0;
@@ -230,19 +246,19 @@ export default class RoutineGenerationForm extends Vue {
     })
 
     private setUnitTypeMetric() {
-        this.unitType = UnitTypes.metric
+        store.commit("setUnitType", UnitTypes.metric)
     }
 
     private setUnitTypeImperial() {
-        this.unitType = UnitTypes.imperial
+        store.commit("setUnitType", UnitTypes.imperial)
     }
 
     calculate () {
         if (this._isFormValid()) {
             this.squatOneRepMax = RepMaxCalculator.GetSingleRepMax(this.squatMax.value, this.squatReps.value)
-            this.deadliftOneRepMax = RepMaxCalculator.GetSingleRepMax(this.deadliftMax.value, this.deadliftReps.value)
+            this.deadliftOneRepMax = RepMaxCalculator.GetSingleRepMax(this.benchMax.value, this.benchReps.value)
             this.pressOneRepMax = RepMaxCalculator.GetSingleRepMax(this.pressMax.value, this.pressReps.value)
-            this.benchOneRepMax = RepMaxCalculator.GetSingleRepMax(this.benchMax.value, this.benchReps.value)
+            this.benchOneRepMax = RepMaxCalculator.GetSingleRepMax(this.deadliftMax.value, this.deadliftReps.value)
 
             this.singleRepMaxesCalculated = true;
         }
@@ -250,7 +266,22 @@ export default class RoutineGenerationForm extends Vue {
 
     onSubmit () {
         if (this._isFormValid()) {
+            if (this.singleRepMaxesCalculated) {
+                const wendlerMaxes: IWendlerMaxes = {
+                    benchMax: this.convertValueForFormSubmit(this.squatOneRepMax),
+                    deadliftMax: this.convertValueForFormSubmit(this.deadliftOneRepMax),
+                    pressMax: this.convertValueForFormSubmit(this.pressOneRepMax),
+                    squatMax: this.convertValueForFormSubmit(this.squatOneRepMax)
+                }
+                this.$emit("wendler-maxes-submitted", wendlerMaxes)
+            }
         }
+    }
+
+    private convertValueForFormSubmit(value: number) {
+        return this.unitType === UnitTypes.metric
+            ? value
+            : UnitTypeConverter.poundsToKilograms(value)
     }
 
     private _isFormValid () {
