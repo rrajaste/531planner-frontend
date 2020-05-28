@@ -29,11 +29,7 @@ export default class BodymeasurementsEdit extends Vue {
     private message = ""
 
     get bodyMeasurement (): IBodyMeasurement | null {
-        const bodyMeasurement = store.state.bodyMeasurementToMutate
-        if (store.state.unitType === UnitTypes.imperial) {
-            return this.convertBodyMeasurementToImperial(bodyMeasurement)
-        }
-        return bodyMeasurement
+        return store.getters.convertedBodyMeasurementToMutate
     }
 
     async mounted() {
@@ -54,24 +50,6 @@ export default class BodymeasurementsEdit extends Vue {
         } else {
             this.displayErrorMessage()
         }
-    }
-
-    convertBodyMeasurementToImperial(bodyMeasurement: IBodyMeasurement | null) {
-        if (!bodyMeasurement) {
-            return null
-        }
-        const convertedMeasurement: IBodyMeasurement = {
-            weight: Math.round(UnitTypeConverter.kilogramsToPounds(bodyMeasurement.weight) * 100) / 100,
-            height: Math.round(UnitTypeConverter.centimetersToInches(bodyMeasurement.height) * 100) / 100,
-            arm: Math.round(UnitTypeConverter.centimetersToInches(bodyMeasurement.arm) * 100) / 100,
-            hip: Math.round(UnitTypeConverter.centimetersToInches(bodyMeasurement.hip) * 100) / 100,
-            chest: Math.round(UnitTypeConverter.centimetersToInches(bodyMeasurement.chest) * 100) / 100,
-            waist: Math.round(UnitTypeConverter.centimetersToInches(bodyMeasurement.waist) * 100) / 100,
-            bodyFatPercentage: bodyMeasurement.bodyFatPercentage,
-            id: bodyMeasurement.id,
-            loggedAt: bodyMeasurement.loggedAt
-        }
-        return convertedMeasurement
     }
 
     displayErrorMessage () {

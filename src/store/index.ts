@@ -18,6 +18,7 @@ import { ITrainingCycle } from '@/domain/TrainingCycle'
 import { ITrainingWeek } from '@/domain/TrainingWeek'
 import { TrainingCycleApi } from '@/services/TrainingCycleApi'
 import { UnitTypes } from '@/types/UnitTypes'
+import { UnitTypeConverter } from '@/calculators/unitTypeConverter'
 
 Vue.use(Vuex)
 
@@ -76,6 +77,22 @@ export default new Vuex.Store({
         },
         loggedInUserName (context): string | null {
             return context.username
+        },
+        convertedBodyMeasurements (context): IBodyMeasurement[] | null {
+            if (context.unitType === UnitTypes.imperial) {
+                return context.bodyMeasurements.map(
+                    measurement => UnitTypeConverter.bodyMeasurementToImperial(measurement))
+            }
+            return context.bodyMeasurements
+        },
+        convertedBodyMeasurementToMutate (context): IBodyMeasurement | null {
+            let mappedMeasurement = context.bodyMeasurementToMutate
+            if (context.unitType === UnitTypes.imperial) {
+                if (mappedMeasurement) {
+                    mappedMeasurement = UnitTypeConverter.bodyMeasurementToImperial(mappedMeasurement)
+                }
+            }
+            return mappedMeasurement
         },
         jwt (context): string | null {
             return context.jwt

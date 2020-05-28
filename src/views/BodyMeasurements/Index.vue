@@ -49,8 +49,8 @@ import router from "@/router"
 
 @Component
 export default class BodymeasurementsIndex extends Vue {
-    get bodyMeasurements() {
-        return store.state.bodyMeasurements;
+    get bodyMeasurements(): IBodyMeasurement[] {
+        return store.getters.convertedBodyMeasurements;
     }
 
     private message = ""
