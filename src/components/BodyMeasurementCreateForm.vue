@@ -7,9 +7,10 @@
             <form @submit.prevent="onSubmit">
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ weight.displayName }}*</label>
+                    <label>{{ weight.displayName }} ({{weightAbbreviation}})*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="weight.value"
                         :class="weight.bootstrapValidationClass"
@@ -21,9 +22,10 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ height.displayName }}*</label>
+                    <label>{{ height.displayName }} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="height.value"
                         :class="height.bootstrapValidationClass"
@@ -35,9 +37,10 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ chest.displayName }}*</label>
+                    <label>{{ chest.displayName }} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="chest.value"
                         :class="chest.bootstrapValidationClass"
@@ -49,9 +52,10 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ waist.displayName }}*</label>
+                    <label>{{ waist.displayName }} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="waist.value"
                         :class="waist.bootstrapValidationClass"
@@ -63,9 +67,10 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ hip.displayName }}*</label>
+                    <label>{{ hip.displayName }} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="hip.value"
                         :class="hip.bootstrapValidationClass"
@@ -77,9 +82,10 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ arm.displayName }}*</label>
+                    <label>{{ arm.displayName }} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="arm.value"
                         :class="arm.bootstrapValidationClass"
@@ -94,6 +100,7 @@
                     <label>{{ bodyfatpercentage.displayName }}*</label>
                     <input
                         type="number"
+                        step="any"
                         class="form-control"
                         v-model.number="bodyfatpercentage.value"
                         :class="bodyfatpercentage.bootstrapValidationClass"
@@ -103,7 +110,9 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <div class="form-row">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
         </form>
         </div>
         <div class="col-5 body-image justify-content-left">
@@ -120,6 +129,9 @@ import NumberInputObject from "../formvalidation/NumberInputObject"
 import { IBodyMeasurementCreate, IBodyMeasurement } from "../domain/BodyMeasurement"
 import StringInputObject from "../formvalidation/StringInputObject"
 import UnitTypeSelection from "./UnitTypeSelection.vue"
+import store from '@/store'
+import { UnitTypeConverter } from '../calculators/unitTypeConverter'
+import { UnitTypes } from '../types/UnitTypes'
 
 @Component({
     components: {
@@ -127,11 +139,34 @@ import UnitTypeSelection from "./UnitTypeSelection.vue"
     }
 })
 export default class BodymeasurementCreateForm extends Vue {
-    private weightAbbreviation = { metric: "kg", imperial: "lbs" }
-    private lengthAbbreviation = { metric: "cm", imperial: { feet: "ft", inches: "in" } }
     private measurement = "metric"
+
     @Prop()
-    bodyMeasurement: IBodyMeasurement | null = null
+    private bodyMeasurement!: IBodyMeasurement;
+
+    get weightAbbreviation () {
+        return store.getters.unitTypeWeightAbbreviation
+    }
+
+    get lengthAbbreviation () {
+        return store.getters.unitTypeLengthAbbreviation
+    }
+
+    get unitType () {
+        return store.state.unitType
+    }
+
+    mounted() {
+        if (this.bodyMeasurement) {
+            this.weight.value = this.bodyMeasurement.weight;
+            this.height.value = this.bodyMeasurement.height;
+            this.chest.value = this.bodyMeasurement.chest;
+            this.arm.value = this.bodyMeasurement.arm;
+            this.hip.value = this.bodyMeasurement.hip;
+            this.waist.value = this.bodyMeasurement.waist;
+            this.bodyfatpercentage.value = this.bodyMeasurement.bodyFatPercentage;
+        }
+    }
 
     private weight = new NumberInputObject({
         displayName: "Weight",
@@ -165,7 +200,7 @@ export default class BodymeasurementCreateForm extends Vue {
         displayName: "Hip",
         isRequired: false,
         min: 1,
-        max: 100
+        max: 1000
     })
 
     private arm = new NumberInputObject({
@@ -191,29 +226,16 @@ export default class BodymeasurementCreateForm extends Vue {
 
     async onSubmit () {
         const dto: IBodyMeasurementCreate = {
-            weight: this.weight.value,
-            height: this.height.value,
-            chest: this.chest.value,
-            hip: this.hip.value,
-            waist: this.waist.value,
-            arm: this.arm.value,
+            weight: this.getWeightMetricValue(this.weight.value),
+            height: this.getLengthMetricValue(this.height.value),
+            chest: this.getLengthMetricValue(this.chest.value),
+            hip: this.getLengthMetricValue(this.hip.value),
+            waist: this.getLengthMetricValue(this.waist.value),
+            arm: this.getLengthMetricValue(this.arm.value),
             bodyFatPercentage: this.bodyfatpercentage.value
         }
         if (this._isFormValid()) {
             this.$emit('bodymeasurement-form-submitted', dto)
-        }
-    }
-
-    @Watch('bodyMeasurement')
-    propChanged () {
-        if (this.bodyMeasurement !== null) {
-            this.weight.value = this.bodyMeasurement.weight
-            this.height.value = this.bodyMeasurement.height
-            this.chest.value = this.bodyMeasurement.chest ?? 0
-            this.waist.value = this.bodyMeasurement.waist ?? 0
-            this.hip.value = this.bodyMeasurement.hip ?? 0
-            this.arm.value = this.bodyMeasurement.arm ?? 0
-            this.bodyfatpercentage.value = this.bodyMeasurement.bodyFatPercentage ?? 0
         }
     }
 
@@ -224,6 +246,18 @@ export default class BodymeasurementCreateForm extends Vue {
         this.hip.isValid &&
         this.arm.isValid &&
         this.bodyfatpercentage.isValid
+    }
+
+    private getLengthMetricValue(length: number) {
+        return this.unitType === UnitTypes.metric
+            ? length
+            : UnitTypeConverter.inchesToCentimeters(length)
+    }
+
+    private getWeightMetricValue(weight: number) {
+        return this.unitType === UnitTypes.metric
+            ? weight
+            : UnitTypeConverter.poundsToKilograms(weight)
     }
 }
 </script>

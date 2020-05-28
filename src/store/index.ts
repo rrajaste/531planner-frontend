@@ -32,7 +32,8 @@ export default new Vuex.Store({
         bodyMeasurements: [] as IBodyMeasurement[],
         activeRoutine: null as IBaseWorkoutRoutine | null,
         activeCycle: null as ITrainingCycle | null,
-        baseRoutines: [] as IBaseWorkoutRoutine[]
+        baseRoutines: [] as IBaseWorkoutRoutine[],
+        bodyMeasurementToMutate: null as IBodyMeasurement | null
     },
     mutations: {
         setJwt (state, jwt: string | null) {
@@ -64,6 +65,9 @@ export default new Vuex.Store({
         },
         setBaseRoutines (state, baseRoutines: IBaseWorkoutRoutine[]) {
             state.baseRoutines = baseRoutines
+        },
+        setBodyMeasurementToMutate (state, bodyMeasurement: IBodyMeasurement) {
+            state.bodyMeasurementToMutate = bodyMeasurement
         }
     },
     getters: {
@@ -76,7 +80,10 @@ export default new Vuex.Store({
         jwt (context): string | null {
             return context.jwt
         },
-        unitTypeAbbreviation (context): string | null {
+        unitTypeLengthAbbreviation (context) {
+            return context.unitType === UnitTypes.metric ? "cm" : "in"
+        },
+        unitTypeWeightAbbreviation (context): string | null {
             return context.unitType === UnitTypes.metric ? "kg" : "lb"
         },
         activeWeek (context): ITrainingWeek | null {
@@ -84,15 +91,14 @@ export default new Vuex.Store({
                 return null;
             }
             const currentDate = new Date()
-            // const currentDate = new Date("Mon Jun 05 2020 00:00:00 GMT+0300")
-            let activeWeek = null;
-            context.activeCycle.trainingWeeks.forEach(
-                week => {
-                    if (currentDate >= new Date(week.startingDate) && new Date(week.endingDate) >= currentDate) {
-                        activeWeek = week
-                    }
-                })
-            return activeWeek;
+            const foundWeek = context
+                .activeCycle
+                .trainingWeeks
+                .find(week =>
+                    currentDate >= new Date(week.startingDate) &&
+                    new Date(week.endingDate) >= currentDate
+                );
+            return foundWeek === undefined ? null : foundWeek
         },
         isCycleOver (context): boolean | null {
             if (!context.activeCycle || !context.activeCycle.trainingWeeks) {
@@ -180,12 +186,16 @@ export default new Vuex.Store({
             }
             return null
         },
-        async getSingleBodyMeasurement (context, id: string): Promise<IBodyMeasurement | null> {
+        async getSingleBodyMeasurement (context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await BodyMeasurementApi.getSingle(id, jwt)
+                const apiResponse = await BodyMeasurementApi.getSingle(id, jwt)
+                if (apiResponse) {
+                    context.commit("setBodyMeasurementToMutate", apiResponse)
+                }
+                return apiResponse !== null
             }
-            return null
+            return false
         },
         async deleteBodyMeasurement (context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
@@ -217,7 +227,7 @@ export default new Vuex.Store({
             if (jwt !== null) {
                 apiResponse = await WorkoutRoutineApi.getActiveRoutine(jwt)
                 if (apiResponse !== null) {
-                    context.commit("setActiveRoutine", apiResponse);
+                    context.commit("setActivIBodyMeasurement | null = store.getters.bodyMeasurement(this.id)eRoutine", apiResponse);
                 }
             }
             return apiResponse !== null

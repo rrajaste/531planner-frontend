@@ -31,6 +31,7 @@ export abstract class BodyMeasurementApi {
         const url = ApiUrls.bodyMeasurements
         try {
             const response = await this.axios.get(url + id, { headers: { Authorization: "Bearer " + jwt } })
+            console.log("Response", response)
             if (response.status === 200) {
                 return response.data as IBodyMeasurement
             }

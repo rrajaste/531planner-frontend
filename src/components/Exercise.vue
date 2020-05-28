@@ -32,7 +32,7 @@ export default class TrainingDay extends Vue {
     public exercise: IExercise | undefined;
 
     get unitTypeAbbreviation() {
-        return store.getters.unitTypeAbbreviation
+        return store.getters.unitTypeWeightAbbreviation
     }
 
     getExerciseSetWeight(weight: number) {

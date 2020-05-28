@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <h1>
-            Log
+    <div class="text-center">
+        <h1 class="text-uppercase">
+            Log your body measurements
         </h1>
-        <h3 class="text-danger">{{message}}</h3>
-        <hr/>
+        <router-link to="/bodymeasurements" class="text-upperclass">BACK TO LIST</router-link>
+        <h3 class="text-danger mb-5">{{message}}</h3>
         <BodyMeasurementCreateForm v-on:bodymeasurement-form-submitted="onSubmit"/>
     </div>
 </template>

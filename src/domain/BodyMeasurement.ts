@@ -1,11 +1,11 @@
 export interface IBodyMeasurementCreate {
     weight: number,
     height: number,
-    chest?: number,
-    waist?: number,
-    hip?: number,
-    arm?: number,
-    bodyFatPercentage?: number,
+    chest: number,
+    waist: number,
+    hip: number,
+    arm: number,
+    bodyFatPercentage: number,
 } 
 
 export interface IBodyMeasurementEdit extends IBodyMeasurementCreate {
@@ -13,6 +13,6 @@ export interface IBodyMeasurementEdit extends IBodyMeasurementCreate {
 }
 
 
-export interface IBodyMeasurement extends IBodyMeasurementCreate {
+export interface IBodyMeasurement extends IBodyMeasurementEdit {
     loggedAt: string
 }

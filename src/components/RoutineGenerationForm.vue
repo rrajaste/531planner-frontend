@@ -166,7 +166,7 @@ export default class RoutineGenerationForm extends Vue {
     }
 
     get unitTypeAbbreviation() {
-        return store.getters.unitTypeAbbreviation
+        return store.getters.unitTypeWeightAbbreviation
     }
 
     private singleRepMaxesCalculated = false;
