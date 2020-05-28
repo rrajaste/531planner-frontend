@@ -6,7 +6,6 @@ export interface IBodyMeasurementCreate {
     hip?: number,
     arm?: number,
     bodyFatPercentage?: number,
-    unitTypeId: string,
 } 
 
 export interface IBodyMeasurementEdit extends IBodyMeasurementCreate {
@@ -15,6 +14,5 @@ export interface IBodyMeasurementEdit extends IBodyMeasurementCreate {
 
 
 export interface IBodyMeasurement extends IBodyMeasurementCreate {
-    unitType: string,
     loggedAt: string
 }

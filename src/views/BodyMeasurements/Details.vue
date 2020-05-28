@@ -3,7 +3,7 @@
         <h3 class="text-danger">{{message}}</h3>
         <h1>Delete</h1>
         <h3>Are you sure you want to delete this?</h3>
-        <BodyMeasurementDetails :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
+        <BodyMeasurementDetails v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
         <router-link to="/bodymeasurements">Back to List</router-link>
     </div>
 </template>
@@ -26,7 +26,8 @@ export default class BodymeasurementsDetails extends Vue {
 
     private message = ""
     private bodyMeasurement: IBodyMeasurement | null = null;
-    async created () {
+
+    async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("/account/login")
         } else {

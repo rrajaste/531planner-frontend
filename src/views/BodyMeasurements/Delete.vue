@@ -3,7 +3,7 @@
         <h3 class="text-danger">{{message}}</h3>
         <h1>Delete</h1>
         <h3>Are you sure you want to delete this?</h3>
-        <BodyMeasurementDetails :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
+        <BodyMeasurementDetails v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
         <form @submit="onSubmit">
             <input type="submit" value="Delete" class="btn btn-danger" /> |
             <router-link to="/bodymeasurements">Back to List</router-link>
@@ -31,7 +31,7 @@ export default class BodymeasurementsDelete extends Vue {
     public bodyMeasurement: IBodyMeasurement | null = null
     private message = ""
 
-    async created () {
+    async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("/account/login")
         } else {

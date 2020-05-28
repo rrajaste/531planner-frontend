@@ -1,14 +1,14 @@
 <template>
     <div>
         <h3 class="text-danger">{{ message }}</h3>
-        <BodyMeasurementCreateForm :bodyMeasurement="bodyMeasurement" v-on:bodymeasurement-form-submitted="onSubmit"/>
+        <BodyMeasurementCreateForm v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement" v-on:bodymeasurement-form-submitted="onSubmit"/>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator"
 import BodyMeasurementCreateForm from "../../components/BodyMeasurementCreateForm.vue"
-import { IBodyMeasurementCreate, IBodyMeasurementEdit } from "@/domain/BodyMeasurement"
+import { IBodyMeasurementEdit } from "@/domain/BodyMeasurement"
 import store from "../../store"
 import router from '../../router'
 
@@ -24,7 +24,7 @@ export default class BodymeasurementsEdit extends Vue {
     private message = ""
     private bodyMeasurement: IBodyMeasurementEdit | null = null
 
-    async created () {
+    async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("/account/login")
         } else {
@@ -38,7 +38,6 @@ export default class BodymeasurementsEdit extends Vue {
     }
 
     async onSubmit (dto: IBodyMeasurementEdit) {
-        dto.unitTypeId = "303f0c29-a99f-4876-6434-08d7f1ca8754"
         dto.id = this.id
         const apiResponse = await store.dispatch("updateBodyMeasurement", dto)
         if (apiResponse !== null) {

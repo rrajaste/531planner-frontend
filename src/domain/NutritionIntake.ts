@@ -2,8 +2,7 @@ export interface INutritionIntakeCreate {
     calories: number,
     protein?: number,
     fats?: number,
-    carbohydrates?: number,
-    unitTypeId: string
+    carbohydrates?: number
 }
 
 export interface INutritionIntakeEdit extends INutritionIntakeCreate {
@@ -11,6 +10,5 @@ export interface INutritionIntakeEdit extends INutritionIntakeCreate {
 }
 
 export interface INutritionIntake extends INutritionIntakeCreate{
-    UnitType: string,
     LoggedAt: string
 }

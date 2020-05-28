@@ -1,20 +1,12 @@
 <template>
     <div>
-        <form @submit.prevent="onSubmit">
-            <div class="form-group">
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="optradio" checked @click=" () => { this.measurement = 'metric' }"> Metric
-                    </label>
-                </div>
-                <!-- <div class="radio">
-                    <label>
-                        <input class="disabled" type="radio" name="optradio"> Imperial
-                    </label>
-                </div> -->
-            </div>
+        <UnitTypeSelection/>
+        <hr/>
+        <div class="row justify-content-center">
+        <div class="col-3 col-sm-5 p-0 m-0">
+            <form @submit.prevent="onSubmit">
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ weight.displayName }}*</label>
                     <input
                         type="number"
@@ -28,7 +20,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ height.displayName }}*</label>
                     <input
                         type="number"
@@ -42,7 +34,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ chest.displayName }}*</label>
                     <input
                         type="number"
@@ -56,7 +48,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ waist.displayName }}*</label>
                     <input
                         type="number"
@@ -70,7 +62,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ hip.displayName }}*</label>
                     <input
                         type="number"
@@ -84,7 +76,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ arm.displayName }}*</label>
                     <input
                         type="number"
@@ -98,7 +90,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-sm-3">
+                <div class="form-group">
                     <label>{{ bodyfatpercentage.displayName }}*</label>
                     <input
                         type="number"
@@ -111,8 +103,14 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
+        </div>
+        <div class="col-5 body-image justify-content-left">
+                <img src="../assets/body.png"/>
+        </div>
+    </div>
+    <hr/>
     </div>
 </template>
 <script lang=ts>
@@ -121,8 +119,13 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator"
 import NumberInputObject from "../formvalidation/NumberInputObject"
 import { IBodyMeasurementCreate, IBodyMeasurement } from "../domain/BodyMeasurement"
 import StringInputObject from "../formvalidation/StringInputObject"
+import UnitTypeSelection from "./UnitTypeSelection.vue"
 
-@Component
+@Component({
+    components: {
+        UnitTypeSelection
+    }
+})
 export default class BodymeasurementCreateForm extends Vue {
     private weightAbbreviation = { metric: "kg", imperial: "lbs" }
     private lengthAbbreviation = { metric: "cm", imperial: { feet: "ft", inches: "in" } }
@@ -194,8 +197,7 @@ export default class BodymeasurementCreateForm extends Vue {
             hip: this.hip.value,
             waist: this.waist.value,
             arm: this.arm.value,
-            bodyFatPercentage: this.bodyfatpercentage.value,
-            unitTypeId: this.unitTypeId.value
+            bodyFatPercentage: this.bodyfatpercentage.value
         }
         if (this._isFormValid()) {
             this.$emit('bodymeasurement-form-submitted', dto)
@@ -225,3 +227,8 @@ export default class BodymeasurementCreateForm extends Vue {
     }
 }
 </script>
+<style>
+img {
+    height: 40rem;
+}
+</style>

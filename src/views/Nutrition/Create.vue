@@ -32,7 +32,6 @@ export default class NutritionIntakesCreate extends Vue {
     }
 
     async onSubmit (dto: INutritionIntakeCreate) {
-        dto.unitTypeId = "303f0c29-a99f-4876-6434-08d7f1ca8754"
         const apiResponse = await store.dispatch("createNutritionIntake", dto)
         if (apiResponse !== null) {
             router.push("/nutrition")

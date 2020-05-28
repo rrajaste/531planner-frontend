@@ -7,11 +7,6 @@
                         <input type="radio" name="optradio" checked @click=" () => { this.measurement = 'metric' }"> Metric
                     </label>
                 </div>
-                <!-- <div class="radio">
-                    <label>
-                        <input class="disabled" type="radio" name="optradio"> Imperial
-                    </label>
-                </div> -->
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-3">
@@ -119,8 +114,7 @@ export default class NutritionCreateForm extends Vue {
             calories: this.calories.value,
             fats: this.fats.value,
             carbohydrates: this.carbohydrates.value,
-            protein: this.protein.value,
-            unitTypeId: "303f0c29-a99f-4876-6434-08d7f1ca8754"
+            protein: this.protein.value
         }
         if (this._isFormValid()) {
             this.$emit('nutrition-intake-form-submitted', dto)

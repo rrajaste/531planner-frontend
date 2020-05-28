@@ -5,7 +5,7 @@
         <p>
             <router-link to="/bodymeasurements/create">Log your measurements</router-link>
         </p>
-        <table class="table">
+        <table v-if="bodyMeasurements" class="table">
             <thead>
                 <tr>
                     <th>Logged at</th>
@@ -49,18 +49,19 @@ import router from "@/router"
 
 @Component
 export default class BodymeasurementsIndex extends Vue {
-    private bodyMeasurements: IBodyMeasurement | null = null;
+    get bodyMeasurements() {
+        return store.state.bodyMeasurements;
+    }
+
     private message = ""
 
-    async created () {
+    async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("account/login")
         } else {
             const apiResponse = await store.dispatch("getAllBodyMeasurements")
             if (apiResponse == null) {
                 this.message = "Failed to communicate with backend api"
-            } else {
-                this.bodyMeasurements = apiResponse
             }
         }
     }

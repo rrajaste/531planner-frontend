@@ -29,6 +29,7 @@ export default new Vuex.Store({
         username: null as string | null,
         muscles: {} as IMuscle[] | null,
         muscleGroups: [] as IMuscleGroup[],
+        bodyMeasurements: [] as IBodyMeasurement[],
         activeRoutine: null as IBaseWorkoutRoutine | null,
         activeCycle: null as ITrainingCycle | null,
         baseRoutines: [] as IBaseWorkoutRoutine[]
@@ -51,6 +52,9 @@ export default new Vuex.Store({
         },
         setMuscleGroups (state, muscleGroups: IMuscleGroup[]) {
             state.muscleGroups = muscleGroups
+        },
+        setBodyMeasurements (state, bodyMeasurements: IBodyMeasurement[]) {
+            state.bodyMeasurements = bodyMeasurements
         },
         setActiveRoutine (state, activeRoutine: IBaseWorkoutRoutine | null) {
             state.activeRoutine = activeRoutine
@@ -130,30 +134,6 @@ export default new Vuex.Store({
             const response = await AccountApi.registerUser(registerInfo)
             return response !== null
         },
-        async getMuscles (context): Promise<IMuscle[] | null> {
-            const jwt = context.getters.jwt
-            if (jwt !== null) {
-                if (context.getters.muscles === null) {
-                    const muscles = await MuscleApi.getAll(jwt)
-                    context.commit("setMuscles", muscles)
-                    return muscles
-                }
-                return context.getters.muscles
-            }
-            return null
-        },
-        async getMuscleGroups (context): Promise<IMuscleGroup[] | null> {
-            const jwt = context.getters.jwt
-            if (jwt !== null) {
-                if (context.getters.unitTypes === null) {
-                    const muscleGroups = await MuscleGroupsApi.getAll(jwt)
-                    context.commit("setMuscleGroups", muscleGroups)
-                    return muscleGroups
-                }
-                return context.getters.muscleGroups
-            }
-            return null
-        },
         async getAllNutritionIntakes (context): Promise<INutritionIntake[] | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
@@ -189,10 +169,14 @@ export default new Vuex.Store({
             }
             return null
         },
-        async getAllBodyMeasurements (context): Promise<IBodyMeasurement[] | null> {
+        async getAllBodyMeasurements (context): Promise<boolean | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await BodyMeasurementApi.getAll(jwt)
+                const apiResponse = await BodyMeasurementApi.getAll(jwt)
+                if (apiResponse !== null) {
+                    context.commit("setBodyMeasurements", apiResponse);
+                }
+                return apiResponse !== null
             }
             return null
         },
@@ -203,26 +187,29 @@ export default new Vuex.Store({
             }
             return null
         },
-        async deleteBodyMeasurement (context, id: string): Promise<IBodyMeasurement | null> {
+        async deleteBodyMeasurement (context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await BodyMeasurementApi.delete(id, jwt)
+                const apiResponse = await BodyMeasurementApi.delete(id, jwt)
+                return apiResponse !== null
             }
-            return null
+            return false
         },
-        async updateBodyMeasurement (context, dto: IBodyMeasurementEdit): Promise<IBodyMeasurement | null> {
+        async updateBodyMeasurement (context, dto: IBodyMeasurementEdit): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await BodyMeasurementApi.update(dto, jwt)
+                const apiResponse = await BodyMeasurementApi.update(dto, jwt)
+                return apiResponse !== null
             }
-            return null
+            return false
         },
-        async createBodyMeasurements (context, dto: IBodyMeasurementCreate): Promise<IBodyMeasurement | null> {
+        async createBodyMeasurements (context, dto: IBodyMeasurementCreate): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await BodyMeasurementApi.create(dto, jwt)
+                const apiResponse = await BodyMeasurementApi.create(dto, jwt)
+                return apiResponse !== null
             }
-            return null
+            return false
         },
         async getActiveRoutine (context): Promise<boolean> {
             const jwt = context.getters.jwt

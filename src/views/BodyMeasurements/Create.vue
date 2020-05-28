@@ -25,14 +25,13 @@ import router from '../../router'
 export default class BodymeasurementsCreate extends Vue {
     private message = ""
 
-    async created () {
+    async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("/account/login")
         }
     }
 
     async onSubmit (dto: IBodyMeasurementCreate) {
-        dto.unitTypeId = "303f0c29-a99f-4876-6434-08d7f1ca8754"
         const apiResponse = await store.dispatch("createBodyMeasurements", dto)
         if (apiResponse !== null) {
             router.push("/bodymeasurements")
