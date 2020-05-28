@@ -72,6 +72,9 @@ export default new Vuex.Store({
         jwt (context): string | null {
             return context.jwt
         },
+        unitTypeAbbreviation (context): string | null {
+            return context.unitType === UnitTypes.metric ? "kg" : "lb"
+        },
         activeWeek (context): ITrainingWeek | null {
             if (context.activeCycle == null) {
                 return null;

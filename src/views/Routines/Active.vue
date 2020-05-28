@@ -6,6 +6,8 @@
         <div class="border-bottom mb-3 pb-3" >
             <router-link to="/routines/">BACK</router-link>
         </div>
+        <UnitTypeSelection/>
+        <hr/>
         <div class="row justify-content-center">
             <div
                 v-for="trainingWeek in activeCycle.trainingWeeks.sort((a, b) => a.weekNumber - b.weekNumber)"
@@ -25,10 +27,12 @@ import { ITrainingCycle } from "../../domain/TrainingCycle";
 import store from "../../store";
 import router from "../../router";
 import TrainingWeek from "../../components/TrainingWeek.vue";
+import UnitTypeSelection from "../../components/UnitTypeSelection.vue";
 
 @Component({
     components: {
-        TrainingWeek
+        TrainingWeek,
+        UnitTypeSelection
     }
 })
 export default class RoutinesActive extends Vue {

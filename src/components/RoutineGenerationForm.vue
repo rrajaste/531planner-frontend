@@ -1,21 +1,7 @@
 <template>
     <div>
         <form @submit.prevent="onSubmit">
-            <h5 class="text-left text-uppercase pb-3 pt-3 border-top border-bottom"><b>Unit types</b></h5>
-            <div class="form-row">
-                <div class="radio col-2">
-                    <label class="text-left">
-                        <input class="col-1" type="radio" name="optradio" :checked="isDefaultMetric" @click="setUnitTypeMetric()"> Metric
-                    </label>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="radio col-2">
-                    <label class="text-left">
-                        <input class="col-1" type="radio" name="optradio" :checked="!isDefaultMetric" @click="setUnitTypeImperial()"> Imperial
-                    </label>
-                </div>
-            </div>
+            <UnitTypeSelection/>
             <h5 class="text-left text-uppercase pb-1 pt-3 border-top"><b>Lift maxes</b>
             <span class="text-lowercase">({{unitTypeAbbreviation}})</span></h5>
             <div class="form-row my-3 border-top pt-4">
@@ -164,22 +150,23 @@ import { Component, Vue } from "vue-property-decorator"
 import { UnitTypes } from "../types/UnitTypes"
 import NumberInputObject from "../formvalidation/NumberInputObject"
 import RepMaxCalculator from "../calculators/singleRepetitionMaxCalculator"
+import UnitTypeSelection from "./UnitTypeSelection.vue"
 import { UnitTypeConverter } from "../calculators/unitTypeConverter"
 import { IWendlerMaxes } from "../domain/WendlerMaxes"
 import store from '@/store'
 
-@Component
+@Component({
+    components: {
+        UnitTypeSelection
+    }
+})
 export default class RoutineGenerationForm extends Vue {
     get unitType() {
         return store.state.unitType
     }
 
-    get isDefaultMetric() {
-        return this.unitType === UnitTypes.metric
-    }
-
     get unitTypeAbbreviation() {
-        return this.unitType === UnitTypes.metric ? "kg" : "lb"
+        return store.getters.unitTypeAbbreviation
     }
 
     private singleRepMaxesCalculated = false;
@@ -244,14 +231,6 @@ export default class RoutineGenerationForm extends Vue {
         min: 1,
         max: 10
     })
-
-    private setUnitTypeMetric() {
-        store.commit("setUnitType", UnitTypes.metric)
-    }
-
-    private setUnitTypeImperial() {
-        store.commit("setUnitType", UnitTypes.imperial)
-    }
 
     calculate () {
         if (this._isFormValid()) {
