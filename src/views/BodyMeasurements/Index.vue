@@ -10,6 +10,9 @@
             </h3>
         </div>
         <div>
+            <UnitTypeSelection/>
+        </div>
+        <div>
             <div class="text-center m-3">
                 <h2 class="text-uppercase text-center border-top pt-4 pb-3">Current stats</h2>
             </div>
@@ -17,8 +20,8 @@
         </div>
         <div v-if="bodyMeasurements.length > 1">
             <BodyStatsChart
-                :xDaya="bodyMeasurements.loggedAt"
-                :yDaya="bodyMeasurements.weight"
+                :xData="chartXData"
+                :yData="chartYData"
                 :chartColors="chartColors"
                 :options="chartOptions"
                 label="Weight"
@@ -38,18 +41,34 @@ import store from "../../store";
 import router from "@/router";
 import BodyMeasurementsLog from "@/components/BodyMeasurementsLog.vue";
 import CurrentBodyStats from "@/components/CurrentBodyStats.vue";
+import UnitTypeSelection from "@/components/UnitTypeSelection.vue"
 import BodyStatsChart from "@/components/LineChart.vue";
 
 @Component({
     components: {
         BodyMeasurementsLog,
         CurrentBodyStats,
-        BodyStatsChart
+        BodyStatsChart,
+        UnitTypeSelection
     }
 })
 export default class BodymeasurementsIndex extends Vue {
-    get bodyMeasurements() {
+    get bodyMeasurements(): IBodyMeasurement[] {
         return store.getters.convertedBodyMeasurements;
+    }
+
+    get chartXData(): Date[] {
+        return this.bodyMeasurements.map(measurement => measurement.loggedAt);
+    }
+
+    get chartYData(): number[] {
+        return this.bodyMeasurements.map(measurement => measurement.weight);
+    }
+
+    get minYValue(): number {
+        const orderedArray: IBodyMeasurement[] = this.bodyMeasurements.sort((a, b) => (a.weight - b.weight));
+        const minWeight: number = orderedArray[0].weight
+        return minWeight / 1.2;
     }
 
     get chartOptions() {
@@ -60,7 +79,8 @@ export default class BodymeasurementsIndex extends Vue {
                 yAxes: [
                     {
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            min: this.minYValue
                         }
                     }
                 ]
@@ -81,7 +101,7 @@ export default class BodymeasurementsIndex extends Vue {
         if (!store.getters.isLoggedIn) {
             router.push("account/login");
         }
-        await store.commit("getBodyMeasurements");
+        await store.dispatch("getAllBodyMeasurements");
     }
 }
 </script>

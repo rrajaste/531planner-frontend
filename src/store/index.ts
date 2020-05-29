@@ -19,6 +19,8 @@ import { ITrainingWeek } from '@/domain/TrainingWeek'
 import { TrainingCycleApi } from '@/services/TrainingCycleApi'
 import { UnitTypes } from '@/types/UnitTypes'
 import { UnitTypeConverter } from '@/calculators/unitTypeConverter'
+import { IBodyMeasurementStatistics } from '@/domain/BodyMeasurementStatistics'
+import { StatisticsApi } from '@/services/StatisticsApi'
 
 Vue.use(Vuex)
 
@@ -34,58 +36,62 @@ export default new Vuex.Store({
         activeRoutine: null as IBaseWorkoutRoutine | null,
         activeCycle: null as ITrainingCycle | null,
         baseRoutines: [] as IBaseWorkoutRoutine[],
-        bodyMeasurementToMutate: null as IBodyMeasurement | null
+        bodyMeasurementToMutate: null as IBodyMeasurement | null,
+        bodyMeasurementStatistics: null as IBodyMeasurementStatistics | null
     },
     mutations: {
-        setJwt (state, jwt: string | null) {
+        setJwt(state, jwt: string | null) {
             state.jwt = jwt
         },
-        setHasActiveRoutine (state, hasActiveRoutine: boolean) {
+        setHasActiveRoutine(state, hasActiveRoutine: boolean) {
             state.hasActiveRoutine = hasActiveRoutine
         },
-        setUnitType (state, unitType: string) {
+        setUnitType(state, unitType: string) {
             state.unitType = unitType
         },
-        setUserName (state, userName: string | null) {
+        setUserName(state, userName: string | null) {
             state.username = userName
         },
-        setMuscles (state, muscles: IMuscle[]) {
+        setMuscles(state, muscles: IMuscle[]) {
             state.muscles = muscles
         },
-        setMuscleGroups (state, muscleGroups: IMuscleGroup[]) {
+        setMuscleGroups(state, muscleGroups: IMuscleGroup[]) {
             state.muscleGroups = muscleGroups
         },
-        setBodyMeasurements (state, bodyMeasurements: IBodyMeasurement[]) {
+        setBodyMeasurements(state, bodyMeasurements: IBodyMeasurement[]) {
             state.bodyMeasurements = bodyMeasurements
         },
-        setActiveRoutine (state, activeRoutine: IBaseWorkoutRoutine | null) {
+        setActiveRoutine(state, activeRoutine: IBaseWorkoutRoutine | null) {
             state.activeRoutine = activeRoutine
         },
-        setActiveCycle (state, activeCycle: ITrainingCycle | null) {
+        setActiveCycle(state, activeCycle: ITrainingCycle | null) {
             state.activeCycle = activeCycle
         },
-        setBaseRoutines (state, baseRoutines: IBaseWorkoutRoutine[]) {
+        setBaseRoutines(state, baseRoutines: IBaseWorkoutRoutine[]) {
             state.baseRoutines = baseRoutines
         },
-        setBodyMeasurementToMutate (state, bodyMeasurement: IBodyMeasurement) {
+        setBodyMeasurementToMutate(state, bodyMeasurement: IBodyMeasurement) {
             state.bodyMeasurementToMutate = bodyMeasurement
+        },
+        setBodyMeasurementStatistics(state, statistics: IBodyMeasurementStatistics) {
+            state.bodyMeasurementStatistics = statistics
         }
     },
     getters: {
-        isLoggedIn (context): boolean {
+        isLoggedIn(context): boolean {
             return context.jwt !== null
         },
-        loggedInUserName (context): string | null {
+        loggedInUserName(context): string | null {
             return context.username
         },
-        convertedBodyMeasurements (context): IBodyMeasurement[] | null {
+        convertedBodyMeasurements(context): IBodyMeasurement[] | null {
             if (context.unitType === UnitTypes.imperial) {
                 return context.bodyMeasurements.map(
                     measurement => UnitTypeConverter.bodyMeasurementToImperial(measurement))
             }
             return context.bodyMeasurements
         },
-        convertedBodyMeasurementToMutate (context): IBodyMeasurement | null {
+        convertedBodyMeasurementToMutate(context): IBodyMeasurement | null {
             let mappedMeasurement = context.bodyMeasurementToMutate
             if (context.unitType === UnitTypes.imperial) {
                 if (mappedMeasurement) {
@@ -94,16 +100,16 @@ export default new Vuex.Store({
             }
             return mappedMeasurement
         },
-        jwt (context): string | null {
+        jwt(context): string | null {
             return context.jwt
         },
-        unitTypeLengthAbbreviation (context) {
+        unitTypeLengthAbbreviation(context) {
             return context.unitType === UnitTypes.metric ? "cm" : "in"
         },
-        unitTypeWeightAbbreviation (context): string | null {
+        unitTypeWeightAbbreviation(context): string | null {
             return context.unitType === UnitTypes.metric ? "kg" : "lb"
         },
-        activeWeek (context): ITrainingWeek | null {
+        activeWeek(context): ITrainingWeek | null {
             if (context.activeCycle == null) {
                 return null;
             }
@@ -117,7 +123,7 @@ export default new Vuex.Store({
                 );
             return foundWeek === undefined ? null : foundWeek
         },
-        isCycleOver (context): boolean | null {
+        isCycleOver(context): boolean | null {
             if (!context.activeCycle || !context.activeCycle.trainingWeeks) {
                 return null
             }
@@ -125,14 +131,14 @@ export default new Vuex.Store({
             const lastWeek = context.activeCycle.trainingWeeks[context.activeCycle.trainingWeeks.length - 1]
             return lastWeek.endingDate < currentDate
         },
-        firstWeekStartingDate (context): Date | null {
+        firstWeekStartingDate(context): Date | null {
             if (!context.activeCycle || !context.activeCycle.trainingWeeks) {
                 return null
             }
             const firstWeek = context.activeCycle.trainingWeeks[0]
             return firstWeek.startingDate
         },
-        bodyMeasurementLogStartDate (context): Date | null {
+        bodyMeasurementLogStartDate(context): Date | null {
             if (context.bodyMeasurements !== null && context.bodyMeasurements.length > 0) {
                 return context.bodyMeasurements[0].loggedAt
             }
@@ -140,11 +146,11 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        logout (context): void {
+        logout(context): void {
             context.commit("setJwt", null)
             context.commit("setUserName", null)
         },
-        async login (context, loginInfo: ILoginDTO): Promise<boolean> {
+        async login(context, loginInfo: ILoginDTO): Promise<boolean> {
             const response = await AccountApi.logUserIn(loginInfo)
             if (response !== null) {
                 context.commit("setJwt", response.token)
@@ -153,52 +159,52 @@ export default new Vuex.Store({
             }
             return response !== null
         },
-        setUnitTypeMetric (context): void {
+        setUnitTypeMetric(context): void {
             context.commit("setUnitType", UnitTypes.metric)
         },
-        setUnitTypeImperial (context): void {
+        setUnitTypeImperial(context): void {
             context.commit("setUnitType", UnitTypes.imperial)
         },
-        async register (context, registerInfo: IRegisterDTO): Promise<boolean> {
+        async register(context, registerInfo: IRegisterDTO): Promise<boolean> {
             const response = await AccountApi.registerUser(registerInfo)
             return response !== null
         },
-        async getAllNutritionIntakes (context): Promise<INutritionIntake[] | null> {
+        async getAllNutritionIntakes(context): Promise<INutritionIntake[] | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.getAll(jwt)
             }
             return null
         },
-        async getSingleNutritionIntake (context, id: string): Promise<INutritionIntake | null> {
+        async getSingleNutritionIntake(context, id: string): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.getSingle(id, jwt)
             }
             return null
         },
-        async deleteNutritionIntake (context, id: string): Promise<INutritionIntake | null> {
+        async deleteNutritionIntake(context, id: string): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.delete(id, jwt)
             }
             return null
         },
-        async updateNutritionIntake (context, dto: INutritionIntakeEdit): Promise<INutritionIntake | null> {
+        async updateNutritionIntake(context, dto: INutritionIntakeEdit): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.update(dto, jwt)
             }
             return null
         },
-        async createNutritionIntake (context, dto: INutritionIntakeCreate): Promise<INutritionIntake | null> {
+        async createNutritionIntake(context, dto: INutritionIntakeCreate): Promise<INutritionIntake | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 return await NutritionApi.create(dto, jwt)
             }
             return null
         },
-        async getAllBodyMeasurements (context): Promise<boolean | null> {
+        async getAllBodyMeasurements(context): Promise<boolean | null> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.getAll(jwt)
@@ -209,7 +215,7 @@ export default new Vuex.Store({
             }
             return null
         },
-        async getSingleBodyMeasurement (context, id: string): Promise<boolean> {
+        async getSingleBodyMeasurement(context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.getSingle(id, jwt)
@@ -220,7 +226,7 @@ export default new Vuex.Store({
             }
             return false
         },
-        async deleteBodyMeasurement (context, id: string): Promise<boolean> {
+        async deleteBodyMeasurement(context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.delete(id, jwt)
@@ -228,7 +234,7 @@ export default new Vuex.Store({
             }
             return false
         },
-        async updateBodyMeasurement (context, dto: IBodyMeasurementEdit): Promise<boolean> {
+        async updateBodyMeasurement(context, dto: IBodyMeasurementEdit): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.update(dto, jwt)
@@ -236,7 +242,7 @@ export default new Vuex.Store({
             }
             return false
         },
-        async createBodyMeasurements (context, dto: IBodyMeasurementCreate): Promise<boolean> {
+        async createBodyMeasurements(context, dto: IBodyMeasurementCreate): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.create(dto, jwt)
@@ -244,7 +250,7 @@ export default new Vuex.Store({
             }
             return false
         },
-        async getActiveRoutine (context): Promise<boolean> {
+        async getActiveRoutine(context): Promise<boolean> {
             const jwt = context.getters.jwt
             let apiResponse = null;
             if (jwt !== null) {
@@ -255,7 +261,7 @@ export default new Vuex.Store({
             }
             return apiResponse !== null
         },
-        async getBaseRoutines (context): Promise<boolean> {
+        async getBaseRoutines(context): Promise<boolean> {
             const jwt = context.getters.jwt
             let apiResponse = null;
             if (jwt !== null) {
@@ -266,7 +272,7 @@ export default new Vuex.Store({
             }
             return apiResponse !== null
         },
-        async generateNewRoutine (context, info: IRoutineGenerationInfo): Promise<boolean> {
+        async generateNewRoutine(context, info: IRoutineGenerationInfo): Promise<boolean> {
             const jwt = context.getters.jwt
             let apiResponse = null;
             if (jwt !== null) {
@@ -278,7 +284,7 @@ export default new Vuex.Store({
             }
             return apiResponse !== null
         },
-        async getActiveCycle (context): Promise<boolean> {
+        async getActiveCycle(context): Promise<boolean> {
             const jwt = context.getters.jwt
             let apiResponse = null;
             if (jwt !== null) {
@@ -289,7 +295,7 @@ export default new Vuex.Store({
             }
             return apiResponse !== null;
         },
-        async deleteActiveRoutine (context): Promise<boolean> {
+        async deleteActiveRoutine(context): Promise<boolean> {
             const jwt = context.getters.jwt
             let apiResponse = null;
             if (jwt !== null) {
@@ -298,6 +304,17 @@ export default new Vuex.Store({
                     context.commit("setHasActiveRoutine", false);
                     context.commit("setActiveRoutine", null);
                     context.commit("setActiveCycle", null);
+                }
+            }
+            return apiResponse !== null;
+        },
+        async getBodyMeasurementStatistics(context): Promise<boolean> {
+            const jwt = context.getters.jwt
+            let apiResponse = null;
+            if (jwt !== null) {
+                apiResponse = await StatisticsApi.getBodyMeasurementStatistics(jwt)
+                if (apiResponse !== null) {
+                    context.commit("setBodyMeasurementStatistics", apiResponse);
                 }
             }
             return apiResponse !== null;

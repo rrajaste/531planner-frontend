@@ -11,5 +11,6 @@ export const ApiUrls = {
     trainingcycles: "trainingcycles",
     delete: "delete",
     active: "active",
-    generateRoutine: "generateRoutine"
+    generateRoutine: "generateRoutine",
+    userStatistics: "userstatistics"
 }
