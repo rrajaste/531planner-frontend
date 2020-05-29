@@ -60,7 +60,6 @@ export default {
     },
     watch: {
         xData: function() {
-            this._chart.destroy();
             this.createChart();
         }
     }

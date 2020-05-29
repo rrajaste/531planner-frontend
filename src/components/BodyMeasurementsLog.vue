@@ -1,6 +1,5 @@
 <template>
     <div class="text-center">
-        <UnitTypeSelection/>
         <h3 class="text-danger">{{message}}</h3>
         <table v-if="bodyMeasurements" class="table table-responsive-lg">
             <thead>

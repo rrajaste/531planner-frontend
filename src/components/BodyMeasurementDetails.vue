@@ -30,6 +30,6 @@ import store from '@/store'
 @Component
 export default class BodymeasurementDetails extends Vue {
     @Prop()
-    public bodyMeasurement: IBodyMeasurement | null = null
+    public bodyMeasurement!: IBodyMeasurement
 }
 </script>

@@ -33,7 +33,7 @@ export default class BodymeasurementsCreate extends Vue {
 
     async onSubmit (dto: IBodyMeasurementCreate) {
         const apiResponse = await store.dispatch("createBodyMeasurements", dto)
-        if (apiResponse !== null) {
+        if (apiResponse !== false) {
             router.push("/bodymeasurements")
         } else {
             this.displayErrorMessage()

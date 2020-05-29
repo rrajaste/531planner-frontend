@@ -38,7 +38,6 @@ const routes: Array<RouteConfig> = [
     { path: '/bodymeasurements/create', name: 'BodyMeasurementsCreate', component: BodyMeasurementsCreate },
     { path: '/bodymeasurements/edit/:id', name: 'BodyMeasurementsEdit', component: BodyMeasurementsEdit, props: true },
     { path: '/bodymeasurements/delete/:id', name: 'BodyMeasurementsDelete', component: BodyMeasurementsDelete, props: true },
-    { path: '/bodymeasurements/details/:id', name: 'BodyMeasurementsDetails', component: BodyMeasurementsDetails, props: true },
 
     // ========================== NUTRITION ============================================
 
@@ -46,7 +45,6 @@ const routes: Array<RouteConfig> = [
     { path: '/nutrition/create', name: 'NutritionCreate', component: NutritionCreate },
     { path: '/nutrition/edit/:id', name: 'NutritionEdit', component: NutritionEdit, props: true },
     { path: '/nutrition/delete/:id', name: 'NutritionDelete', component: NutritionDelete, props: true },
-    { path: '/nutrition/details/:id', name: 'NutritionDetails', component: NutritionDetails, props: true },
 
     // ========================== ROUTINES =============================================
 

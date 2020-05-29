@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h4>Nutrition intake</h4>
+    <div class="text-left">
+        <h3>Nutrition intake</h3>
         <hr />
         <dl class="row">
             <dt class="col-sm-2">Logged at</dt>
@@ -24,6 +24,6 @@ import { INutritionIntake } from '../domain/NutritionIntake'
 @Component
 export default class NutritionIntakeDetails extends Vue {
     @Prop()
-    public nutritionIntake: INutritionIntake | null = null
+    public nutritionIntake!: INutritionIntake
 }
 </script>

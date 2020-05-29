@@ -116,7 +116,7 @@
         </form>
         </div>
         <div class="col-5 body-image justify-content-left">
-                <img src="../assets/body.png"/>
+            <img id="bodyOutline" src="../assets/body.png"/>
         </div>
     </div>
     <hr/>
@@ -262,7 +262,9 @@ export default class BodymeasurementCreateForm extends Vue {
 }
 </script>
 <style>
-img {
-    height: 40rem;
+#bodyOutline {
+    height: 36rem;
+    float: left;
+    padding-top: 20px
 }
 </style>

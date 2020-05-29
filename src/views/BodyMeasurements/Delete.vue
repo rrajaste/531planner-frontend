@@ -1,7 +1,7 @@
 <template>
-     <div>
+     <div class="text-left">
         <h3 class="text-danger">{{message}}</h3>
-        <h1>Delete</h1>
+        <h1 class="text-uppercase">Delete</h1>
         <h3>Are you sure you want to delete this?</h3>
         <BodyMeasurementDetails v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
         <form @submit="onSubmit">
@@ -36,9 +36,7 @@ export default class BodymeasurementsDelete extends Vue {
             router.push("/account/login")
         } else {
             const apiResponse = await store.dispatch("getSingleBodyMeasurement", this.id)
-            if (apiResponse != null) {
-                this.bodyMeasurement = apiResponse
-            } else {
+            if (apiResponse === false) {
                 this.message = "Failed to communicate with backend api"
             }
         }
@@ -46,7 +44,7 @@ export default class BodymeasurementsDelete extends Vue {
 
     async onSubmit () {
         const apiResponse = await store.dispatch("deleteBodyMeasurement", this.id)
-        if (apiResponse != null) {
+        if (apiResponse !== false) {
             router.push("/bodymeasurements")
         } else {
             this.message = "Failed to communicate with backend api"

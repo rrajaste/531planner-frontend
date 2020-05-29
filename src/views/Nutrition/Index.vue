@@ -1,63 +1,48 @@
 <template>
-    <div>
-        <h1>Daily nutrition intake</h1>
+    <div class="text-center">
+        <h1 class="text-uppercase displa-4">Daily nutrition intake</h1>
+        <h3 class="text-uppercase">
+            <router-link to="/nutrition/create">Log today</router-link>
+        </h3>
+        <h1 class="py-3 border-top border-bottom text-uppercase my-5">STATISTICS</h1>
+        <CaloriesChart/>
+        <ProteinChart/>
         <h3 class="text-danger">{{message}}</h3>
-        <p>
-            <router-link to="/nutrition/create">Log</router-link>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Logged at</th>
-                    <th>Calories</th>
-                    <th>Protein</th>
-                    <th>Fats</th>
-                    <th>Carbohydrates</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="intake in nutritionIntakes" :key="intake.Id">
-                    <td >{{ intake.loggedAt }}</td>
-                    <td >{{ intake.calories }}</td>
-                    <td >{{ intake.protein }}</td>
-                    <td >{{ intake.fats }}</td>
-                    <td >{{ intake.carbohydrates }}</td>
-                    <td >{{ intake.hip }}</td>
-                    <td >{{ intake.arm }}</td>
-                    <td >{{ intake.bodyFatPercentage }}</td>
-
-                    <td>
-                    <router-link :to="'nutrtion/edit/' + intake.id">Edit</router-link> |
-                        <router-link :to="'nutrtion/details/' + intake.id">Details</router-link> |
-                        <router-link :to="'nutrtion/delete/' + intake.id">Delete</router-link> |
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <h1 class="py-3 border-top border-bottom text-uppercase my-5">NUTRITION LOG</h1>
+        <NutritionLog/>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator"
-import { INutritionIntake } from "../../domain/NutritionIntake"
-import store from "../../store"
-import router from "@/router"
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { INutritionIntake } from "../../domain/NutritionIntake";
+import store from "../../store";
+import router from "@/router";
+import NutritionLog from "@/components/NutritionLog.vue"
+import CaloriesChart from "@/components/CaloriesChart.vue";
+import ProteinChart from "@/components/ProteinChart.vue";
 
-@Component
+@Component({
+    components: {
+        NutritionLog,
+        CaloriesChart,
+        ProteinChart
+    }
+})
 export default class NutritionIndex extends Vue {
-    private nutritionIntake: INutritionIntake | null = null;
-    private message = ""
+    get nutritionIntakes() {
+        return store.state.nutritionIntakes;
+    }
 
-    async created () {
+    private message = "";
+
+    async mounted() {
         if (!store.getters.isLoggedIn) {
-            router.push("account/login")
+            router.push("account/login");
         } else {
-            const apiResponse = await store.dispatch("getAllNutritionIntakes")
+            const apiResponse = await store.dispatch("getAllNutritionIntakes");
             if (apiResponse == null) {
-                this.message = "Failed to communicate with backend api"
-            } else {
-                this.nutritionIntake = apiResponse
+                this.message = "Failed to communicate with backend api";
             }
         }
     }

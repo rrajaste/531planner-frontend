@@ -37,7 +37,9 @@ export default new Vuex.Store({
         activeCycle: null as ITrainingCycle | null,
         baseRoutines: [] as IBaseWorkoutRoutine[],
         bodyMeasurementToMutate: null as IBodyMeasurement | null,
-        bodyMeasurementStatistics: null as IBodyMeasurementStatistics | null
+        bodyMeasurementStatistics: null as IBodyMeasurementStatistics | null,
+        nutritionIntakes: null as INutritionIntake[] | null,
+        nutritionIntakeToMutate: null as INutritionIntake | null
     },
     mutations: {
         setJwt(state, jwt: string | null) {
@@ -75,6 +77,12 @@ export default new Vuex.Store({
         },
         setBodyMeasurementStatistics(state, statistics: IBodyMeasurementStatistics) {
             state.bodyMeasurementStatistics = statistics
+        },
+        setNutritionIntakes(state, intakes: INutritionIntake[]) {
+            state.nutritionIntakes = intakes
+        },
+        setNutritionIntakeToMutate(state, intake: INutritionIntake) {
+            state.nutritionIntakeToMutate = intake
         }
     },
     getters: {
@@ -105,6 +113,9 @@ export default new Vuex.Store({
         },
         unitTypeLengthAbbreviation(context) {
             return context.unitType === UnitTypes.metric ? "cm" : "in"
+        },
+        nutritionIntakeAbbreviation(context) {
+            return "g"
         },
         unitTypeWeightAbbreviation(context): string | null {
             return context.unitType === UnitTypes.metric ? "kg" : "lb"
@@ -169,40 +180,49 @@ export default new Vuex.Store({
             const response = await AccountApi.registerUser(registerInfo)
             return response !== null
         },
-        async getAllNutritionIntakes(context): Promise<INutritionIntake[] | null> {
+        async getAllNutritionIntakes(context): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await NutritionApi.getAll(jwt)
+                const apiResponse = await NutritionApi.getAll(jwt)
+                context.commit("setNutritionIntakes", apiResponse)
+                return apiResponse !== null
             }
-            return null
+            return false
         },
-        async getSingleNutritionIntake(context, id: string): Promise<INutritionIntake | null> {
+        async getSingleNutritionIntake(context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await NutritionApi.getSingle(id, jwt)
+                const apiRepsonse = await NutritionApi.getSingle(id, jwt)
+                context.commit("setNutritionIntakeToMutate", apiRepsonse)
+                return apiRepsonse !== null
             }
-            return null
+            return false
         },
-        async deleteNutritionIntake(context, id: string): Promise<INutritionIntake | null> {
+        async deleteNutritionIntake(context, id: string): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await NutritionApi.delete(id, jwt)
+                const apiRepsonse = NutritionApi.delete(id, jwt)
+                context.commit("setNutritionIntakeToMutate", null)
+                return apiRepsonse !== null
             }
-            return null
+            return false
         },
-        async updateNutritionIntake(context, dto: INutritionIntakeEdit): Promise<INutritionIntake | null> {
+        async updateNutritionIntake(context, dto: INutritionIntakeEdit): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await NutritionApi.update(dto, jwt)
+                const apiResponse = await NutritionApi.update(dto, jwt)
+                context.commit("setNutritionIntakeToMutate", null)
+                return apiResponse !== null
             }
-            return null
+            return false
         },
-        async createNutritionIntake(context, dto: INutritionIntakeCreate): Promise<INutritionIntake | null> {
+        async createNutritionIntake(context, dto: INutritionIntakeCreate): Promise<boolean> {
             const jwt = context.getters.jwt
             if (jwt !== null) {
-                return await NutritionApi.create(dto, jwt)
+                const apiResponse = await NutritionApi.create(dto, jwt)
+                return apiResponse !== null
             }
-            return null
+            return false
         },
         async getAllBodyMeasurements(context): Promise<boolean | null> {
             const jwt = context.getters.jwt
@@ -230,6 +250,7 @@ export default new Vuex.Store({
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.delete(id, jwt)
+                context.commit("setBodyMeasurementToMutate", null)
                 return apiResponse !== null
             }
             return false
@@ -238,6 +259,7 @@ export default new Vuex.Store({
             const jwt = context.getters.jwt
             if (jwt !== null) {
                 const apiResponse = await BodyMeasurementApi.update(dto, jwt)
+                context.commit("setBodyMeasurementToMutate", null)
                 return apiResponse !== null
             }
             return false

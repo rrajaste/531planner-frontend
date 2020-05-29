@@ -2,7 +2,7 @@
     <div class="text-center" v-if="bodyMeasurement">
         <h1 class="text-uppercase">EDIT LOGGED BODY MEASUREMENT</h1>
         <h3 class="">Logged at: {{ this.bodyMeasurement.loggedAt }}</h3>
-        <router-link to="/bodymeasurements">BACK</router-link>
+        <router-link class="border-bottom" to="/bodymeasurements">BACK</router-link>
         <h3 class="text-danger mb-5">{{ message }}</h3>
         <BodyMeasurementCreateForm v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement" v-on:bodymeasurement-form-submitted="onSubmit"/>
     </div>
@@ -45,7 +45,7 @@ export default class BodymeasurementsEdit extends Vue {
     async onSubmit (dto: IBodyMeasurementEdit) {
         dto.id = this.id
         const apiResponse = await store.dispatch("updateBodyMeasurement", dto)
-        if (apiResponse !== null) {
+        if (apiResponse !== false) {
             router.push("/bodymeasurements")
         } else {
             this.displayErrorMessage()

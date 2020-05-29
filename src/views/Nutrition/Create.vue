@@ -1,9 +1,10 @@
 <template>
-    <div>
-        <h1>
-            Log
+    <div class="text-center">
+        <h1 class="text-uppercase">
+            Log your nutrition intake
         </h1>
         <h3 class="text-danger">{{message}}</h3>
+        <h3 class="text-uppercase"><router-link to="/nutrition">BACk</router-link></h3>
         <hr/>
         <NutritionCreateForm v-on:nutrition-intake-form-submitted="onSubmit"/>
     </div>
@@ -25,7 +26,7 @@ import router from '../../router'
 export default class NutritionIntakesCreate extends Vue {
     private message = ""
 
-    async created () {
+    async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("/account/login")
         }
@@ -33,7 +34,7 @@ export default class NutritionIntakesCreate extends Vue {
 
     async onSubmit (dto: INutritionIntakeCreate) {
         const apiResponse = await store.dispatch("createNutritionIntake", dto)
-        if (apiResponse !== null) {
+        if (apiResponse !== false) {
             router.push("/nutrition")
         } else {
             this.displayErrorMessage()
