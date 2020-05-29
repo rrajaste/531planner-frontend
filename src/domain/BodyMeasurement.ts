@@ -14,5 +14,5 @@ export interface IBodyMeasurementEdit extends IBodyMeasurementCreate {
 
 
 export interface IBodyMeasurement extends IBodyMeasurementEdit {
-    loggedAt: string
+    loggedAt: Date
 }

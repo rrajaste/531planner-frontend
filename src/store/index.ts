@@ -131,6 +131,12 @@ export default new Vuex.Store({
             }
             const firstWeek = context.activeCycle.trainingWeeks[0]
             return firstWeek.startingDate
+        },
+        bodyMeasurementLogStartDate (context): Date | null {
+            if (context.bodyMeasurements !== null && context.bodyMeasurements.length > 0) {
+                return context.bodyMeasurements[0].loggedAt
+            }
+            return null
         }
     },
     actions: {
