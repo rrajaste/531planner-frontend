@@ -21,6 +21,7 @@ import { UnitTypes } from '@/types/UnitTypes'
 import { UnitTypeConverter } from '@/calculators/unitTypeConverter'
 import { IBodyMeasurementStatistics } from '@/domain/BodyMeasurementStatistics'
 import { StatisticsApi } from '@/services/StatisticsApi'
+import { INutritionStatistics } from '@/domain/NutritionStatistics'
 
 Vue.use(Vuex)
 
@@ -39,7 +40,8 @@ export default new Vuex.Store({
         bodyMeasurementToMutate: null as IBodyMeasurement | null,
         bodyMeasurementStatistics: null as IBodyMeasurementStatistics | null,
         nutritionIntakes: null as INutritionIntake[] | null,
-        nutritionIntakeToMutate: null as INutritionIntake | null
+        nutritionIntakeToMutate: null as INutritionIntake | null,
+        nutritionStatistics: null as INutritionStatistics | null
     },
     mutations: {
         setJwt(state, jwt: string | null) {
@@ -83,6 +85,9 @@ export default new Vuex.Store({
         },
         setNutritionIntakeToMutate(state, intake: INutritionIntake) {
             state.nutritionIntakeToMutate = intake
+        },
+        setNutritionStatistics(state, stats: INutritionStatistics) {
+            state.nutritionStatistics = stats
         }
     },
     getters: {
@@ -160,6 +165,15 @@ export default new Vuex.Store({
         logout(context): void {
             context.commit("setJwt", null)
             context.commit("setUserName", null)
+            context.commit("setNutritionIntakes", null)
+            context.commit("setNutritionIntakeToMutate", null)
+            context.commit("setHasActiveRoutine", null)
+            context.commit("setBodyMeasurements", null)
+            context.commit("setNutritionStatistics", null)
+            context.commit("setBodyMeasurementStatistics", null)
+            context.commit("setBodyMeasurementToMutate", null)
+            context.commit("setActiveRoutine", null)
+            context.commit("setActiveCycle", null)
         },
         async login(context, loginInfo: ILoginDTO): Promise<boolean> {
             const response = await AccountApi.logUserIn(loginInfo)
@@ -278,7 +292,7 @@ export default new Vuex.Store({
             if (jwt !== null) {
                 apiResponse = await WorkoutRoutineApi.getActiveRoutine(jwt)
                 if (apiResponse !== null) {
-                    context.commit("setActivIBodyMeasurement | null = store.getters.bodyMeasurement(this.id)eRoutine", apiResponse);
+                    context.commit("setActiveRoutine", apiResponse);
                 }
             }
             return apiResponse !== null
@@ -337,6 +351,17 @@ export default new Vuex.Store({
                 apiResponse = await StatisticsApi.getBodyMeasurementStatistics(jwt)
                 if (apiResponse !== null) {
                     context.commit("setBodyMeasurementStatistics", apiResponse);
+                }
+            }
+            return apiResponse !== null;
+        },
+        async getNutritionStatistics(context): Promise<boolean> {
+            const jwt = context.getters.jwt
+            let apiResponse = null;
+            if (jwt !== null) {
+                apiResponse = await StatisticsApi.getNutritionStatistics(jwt)
+                if (apiResponse !== null) {
+                    context.commit("setNutritionStatistics", apiResponse);
                 }
             }
             return apiResponse !== null;

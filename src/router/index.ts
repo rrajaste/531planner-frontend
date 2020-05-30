@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from '../views/Home.vue'
+import NotFound from '../views/NotFound.vue'
 
 import AccountLogin from '../views/Account/Login.vue'
 import AccountRegister from '../views/Account/Register.vue'
@@ -9,7 +10,6 @@ import BodyMeasurementsIndex from '../views/BodyMeasurements/Index.vue'
 import BodyMeasurementsCreate from '../views/BodyMeasurements/Create.vue'
 import BodyMeasurementsEdit from '../views/BodyMeasurements/Edit.vue'
 import BodyMeasurementsDelete from '../views/BodyMeasurements/Delete.vue'
-import BodyMeasurementsDetails from '../views/BodyMeasurements/Details.vue'
 
 import RoutinesActive from '../views/Routines/Active.vue'
 import RoutinesIndex from '../views/Routines/Index.vue'
@@ -19,7 +19,6 @@ import NutritionIndex from '../views/Nutrition/Index.vue'
 import NutritionCreate from '../views/Nutrition/Create.vue'
 import NutritionEdit from '../views/Nutrition/Edit.vue'
 import NutritionDelete from '../views/Nutrition/Delete.vue'
-import NutritionDetails from '../views/Nutrition/Details.vue'
 
 Vue.use(VueRouter)
 
@@ -50,7 +49,11 @@ const routes: Array<RouteConfig> = [
 
     { path: '/routines', name: 'RoutinesIndex', component: RoutinesIndex },
     { path: '/routines/activecycle', name: 'RoutinesActive', component: RoutinesActive },
-    { path: '/routines/generate', name: 'RoutineGenerate', component: RoutineGenerate }
+    { path: '/routines/generate', name: 'RoutineGenerate', component: RoutineGenerate },
+
+    // ========================= NOT FOUND ==============================================
+
+    { path: '*', name: "NotFound", component: NotFound }
 ]
 
 const router = new VueRouter({

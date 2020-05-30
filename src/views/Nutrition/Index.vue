@@ -5,6 +5,7 @@
             <router-link to="/nutrition/create">Log today</router-link>
         </h3>
         <h1 class="py-3 border-top border-bottom text-uppercase my-5">STATISTICS</h1>
+        <CurrentNutritionStats v-if="nutritionIntakes && nutritionIntakes.length > 1"/>
         <CaloriesChart/>
         <ProteinChart/>
         <h3 class="text-danger">{{message}}</h3>
@@ -21,12 +22,14 @@ import router from "@/router";
 import NutritionLog from "@/components/NutritionLog.vue"
 import CaloriesChart from "@/components/CaloriesChart.vue";
 import ProteinChart from "@/components/ProteinChart.vue";
+import CurrentNutritionStats from "@/components/CurrentNutritionStats.vue";
 
 @Component({
     components: {
         NutritionLog,
         CaloriesChart,
-        ProteinChart
+        ProteinChart,
+        CurrentNutritionStats
     }
 })
 export default class NutritionIndex extends Vue {
@@ -40,10 +43,7 @@ export default class NutritionIndex extends Vue {
         if (!store.getters.isLoggedIn) {
             router.push("account/login");
         } else {
-            const apiResponse = await store.dispatch("getAllNutritionIntakes");
-            if (apiResponse == null) {
-                this.message = "Failed to communicate with backend api";
-            }
+            await store.dispatch("getAllNutritionIntakes");
         }
     }
 }

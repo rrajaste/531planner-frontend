@@ -17,7 +17,6 @@ export abstract class WorkoutRoutineApi {
             }
             return null
         } catch (error) {
-            console.log(error)
             return null
         }
     }
@@ -31,7 +30,6 @@ export abstract class WorkoutRoutineApi {
             }
             return null
         } catch (error) {
-            console.log(error)
             return null
         }
     }
@@ -45,7 +43,6 @@ export abstract class WorkoutRoutineApi {
             }
             return null
         } catch (error) {
-            console.log(error)
             return null
         }
     }
@@ -59,7 +56,6 @@ export abstract class WorkoutRoutineApi {
             }
             return null
         } catch (error) {
-            console.log(error)
             return null
         }
     }

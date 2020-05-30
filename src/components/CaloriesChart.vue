@@ -54,11 +54,6 @@ export default class CaloriesChart extends Vue {
     }
 
     get minYValue(): number {
-        if (this.nutritionIntakes) {
-            const orderedArray: INutritionIntake[] = this.nutritionIntakes.sort((a, b) => (a.calories - b.calories));
-            const min: number = orderedArray[0].calories
-            return min / 2
-        }
         return 0
     }
 

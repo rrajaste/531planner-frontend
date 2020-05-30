@@ -1,5 +1,6 @@
 <template>
     <div class="card shadow rounded">
+        <h5 class="card-title text-muted mt-3 mb-0">{{ trainingWeek.startingDate }} - {{ trainingWeek.endingDate }}</h5>
         <h2 class="card-title text-uppercase mt-3 mb-0">Training week {{ trainingWeek.weekNumber }}</h2>
         <hr>
         <div class="row d-flex justify-content-center">

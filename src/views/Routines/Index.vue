@@ -6,6 +6,13 @@
             If you don't have an active workout routine yet, you can also generate it here!
             </p>
         </div>
+        <div v-if="activeCycle">
+            <router-link to="/routines/activecycle">
+            <div class="row text-center justify-content-center">
+                <h4 class="text-center text-uppercase">VIEW FULL CYCLE</h4>
+            </div>
+        </router-link>
+        </div>
         <hr/>
         <div v-on:click="toggleShowActiveRoutine" class="row clickable text-center justify-content-center">
             <h3 class="text-success text-center text-uppercase">Active routine</h3>
@@ -72,11 +79,6 @@
             </div>
         </div>
         <hr/>
-        <router-link to="/routines/activecycle">
-            <div class="row text-center justify-content-center">
-                <h3 class="text-centertext-uppercase">VIEW FULL CYCLE</h3>
-            </div>
-        </router-link>
         <hr/>
     </div>
 </template>

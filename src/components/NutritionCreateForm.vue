@@ -103,14 +103,14 @@ export default class NutritionCreateForm extends Vue {
         displayName: "Carbohydrates",
         isRequired: true,
         min: 1,
-        max: 10000
+        max: 1000
     });
 
     private fats = new NumberInputObject({
         displayName: "Fats",
         isRequired: true,
         min: 1,
-        max: 10000
+        max: 1000
     });
 
     mounted() {
