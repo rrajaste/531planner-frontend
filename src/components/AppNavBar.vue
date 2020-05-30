@@ -61,9 +61,9 @@
                             data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >Language</a>
+                        >Language<span v-if="selectedCulture">({{selectedCulture.code}})</span></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a v-for="culture in cultures" :key="culture.code" class="dropdown-item" href="#">{{culture.name}}</a>
+                            <a v-for="culture in cultures" :key="culture.code" @click="cultureSelected(culture)" class="dropdown-item" href="#">{{culture.name}}</a>
                         </div>
                     </li>
                     <template v-if="isLoggedIn">
@@ -125,6 +125,10 @@ export default class Identity extends Vue {
         return store.state.cultures;
     }
 
+    get selectedCulture(): ICulture | null {
+        return store.state.currentCulture;
+    }
+
     get isLoggedIn(): boolean {
         return store.getters.isLoggedIn;
     }
@@ -136,6 +140,10 @@ export default class Identity extends Vue {
     logoutOnClick() {
         store.dispatch("logout");
         router.push("/");
+    }
+
+    cultureSelected(culture: ICulture) {
+        store.commit("setCurrentCulture", culture)
     }
 }
 </script>

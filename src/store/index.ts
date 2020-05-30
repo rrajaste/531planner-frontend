@@ -44,7 +44,8 @@ export default new Vuex.Store({
         nutritionIntakes: null as INutritionIntake[] | null,
         nutritionIntakeToMutate: null as INutritionIntake | null,
         nutritionStatistics: null as INutritionStatistics | null,
-        cultures: null as ICulture[] | null
+        cultures: null as ICulture[] | null,
+        currentCulture: null as ICulture | null
     },
     mutations: {
         setJwt(state, jwt: string | null) {
@@ -94,6 +95,9 @@ export default new Vuex.Store({
         },
         setCultures(state, cultures: ICulture[]) {
             state.cultures = cultures
+        },
+        setCurrentCulture(state, culture: ICulture) {
+            state.currentCulture = culture
         }
     },
     getters: {
@@ -375,6 +379,9 @@ export default new Vuex.Store({
         async getCultures(context): Promise<boolean> {
             const apiResponse = await CultureApi.getAll();
             context.commit("setCultures", apiResponse)
+            if (apiResponse) {
+                context.commit("setCurrentCulture", apiResponse[0])
+            }
             return apiResponse !== null;
         }
     },
