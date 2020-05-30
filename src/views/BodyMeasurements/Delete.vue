@@ -1,12 +1,12 @@
 <template>
      <div class="text-left">
         <h3 class="text-danger">{{message}}</h3>
-        <h1 class="text-uppercase">Delete</h1>
-        <h3>Are you sure you want to delete this?</h3>
+        <h1 class="text-uppercase">{{ translations.bodyMeasurements.deleteTitle }}</h1>
+        <h3>{{ translations.bodyMeasurements.deleteConfirm }}</h3>
         <BodyMeasurementDetails v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement"></BodyMeasurementDetails>
         <form @submit="onSubmit">
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <router-link to="/bodymeasurements">Back to List</router-link>
+            <input type="submit" :value="translations.bodyMeasurements.deleteButton" class="btn btn-danger" /> |
+            <router-link to="/bodymeasurements">{{ translations.bodyMeasurements.backToList }}</router-link>
         </form>
     </div>
 </template>
@@ -17,6 +17,7 @@ import BodyMeasurementDetails from "../../components/BodyMeasurementDetails.vue"
 import { IBodyMeasurement } from "../../domain/BodyMeasurement"
 import store from '../../store'
 import router from '../../router'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -30,6 +31,10 @@ export default class BodymeasurementsDelete extends Vue {
 
     public bodyMeasurement: IBodyMeasurement | null = null
     private message = ""
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
+    }
 
     async mounted () {
         if (!store.getters.isLoggedIn) {

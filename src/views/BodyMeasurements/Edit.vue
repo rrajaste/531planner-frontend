@@ -1,8 +1,8 @@
 <template>
     <div class="text-center" v-if="bodyMeasurement">
-        <h1 class="text-uppercase">EDIT LOGGED BODY MEASUREMENT</h1>
-        <h3 class="">Logged at: {{ this.bodyMeasurement.loggedAt }}</h3>
-        <router-link class="border-bottom" to="/bodymeasurements">BACK</router-link>
+        <h1 class="text-uppercase">{{translations.bodyMeasurements.editTitle}}</h1>
+        <h3 class="">{{translations.bodyMeasurements.loggedAt}}: {{ this.bodyMeasurement.loggedAt }}</h3>
+        <h4 class="text-uppercase"><router-link to="/bodymeasurements">{{translations.bodyMeasurements.backToList}}</router-link></h4>
         <h3 class="text-danger mb-5">{{ message }}</h3>
         <BodyMeasurementCreateForm v-if="bodyMeasurement" :bodyMeasurement="bodyMeasurement" v-on:bodymeasurement-form-submitted="onSubmit"/>
     </div>
@@ -16,6 +16,7 @@ import store from "../../store"
 import router from '../../router'
 import { UnitTypes } from '../../types/UnitTypes'
 import { UnitTypeConverter } from '../../calculators/unitTypeConverter'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -27,6 +28,10 @@ export default class BodymeasurementsEdit extends Vue {
     @Prop() id!: string
 
     private message = ""
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
+    }
 
     get bodyMeasurement (): IBodyMeasurement | null {
         return store.getters.convertedBodyMeasurementToMutate

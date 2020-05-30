@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            Register
+            {{translations.register.title}}
         </h1>
         <hr/>
         <RegistrationForm v-if="isRegisterSuccessful !== true" v-on:registration-form-submitted="onSubmit"/>
@@ -22,6 +22,7 @@ import RegistrationForm from "../../components/RegistrationForm.vue"
 import store from "@/store"
 import { AccountApi } from "../../services/AccountApi"
 import { IRegisterDTO } from "../../types/IRegisterDTO"
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -32,6 +33,9 @@ export default class AccountRegister extends Vue {
     private message = "";
     private isRegisterSuccessful: boolean | null = null
     private loadingRequest: boolean | null = false
+    get translations(): IAppTranslation {
+        return store.getters.translations;
+    }
 
     private passwordConfirm = "";
 

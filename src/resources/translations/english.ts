@@ -36,11 +36,40 @@ export const English: IAppTranslation = {
         logInButton: "Log in"
     },
     register: {
+        title: "Register",
         username: "User name",
         email: "Email",
         password: "Password",
         passwordConfirm: "Password confirm",
         registerButton: "Register",
         noMatchText: "Passwords do not match"
+    },
+    bodyMeasurements: {
+        indexTitle: "Body measurements",
+        addNew: "Add new",
+        currentStats: "Current stats",
+        firstLog: "First log",
+        bmi: "BMI",
+        bodyFat: "Body fat",
+        weight: "Weight",
+        bodyMeasurementsLog: "Body measurements log",
+        loggedAt: "Logged at",
+        height: "Height",
+        chest: "Chest",
+        waist: "Waist",
+        hip: "Hip",
+        arm: "Arm",
+        submit: "Enter",
+        backToList: "Back to list",
+        logCreateTitle: "Log created",
+        deleteTitle: "Delete",
+        deleteButton: "Delete",
+        editTitle: "Change your body measurement log",
+        deleteConfirm: "Are you sure you wish to delete this?"
+    },
+    unitTypes: {
+        unitTypes: "Unit types",
+        imperial: "Imperial",
+        metric: "Metric"
     }
 }

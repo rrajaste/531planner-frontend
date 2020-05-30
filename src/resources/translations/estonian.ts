@@ -36,11 +36,40 @@ export const Estonian: IAppTranslation = {
         logInButton: "Logi sisse"
     },
     register: {
+        title: "Registreeru",
         username: "Kasutaja nimi",
         email: "Email",
         password: "Salasõna",
         passwordConfirm: "Salasõna kinnitus",
         registerButton: "Registreeru",
         noMatchText: "Salasõnad ei kattu"
+    },
+    bodyMeasurements: {
+        indexTitle: "Keha mõõtmed",
+        addNew: "Lisa uus",
+        currentStats: "Hetke andmed",
+        firstLog: "Esimene logimine",
+        bmi: "KMI",
+        bodyFat: "Keha rasv",
+        weight: "Kaal",
+        bodyMeasurementsLog: "Keha mõõtmete logi",
+        loggedAt: "Logitud",
+        height: "Pikkus",
+        chest: "Rind",
+        waist: "Talje",
+        hip: "Puus",
+        arm: "Käsivars",
+        submit: "Sisesta",
+        backToList: "Tagasi nimekirja",
+        logCreateTitle: "Logi loodud",
+        deleteTitle: "Kustuta",
+        editTitle: "Muuda oma kehamõõtme logi",
+        deleteButton: "Kustuta",
+        deleteConfirm: "Olete kindel, et soovite selle kustutada?"
+    },
+    unitTypes: {
+        unitTypes: "Mõõtühikud",
+        imperial: "Imperiaal",
+        metric: "Meetersüsteem"
     }
 }

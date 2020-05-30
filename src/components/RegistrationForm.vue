@@ -3,7 +3,7 @@
         <form @submit.prevent="onSubmit">
             <div class="form-row">
                 <div class="form-group col-sm-3">
-                    <label>{{ username.displayName }}*</label>
+                    <label>{{ translations.register.username }}*</label>
                     <input
                         type="text"
                         class="form-control"
@@ -17,7 +17,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-3">
-                    <label>{{ email.displayName }}</label>
+                    <label>{{translations.register.email}}*</label>
                     <input
                         type="email"
                         class="form-control"
@@ -31,7 +31,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-3">
-                    <label>{{ password.displayName }}</label>
+                    <label>{{translations.register.password}}*</label>
                     <input
                         type="password"
                         class="form-control"
@@ -45,7 +45,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-sm-3">
-                    <label>Password confirm</label>
+                    <label>{{ translations.register.passwordConfirm }}*</label>
                     <input
                         type="password"
                         class="form-control"
@@ -56,11 +56,11 @@
                             }"
                     />
                     <div class="invalid-feedback">
-                        <span>"Passwords do not match"</span>
+                        <span>{{translations.register.noMatchText}}</span>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">{{translations.register.registerButton}}</button>
         </form>
     </div>
 </template>

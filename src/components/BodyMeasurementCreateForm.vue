@@ -7,7 +7,7 @@
             <form @submit.prevent="onSubmit">
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ weight.displayName }} ({{weightAbbreviation}})*</label>
+                    <label>{{translations.bodyMeasurements.weight}} ({{weightAbbreviation}})*</label>
                     <input
                         type="number"
                         step="any"
@@ -22,7 +22,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ height.displayName }} ({{lengthAbbreviation}})*</label>
+                    <label>{{translations.bodyMeasurements.height}} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
                         step="any"
@@ -37,7 +37,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ chest.displayName }} ({{lengthAbbreviation}})*</label>
+                    <label>{{translations.bodyMeasurements.chest}} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
                         step="any"
@@ -52,7 +52,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ waist.displayName }} ({{lengthAbbreviation}})*</label>
+                    <label>{{translations.bodyMeasurements.waist}} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
                         step="any"
@@ -67,7 +67,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ hip.displayName }} ({{lengthAbbreviation}})*</label>
+                    <label>{{translations.bodyMeasurements.hip}} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
                         step="any"
@@ -82,7 +82,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ arm.displayName }} ({{lengthAbbreviation}})*</label>
+                    <label>{{translations.bodyMeasurements.arm}} ({{lengthAbbreviation}})*</label>
                     <input
                         type="number"
                         step="any"
@@ -97,7 +97,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>{{ bodyfatpercentage.displayName }}*</label>
+                    <label>{{translations.bodyMeasurements.bodyFat}} (%)*</label>
                     <input
                         type="number"
                         step="any"
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success">{{translations.bodyMeasurements.submit}}</button>
             </div>
         </form>
         </div>
@@ -132,6 +132,7 @@ import UnitTypeSelection from "./UnitTypeSelection.vue"
 import store from '@/store'
 import { UnitTypeConverter } from '../calculators/unitTypeConverter'
 import { UnitTypes } from '../types/UnitTypes'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -143,6 +144,10 @@ export default class BodymeasurementCreateForm extends Vue {
 
     @Prop()
     private bodyMeasurement!: IBodyMeasurement;
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
+    }
 
     get weightAbbreviation () {
         return store.getters.unitTypeWeightAbbreviation

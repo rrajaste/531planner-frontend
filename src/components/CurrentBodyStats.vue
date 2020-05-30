@@ -1,11 +1,11 @@
 <template>
     <div class="border-bottom border-top py-3" v-if="statistics">
         <h5 class>
-            First log:
+            {{translations.bodyMeasurements.firstLog}}:
             <b>{{ statistics.firstLogAt }}</b>
         </h5>
         <h5 class>
-            BMI:
+            {{translations.bodyMeasurements.bmi}}:
             <b>
                 {{ statistics.currentBMI }}
                 <span
@@ -14,16 +14,16 @@
             </b>
         </h5>
         <h5 class>
-            Bodyfat:
+            {{translations.bodyMeasurements.bodyFat}}:
             <b>
-                {{ statistics.currentBodyFatPercentage }}%
+                {{ statistics.currentBodyFatPercentage }}
                 <span
                     class="text-info"
-                >{{ getChangeStringValue(statistics.bodyFatPercentageChange) }}</span>
+                >{{ getChangeStringValue(statistics.bodyFatPercentageChange) }}%</span>
             </b>
         </h5>
         <h5 class>
-            Weight:
+            {{translations.bodyMeasurements.weight}}:
             <b>
                 {{ getConvertedWeight(statistics.currentWeight) }}
                 <span class="text-info">
@@ -41,11 +41,16 @@ import { IBodyMeasurementStatistics } from "../domain/BodyMeasurementStatistics"
 import store from "@/store";
 import { UnitTypes } from "../types/UnitTypes";
 import { UnitTypeConverter } from "../calculators/unitTypeConverter";
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component
 export default class CurrentBodyStats extends Vue {
     get statistics(): IBodyMeasurementStatistics | null {
         return store.state.bodyMeasurementStatistics;
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     get weightAbbreviation(): string {

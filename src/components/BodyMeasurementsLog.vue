@@ -4,14 +4,14 @@
         <table v-if="bodyMeasurements" class="table table-responsive-lg">
             <thead>
                 <tr>
-                    <th>Logged at</th>
-                    <th>Height ({{lengthAbbreviation}})</th>
-                    <th>Weight ({{weightAbbreviation}})</th>
-                    <th>Chest ({{lengthAbbreviation}})</th>
-                    <th>Waist ({{lengthAbbreviation}})</th>
-                    <th>Hip ({{lengthAbbreviation}})</th>
-                    <th>Arm ({{lengthAbbreviation}})</th>
-                    <th>Body fat %</th>
+                    <th>{{translations.bodyMeasurements.loggedAt}}</th>
+                    <th>{{translations.bodyMeasurements.height}} ({{lengthAbbreviation}})</th>
+                    <th>{{translations.bodyMeasurements.weight}} ({{weightAbbreviation}})</th>
+                    <th>{{translations.bodyMeasurements.chest}} ({{lengthAbbreviation}})</th>
+                    <th>{{translations.bodyMeasurements.waist}} ({{lengthAbbreviation}})</th>
+                    <th>{{translations.bodyMeasurements.hip}} ({{lengthAbbreviation}})</th>
+                    <th>{{translations.bodyMeasurements.arm}} ({{lengthAbbreviation}})</th>
+                    <th>{{translations.bodyMeasurements.bodyFat}} %</th>
                     <th></th>
                 </tr>
             </thead>
@@ -45,6 +45,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import { IBodyMeasurement } from "../domain/BodyMeasurement"
 import store from '@/store'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component
 export default class BodyMeasurementsLog extends Vue {
@@ -58,6 +59,10 @@ export default class BodyMeasurementsLog extends Vue {
 
     get lengthAbbreviation () {
         return store.getters.unitTypeLengthAbbreviation
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     private message = ""

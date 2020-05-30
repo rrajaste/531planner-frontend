@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h1 class="display-4 text-uppercase text-center">Body measurements</h1>
+        <h1 class="display-4 text-uppercase text-center">{{translations.bodyMeasurements.indexTitle}}</h1>
         <div class="text-center m-3">
             <h3>
                 <router-link
                     to="/bodymeasurements/create"
                     class="text-uppercase text-center m-2 p-2"
-                >ADD NEW</router-link>
+                >{{translations.bodyMeasurements.addNew}}</router-link>
             </h3>
         </div>
         <div>
@@ -14,7 +14,7 @@
         </div>
         <div>
             <div class="text-center m-3">
-                <h2 class="text-uppercase text-center border-top pt-4 pb-3">Current stats</h2>
+                <h2 class="text-uppercase text-center border-top pt-4 pb-3">{{translations.bodyMeasurements.currentStats}}</h2>
             </div>
             <CurrentBodyStats />
         </div>
@@ -24,11 +24,11 @@
                 :yData="chartYData"
                 :chartColors="chartColors"
                 :options="chartOptions"
-                label="Weight"
+                :label=this.translations.bodyMeasurements.weight
             />
         </div>
         <div>
-            <h2 class="text-uppercase text-center border-top pt-4 pb-3">Body measurements log</h2>
+            <h2 class="text-uppercase text-center border-top pt-4 pb-3">{{translations.bodyMeasurements.bodyMeasurementsLog}}</h2>
             <BodyMeasurementsLog />
         </div>
     </div>
@@ -43,6 +43,7 @@ import BodyMeasurementsLog from "@/components/BodyMeasurementsLog.vue";
 import CurrentBodyStats from "@/components/CurrentBodyStats.vue";
 import UnitTypeSelection from "@/components/UnitTypeSelection.vue"
 import BodyStatsChart from "@/components/LineChart.vue";
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component({
     components: {
@@ -55,6 +56,10 @@ import BodyStatsChart from "@/components/LineChart.vue";
 export default class BodymeasurementsIndex extends Vue {
     get bodyMeasurements(): IBodyMeasurement[] {
         return store.getters.convertedBodyMeasurements;
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     get chartXData(): Date[] {
