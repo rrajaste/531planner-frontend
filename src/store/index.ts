@@ -24,6 +24,7 @@ import { StatisticsApi } from '@/services/StatisticsApi'
 import { INutritionStatistics } from '@/domain/NutritionStatistics'
 import { CultureApi } from '@/services/CultureApi'
 import { ICulture } from '@/domain/Culture'
+import LanguageStringManager from '@/resources/LanguageStringManager'
 
 Vue.use(Vuex)
 
@@ -45,7 +46,8 @@ export default new Vuex.Store({
         nutritionIntakeToMutate: null as INutritionIntake | null,
         nutritionStatistics: null as INutritionStatistics | null,
         cultures: null as ICulture[] | null,
-        currentCulture: null as ICulture | null
+        currentCulture: { code: "en-GB", name: "English" } as ICulture,
+        langStringManager: LanguageStringManager
     },
     mutations: {
         setJwt(state, jwt: string | null) {
@@ -169,7 +171,11 @@ export default new Vuex.Store({
                 return context.bodyMeasurements[0].loggedAt
             }
             return null
+        },
+        translations(context) {
+            return context.langStringManager.getTranslation(context.currentCulture)
         }
+
     },
     actions: {
         logout(context): void {

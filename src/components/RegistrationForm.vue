@@ -69,9 +69,15 @@
 import { Component, Prop, Vue } from "vue-property-decorator"
 import StringInputObject from "../formvalidation/StringInputObject"
 import EmailInputObject from "../formvalidation/EmailInputObject"
+import store from '@/store';
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component
 export default class AccountRegister extends Vue {
+    get translations(): IAppTranslation {
+        return store.getters.translations;
+    }
+
     private username = new StringInputObject({
         displayName: "Username",
         isRequired: true,

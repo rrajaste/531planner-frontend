@@ -9,7 +9,7 @@
                 id="navbarHome"
                 aria-haspopup="true"
                 aria-expanded="false"
-            >5/3/1 planner</router-link>
+            >{{ translations.navBar.appName }}</router-link>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -30,7 +30,7 @@
                             id="navbarBodyMeasurements"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >Body measurements</router-link>
+                        >{{ translations.navBar.bodyMeasurements }}</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link
@@ -39,7 +39,7 @@
                             id="navbarNutriton"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >Nutrition</router-link>
+                        >{{ translations.navBar.nutrition }}</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link
@@ -48,7 +48,7 @@
                             id="navbarWorkoutRoutine"
                             aria-haspopup="true"
                             aria-expanded="false"
-                        >Workout routine</router-link>
+                        >{{ translations.navBar.routines }}</router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -74,7 +74,7 @@
                                 id="navbarGreeting"
                                 aria-haspopup="true"
                                 aria-expanded="false"
-                            >Hello {{ loggedInUserName }}</router-link>
+                            >{{ translations.navBar.hello }}, {{ loggedInUserName }}!</router-link>
                         </li>
                         <li class="nav-item">
                             <a
@@ -84,7 +84,7 @@
                                 aria-haspopup="true"
                                 aria-expanded="false"
                                 href="#"
-                            >Logout</a>
+                            >{{ translations.navBar.logout }}</a>
                         </li>
                     </template>
                     <template v-else>
@@ -95,7 +95,7 @@
                                 id="navbarLogin"
                                 aria-haspopup="true"
                                 aria-expanded="false"
-                            >Login</router-link>
+                            >{{ translations.navBar.login }}</router-link>
                         </li>
                         <li class="nav-item">
                             <router-link
@@ -104,7 +104,7 @@
                                 id="navbarRegister"
                                 aria-haspopup="true"
                                 aria-expanded="false"
-                            >Register</router-link>
+                            >{{ translations.navBar.register }}</router-link>
                         </li>
                     </template>
                 </ul>
@@ -118,6 +118,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import store from "../store";
 import router from "../router";
 import { ICulture } from "@/domain/Culture";
+import { IAppTranslation } from "@/resources/translations/IAppTranslation"
 
 @Component
 export default class Identity extends Vue {
@@ -135,6 +136,10 @@ export default class Identity extends Vue {
 
     get loggedInUserName(): string {
         return store.getters.loggedInUserName;
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations
     }
 
     logoutOnClick() {
