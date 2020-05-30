@@ -22,6 +22,8 @@ import { UnitTypeConverter } from '@/calculators/unitTypeConverter'
 import { IBodyMeasurementStatistics } from '@/domain/BodyMeasurementStatistics'
 import { StatisticsApi } from '@/services/StatisticsApi'
 import { INutritionStatistics } from '@/domain/NutritionStatistics'
+import { CultureApi } from '@/services/CultureApi'
+import { ICulture } from '@/domain/Culture'
 
 Vue.use(Vuex)
 
@@ -41,7 +43,8 @@ export default new Vuex.Store({
         bodyMeasurementStatistics: null as IBodyMeasurementStatistics | null,
         nutritionIntakes: null as INutritionIntake[] | null,
         nutritionIntakeToMutate: null as INutritionIntake | null,
-        nutritionStatistics: null as INutritionStatistics | null
+        nutritionStatistics: null as INutritionStatistics | null,
+        cultures: null as ICulture[] | null
     },
     mutations: {
         setJwt(state, jwt: string | null) {
@@ -88,6 +91,9 @@ export default new Vuex.Store({
         },
         setNutritionStatistics(state, stats: INutritionStatistics) {
             state.nutritionStatistics = stats
+        },
+        setCultures(state, cultures: ICulture[]) {
+            state.cultures = cultures
         }
     },
     getters: {
@@ -364,6 +370,11 @@ export default new Vuex.Store({
                     context.commit("setNutritionStatistics", apiResponse);
                 }
             }
+            return apiResponse !== null;
+        },
+        async getCultures(context): Promise<boolean> {
+            const apiResponse = await CultureApi.getAll();
+            context.commit("setCultures", apiResponse)
             return apiResponse !== null;
         }
     },

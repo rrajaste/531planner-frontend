@@ -12,5 +12,6 @@ export const ApiUrls = {
     delete: "delete",
     active: "active",
     generateRoutine: "generateRoutine",
-    userStatistics: "userstatistics"
+    userStatistics: "userstatistics",
+    culture: "cultures"
 }
