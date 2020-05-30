@@ -1,8 +1,8 @@
 <template>
     <div class="text-center">
-        <h1 class="text-uppercase">Edit logged nutrtion intake</h1>
+        <h1 class="text-uppercase">{{translations.nutrition.editTitle}}</h1>
         <h3 class="text-danger">{{ message }}</h3>
-        <h3 class="text-uppercase"><router-link to="/nutrition">BACk</router-link></h3>
+        <h3 class="text-uppercase"><router-link to="/nutrition">{{translations.nutrition.backToList}}</router-link></h3>
         <div v-if="nutritionIntake">
             <NutritionCreateForm :nutritionIntake="nutritionIntake" v-on:nutrition-intake-form-submitted="onSubmit"/>
         </div>
@@ -15,6 +15,7 @@ import NutritionCreateForm from "../../components/NutritionCreateForm.vue"
 import { INutritionIntakeCreate, INutritionIntakeEdit } from "@/domain/NutritionIntake"
 import store from "../../store"
 import router from '../../router'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -49,6 +50,10 @@ export default class NutritionIntakeEdit extends Vue {
         } else {
             this.displayErrorMessage()
         }
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     displayErrorMessage () {

@@ -3,11 +3,11 @@
         <table class="table" v-if="nutritionIntakes">
             <thead>
                 <tr>
-                    <th>Logged at</th>
-                    <th>Calories</th>
-                    <th>Protein (g)</th>
-                    <th>Fats (g)</th>
-                    <th>Carbohydrates (g)</th>
+                    <th>{{ translations.nutrition.loggedAt}}</th>
+                    <th>{{ translations.nutrition.calories}}</th>
+                    <th>{{ translations.nutrition.protein}} (g)</th>
+                    <th>{{ translations.nutrition.fats}} (g)</th>
+                    <th>{{ translations.nutrition.carbohydrates}} (g)</th>
                     <th></th>
                 </tr>
             </thead>
@@ -20,11 +20,16 @@
                     <td>{{ intake.carbohydrates }}</td>
                     <td>
                         <div class="row justify-content-left">
-                            <router-link class="mx-1" :to="{ name: 'NutritionEdit', params: { id: intake.id } }">
-                                <font-awesome-icon icon="pen" class="text-primary"/>
+                            <router-link
+                                class="mx-1"
+                                :to="{ name: 'NutritionEdit', params: { id: intake.id } }"
+                            >
+                                <font-awesome-icon icon="pen" class="text-primary" />
                             </router-link>
-                            <router-link :to="{ name: 'NutritionDelete', params: { id: intake.id } }">
-                                <font-awesome-icon icon="trash" class="text-danger mx-1"/>
+                            <router-link
+                                :to="{ name: 'NutritionDelete', params: { id: intake.id } }"
+                            >
+                                <font-awesome-icon icon="trash" class="text-danger mx-1" />
                             </router-link>
                         </div>
                     </td>
@@ -39,11 +44,16 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { INutritionIntake } from "@/domain/NutritionIntake";
 import store from "@/store";
 import router from "@/router";
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component
 export default class NutrtionLog extends Vue {
     get nutritionIntakes() {
         return store.state.nutritionIntakes;
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 }
 </script>

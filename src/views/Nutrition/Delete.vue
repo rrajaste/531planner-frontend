@@ -2,12 +2,12 @@
     <div class="text-left">
         <div v-if="nutritionIntake">
             <h3 class="text-danger">{{message}}</h3>
-            <h1 class="text-uppercase">Delete</h1>
-            <h3>Are you sure you want to delete this?</h3>
+            <h1 class="text-uppercase">{{translations.nutrition.deleteTitle}}</h1>
+            <h3>{{translations.nutrition.deleteConfirmed}}</h3>
             <NutritionIntakeDetails :nutritionIntake="nutritionIntake" />
             <form @submit="onSubmit">
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            <router-link to="/nutrition">Back to List</router-link>
+            <input type="submit" :value="translations.nutrition.delete" class="btn btn-danger" /> |
+            <router-link to="/nutrition">{{translations.nutrition.backToList}}</router-link>
         </form>
         </div>
     </div>
@@ -19,6 +19,7 @@ import NutritionIntakeDetails from "../../components/NutritionIntakeDetails.vue"
 import store from "../../store"
 import router from "../../router"
 import { INutritionIntake } from "../../domain/NutritionIntake"
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -54,6 +55,10 @@ export default class NutritionIntakeDelete extends Vue {
         } else {
             this.message = "Failed to communicate with backend api"
         }
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 }
 </script>

@@ -71,5 +71,31 @@ export const Estonian: IAppTranslation = {
         unitTypes: "Mõõtühikud",
         imperial: "Imperiaal",
         metric: "Meetersüsteem"
+    },
+    nutrition: {
+        indexTitle: "Toitumine",
+        logToday: "Logi tänane",
+        statistics: "Statistika",
+        alreadyLogged: "Tänane päev on juba logitud",
+        predictedNeeds: "Eelduslikud päevased vajadused",
+        logged: "Logitud",
+        proteinNeed: "Valgu vajadus",
+        averageCalories: "Keskmised kalorid",
+        averageProtein: "Keskmised valgud",
+        dailyTDEEDelta: "TDEE vahe",
+        estimatedWeightChange: "Eelduslik kaalumuutus",
+        calories: "Kalorid",
+        protein: "Valgud",
+        nutritionLog: "Toitumislogi",
+        loggedAt: "Logitud",
+        fats: "Rasvad",
+        createTitle: "Logi oma päevane toitumine",
+        carbohydrates: "Süsivesikud",
+        editTitle: "Muuda päevast toitainete tarbimist",
+        submit: "Sisesta",
+        backToList: "Tagasi nimekirja",
+        deleteTitle: "Kustuta päevane toitainete tarbimine",
+        delete: "Kustuta",
+        deleteConfirmed: "Olete kindel, et soovite selle kustutada?"
     }
 }

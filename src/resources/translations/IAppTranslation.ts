@@ -64,5 +64,31 @@ export interface IAppTranslation {
         unitTypes: string,
         imperial: string,
         metric: string
+    },
+    nutrition: {
+        indexTitle: string,
+        logToday: string,
+        statistics: string,
+        alreadyLogged: string,
+        predictedNeeds: string,
+        logged: string,
+        proteinNeed: string,
+        averageCalories: string,
+        averageProtein: string,
+        dailyTDEEDelta: string,
+        estimatedWeightChange: string,
+        calories: string,
+        protein: string,
+        nutritionLog: string,
+        loggedAt: string,
+        fats: string,
+        carbohydrates: string,
+        editTitle: string,
+        submit: string,
+        backToList: string,
+        deleteTitle: string,
+        delete: string,
+        deleteConfirmed: string,
+        createTitle: string
     }
 }

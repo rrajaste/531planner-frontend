@@ -1,13 +1,13 @@
 <template>
     <div v-if="nutritionIntakes && nutritionIntakes.length > 1">
         <div v-if="nutritionIntakes.length > 1">
-            <h4 class="text-center text-uppercase">Calories</h4>
+            <h4 class="text-center text-uppercase">{{ translations.nutrition.calories }}</h4>
             <LineChart
                 :xData="chartXData"
                 :yData="chartYData"
                 :chartColors="chartColors"
                 :options="chartOptions"
-                label="Calories"
+                :label="translations.nutrition.calories"
             />
         </div>
     </div>
@@ -17,6 +17,7 @@ import { Component, Prop, Vue } from "vue-property-decorator"
 import LineChart from "./LineChart.vue"
 import store from '@/store'
 import { INutritionIntake } from '../domain/NutritionIntake'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -72,6 +73,10 @@ export default class CaloriesChart extends Vue {
                 ]
             }
         };
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     async mounted() {

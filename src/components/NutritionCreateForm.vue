@@ -5,7 +5,7 @@
                 <form @submit.prevent="onSubmit">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>{{ calories.displayName }}*</label>
+                            <label>{{ translations.nutrition.calories }}*</label>
                             <input
                                 type="number"
                                 step="any"
@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>{{ protein.displayName }}*</label>
+                            <label>{{ translations.nutrition.protein }}*</label>
                             <input
                                 type="number"
                                 step="any"
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>{{ carbohydrates.displayName }}*</label>
+                            <label>{{ translations.nutrition.carbohydrates }}*</label>
                             <input
                                 type="number"
                                 step="any"
@@ -51,7 +51,7 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>{{ fats.displayName }}*</label>
+                            <label>{{translations.nutrition.fats}}*</label>
                             <input
                                 type="number"
                                 step="any"
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <button type="submit" class="btn btn-success text-uppercase">Submit</button>
+                        <button type="submit" class="btn btn-success text-uppercase">{{translations.nutrition.submit}}</button>
                     </div>
                 </form>
             </div>
@@ -79,11 +79,16 @@ import {
     INutritionIntake,
     INutritionIntakeCreate
 } from "../domain/NutritionIntake";
+import store from "@/store";
+import { IAppTranslation } from "@/resources/translations/IAppTranslation";
 @Component
 export default class NutritionCreateForm extends Vue {
-    private measurement = "metric";
     @Prop()
     nutritionIntake!: INutritionIntake;
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
+    }
 
     private calories = new NumberInputObject({
         displayName: "Calories",

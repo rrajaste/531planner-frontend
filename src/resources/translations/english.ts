@@ -71,5 +71,31 @@ export const English: IAppTranslation = {
         unitTypes: "Unit types",
         imperial: "Imperial",
         metric: "Metric"
+    },
+    nutrition: {
+        indexTitle: "Daily nutrition intake",
+        logToday: "Log today",
+        statistics: "Statistics",
+        alreadyLogged: "You have already logged today",
+        predictedNeeds: "Predicted daily needs",
+        logged: "Logged at",
+        proteinNeed: "Protein need",
+        averageCalories: "Average calories",
+        averageProtein: "Average protein",
+        dailyTDEEDelta: "TDEE delta",
+        estimatedWeightChange: "Estimated weight change",
+        calories: "Calories",
+        protein: "Protein",
+        nutritionLog: "Nutrition log",
+        loggedAt: "Logged at",
+        fats: "Fats",
+        carbohydrates: "Carbohydrates",
+        editTitle: "Edit daily nutrition intake",
+        createTitle: "Log your daily nutrition intake",
+        submit: "Submit",
+        backToList: "Back to list",
+        deleteTitle: "Delete daily nutrition intake",
+        delete: "Delete",
+        deleteConfirmed: "Are you sure you wish to delete this?"
     }
 }

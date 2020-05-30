@@ -1,15 +1,15 @@
 <template>
     <div class="text-center">
-        <h1 class="text-uppercase displa-4">Daily nutrition intake</h1>
+        <h1 class="text-uppercase display-4">{{translations.nutrition.indexTitle}}</h1>
         <h3 class="text-uppercase">
-            <router-link to="/nutrition/create">Log today</router-link>
+            <router-link to="/nutrition/create">{{translations.nutrition.logToday}}</router-link>
         </h3>
-        <h1 class="py-3 border-top border-bottom text-uppercase my-5">STATISTICS</h1>
+        <h1 class="py-3 border-top border-bottom text-uppercase my-5">{{translations.nutrition.statistics}}</h1>
         <CurrentNutritionStats v-if="nutritionIntakes && nutritionIntakes.length > 1"/>
         <CaloriesChart/>
         <ProteinChart/>
         <h3 class="text-danger">{{message}}</h3>
-        <h1 class="py-3 border-top border-bottom text-uppercase my-5">NUTRITION LOG</h1>
+        <h1 class="py-3 border-top border-bottom text-uppercase my-5">{{translations.nutrition.nutritionLog}}</h1>
         <NutritionLog/>
     </div>
 </template>
@@ -23,6 +23,7 @@ import NutritionLog from "@/components/NutritionLog.vue"
 import CaloriesChart from "@/components/CaloriesChart.vue";
 import ProteinChart from "@/components/ProteinChart.vue";
 import CurrentNutritionStats from "@/components/CurrentNutritionStats.vue";
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component({
     components: {
@@ -45,6 +46,10 @@ export default class NutritionIndex extends Vue {
         } else {
             await store.dispatch("getAllNutritionIntakes");
         }
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 }
 </script>
