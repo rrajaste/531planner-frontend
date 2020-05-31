@@ -1,10 +1,10 @@
 <template>
     <div class="text-center">
         <div class="mb-4">
-            <h1 class="display-4 text-uppercase">Generate...</h1>
-            <h3 class="">...a new workout routine</h3>
-            <p class="text-secondary">Fill out the form below to generate a new 5/3/1 workout routine</p>
-            <router-link to="/routines" class="text-uppercase">BACK</router-link>
+            <h1 class="display-4 text-uppercase">{{translations.routines.generateTitle}}</h1>
+            <h3 class="">{{translations.routines.generateSubtitle}}</h3>
+            <p class="text-secondary">{{translations.routines.generateSubtext}}</p>
+            <router-link to="/routines" class="text-uppercase">{{translations.routines.back}}</router-link>
         </div>
         <hr/>
         <div v-if="hasActiveRoutine">
@@ -14,7 +14,7 @@
         <div v-else>
             <BaseRoutineSelection v-if="!baseRoutineId" @routine-selected="setBaseRoutineId" />
             <div v-else>
-                <button class="btn btn-info text-uppercase btn-sm mb-3" @click="setBaseRoutineId('')">Repick</button>
+                <button class="btn btn-info text-uppercase btn-sm mb-3" @click="setBaseRoutineId('')">{{translations.routines.repick}}</button>
             </div>
             <RoutineGenerationForm @wendler-maxes-submitted="submitForm"/>
             <div class="row">
@@ -32,6 +32,7 @@ import { IRoutineGenerationInfo } from "../../domain/RoutineGenerationInfo";
 import { IWendlerMaxes } from "../../domain/WendlerMaxes";
 import RoutineGenerationForm from "../../components/RoutineGenerationForm.vue";
 import BaseRoutineSelection from "../../components/BaseRoutineSelection.vue";
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component({
     components: {
@@ -42,6 +43,10 @@ import BaseRoutineSelection from "../../components/BaseRoutineSelection.vue";
 export default class RoutineGenerate extends Vue {
     get hasActiveRoutine(): boolean | null {
         return store.state.activeRoutine !== null;
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     private baseRoutineId: string | null = null;

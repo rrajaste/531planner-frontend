@@ -6,7 +6,7 @@
             <p class="text-muted ">{{ activeRoutine.description }}</p>
         </div>
         <div class="border-bottom mb-3 pb-3" >
-            <router-link to="/routines/">BACK</router-link>
+            <h4 class="text-uppercase"><router-link to="/routines/">{{translations.routines.back}}</router-link></h4>
         </div>
         <UnitTypeSelection/>
         <hr/>
@@ -33,6 +33,7 @@ import store from "../../store";
 import router from "../../router";
 import TrainingWeek from "../../components/TrainingWeek.vue";
 import UnitTypeSelection from "../../components/UnitTypeSelection.vue";
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component({
     components: {
@@ -53,6 +54,10 @@ export default class RoutinesActive extends Vue {
 
     displayErrorMessage() {
         this.message = "Backend communication failed!";
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     mounted() {

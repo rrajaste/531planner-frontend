@@ -2,17 +2,17 @@
     <div>
         <form @submit.prevent="onSubmit">
             <UnitTypeSelection/>
-            <h5 class="text-left text-uppercase pb-1 pt-3 border-top"><b>Lift maxes</b>
+            <h5 class="text-left text-uppercase pb-1 pt-3 border-top"><b>{{translations.routines.liftMaxes}}</b>
             <span class="text-lowercase">({{unitTypeAbbreviation}})</span></h5>
             <div class="form-row my-3 border-top pt-4">
-                <label class="col-sm-3 col-md-2 my-1 text-left">{{ squatMax.displayName }}</label>
+                <label class="col-sm-3 col-md-2 my-1 text-left">{{translations.routines.squat}} {{translations.routines.max}}</label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="squatMax.value"
                     :class="squatMax.bootstrapValidationClass"
                 />
-                <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
+                <label class="col-sm-2 mx-2 my-1 text-left"> {{translations.routines.numberOfReps}} </label>
                 <input
                     type="number"
                     class="form-control col-sm-2"
@@ -27,14 +27,14 @@
                 </div>
             </div>
             <div class="form-row my-3">
-                <label class="col-sm-3 col-md-2 my-1 text-left">{{ benchMax.displayName }}</label>
+                <label class="col-sm-3 col-md-2 my-1 text-left">{{translations.routines.bench}} {{translations.routines.max}}</label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="benchMax.value"
                     :class="benchMax.bootstrapValidationClass"
                 />
-                <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
+                <label class="col-sm-2 mx-2 my-1 text-left"> {{translations.routines.numberOfReps}} </label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
@@ -49,14 +49,14 @@
                 </div>
             </div>
             <div class="form-row my-3">
-                <label class="col-sm-3 col-md-2 my-1 text-left">{{ deadliftMax.displayName }}</label>
+                <label class="col-sm-3 col-md-2 my-1 text-left">{{translations.routines.deadlift}} {{translations.routines.max}}</label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="deadliftMax.value"
                     :class="deadliftMax.bootstrapValidationClass"
                 />
-                <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
+                <label class="col-sm-2 mx-2 my-1 text-left"> {{translations.routines.numberOfReps}} </label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
@@ -71,14 +71,14 @@
                 </div>
             </div>
             <div class="form-row my-3">
-                <label class="col-sm-3 col-md-2 my-1 text-left">{{ pressMax.displayName }}</label>
+                <label class="col-sm-3 col-md-2 my-1 text-left">{{translations.routines.press}} {{translations.routines.max}}</label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
                     v-model.trim="pressMax.value"
                     :class="pressMax.bootstrapValidationClass"
                 />
-                <label class="col-sm-2 mx-2 my-1 text-left"> number of reps </label>
+                <label class="col-sm-2 mx-2 my-1 text-left"> {{translations.routines.numberOfReps}} </label>
                 <input
                     type="number" step="any"
                     class="form-control col-sm-2"
@@ -94,17 +94,17 @@
             </div>
             <hr/>
             <div class="row">
-                <button type="button" @click="calculate" class="btn btn-primary ml-3">Calculate</button>
-                <router-link v-if="!singleRepMaxesCalculated" to="/routines" class="btn btn-secondary mx-3">Back</router-link>
+                <button type="button" @click="calculate" class="btn btn-primary ml-3">{{translations.routines.calculate}}</button>
+                <router-link v-if="!singleRepMaxesCalculated" to="/routines" class="btn btn-secondary mx-3">{{translations.routines.back}}</router-link>
             </div>
             <hr/>
             <div class="text-left" v-if="singleRepMaxesCalculated === true">
-                <h5 class="text-left text-uppercase pb-3 pt-3 border-top border-bottom"><b>Estimated one rep maxes</b>
+                <h5 class="text-left text-uppercase pb-3 pt-3 border-top border-bottom"><b>{{translations.routines.estimatedOneRepMaxes}}</b>
                 <span class="text-lowercase">({{unitTypeAbbreviation}})</span> </h5>
                 <table class="table table-bordered my-3">
                     <tr>
                         <th>
-                            Squat
+                            {{translations.routines.squat}}
                         </th>
                         <th class="px-3">
                             {{ squatOneRepMax }} {{ unitTypeAbbreviation }}
@@ -112,7 +112,7 @@
                     </tr>
                     <tr>
                         <th>
-                            Bench press
+                            {{translations.routines.bench}}
                         </th>
                         <th class="px-3">
                             {{ benchOneRepMax }} {{ unitTypeAbbreviation }}
@@ -120,7 +120,7 @@
                     </tr>
                     <tr>
                         <th>
-                            Deadlift
+                            {{translations.routines.deadlift}}
                         </th>
                         <th class="px-3">
                             {{ deadliftOneRepMax }} {{ unitTypeAbbreviation }}
@@ -128,7 +128,7 @@
                     </tr>
                     <tr>
                         <th>
-                            Overhead press
+                            {{translations.routines.press}}
                         </th>
                         <th class="px-3">
                             {{ pressOneRepMax }} {{ unitTypeAbbreviation }}
@@ -137,8 +137,8 @@
                 </table>
                 <hr/>
                 <div class="row">
-                    <button type="submit" class="btn btn-success ml-3">Submit</button>
-                    <router-link to="/routines" class="btn btn-secondary mx-3">Back</router-link>
+                    <button type="submit" class="btn btn-success ml-3">{{translations.routines.submit}}</button>
+                    <router-link to="/routines" class="btn btn-secondary mx-3">{{translations.routines.back}}</router-link>
                 </div>
             </div>
         </form>
@@ -154,6 +154,7 @@ import UnitTypeSelection from "./UnitTypeSelection.vue"
 import { UnitTypeConverter } from "../calculators/unitTypeConverter"
 import { IWendlerMaxes } from "../domain/WendlerMaxes"
 import store from '@/store'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({
     components: {
@@ -163,6 +164,10 @@ import store from '@/store'
 export default class RoutineGenerationForm extends Vue {
     get unitType() {
         return store.state.unitType
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     get unitTypeAbbreviation() {

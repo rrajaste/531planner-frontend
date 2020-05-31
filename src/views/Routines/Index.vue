@@ -1,21 +1,23 @@
 <template>
     <div class="text-center">
         <div class="mb-5">
-            <h1 class="display-4 text-uppercase">Workout routines</h1>
-            <p class="text-muted mb-3">On this page you can view and manage your personalized workout routines.<br/>
-            If you don't have an active workout routine yet, you can also generate it here!
+            <h1 class="display-4 text-uppercase">
+                {{translations.routines.indexTitle}}</h1>
+            <p class="text-muted mb-3">
+                {{translations.routines.indexSubtext}}
             </p>
         </div>
         <div v-if="activeCycle">
             <router-link to="/routines/activecycle">
             <div class="row text-center justify-content-center">
-                <h4 class="text-center text-uppercase">VIEW FULL CYCLE</h4>
+                <h4 class="text-center text-uppercase">
+                {{ translations.routines.viewFullcycle }}</h4>
             </div>
         </router-link>
         </div>
         <hr/>
         <div v-on:click="toggleShowActiveRoutine" class="row clickable text-center justify-content-center">
-            <h3 class="text-success text-center text-uppercase">Active routine</h3>
+            <h3 class="text-success text-center text-uppercase">{{translations.routines.activeRoutine}}</h3>
             <div class="clickable" v-if="showActiveRoutine">
                 <font-awesome-icon icon="minus" class="text-danger mx-2 my-2"/>
             </div>
@@ -26,9 +28,9 @@
         <div v-if="activeRoutine && showActiveRoutine" class="row justify-content-center my-2">
             <div class="card rounded col-sm-10 col-md-8 my-2">
             <div class="card-title" v-if="showConfirmDelete">
-                <h3 class="text-danger delete-text">Are you sure you wish to delete this routine?</h3>
-                <button class="btn btn-danger btn-sm mx-1 text-uppercase" @click="deleteActiveRoutine">DELETE</button>
-                <button class="btn btn-primary btn-sm mx-1 text-uppercase" @click="toggleShowConfirmDelete">CLOSE</button>
+                <h3 class="text-danger delete-text">{{translations.routines.deleteConfirm}}</h3>
+                <button class="btn btn-danger btn-sm mx-1 text-uppercase" @click="deleteActiveRoutine">{{translations.routines.delete}}</button>
+                <button class="btn btn-primary btn-sm mx-1 text-uppercase" @click="toggleShowConfirmDelete">{{translations.routines.close}}</button>
             </div>
             <div v-if="!showConfirmDelete" class="card-title text-uppercase mt-3 mb-0">
                 <h3 class="text-uppercase">{{ activeRoutine.name }}</h3>
@@ -44,14 +46,17 @@
         </div>
         <div v-if="!activeRoutine && showActiveRoutine">
             <hr/>
-            <p class="text-muted text-center mb-1">No currently active routine!</p>
-            <span class="text-muted">Click <router-link to="/routines/generate" class="text-center text-uppercase">HERE</router-link> to generate a new one!</span>
+            <p class="text-muted text-center mb-1">{{translations.routines.noActiveRoutine}}</p>
+            <span class="text-muted">{{translations.routines.click}}
+                <router-link to="/routines/generate" class="text-center text-uppercase">{{translations.routines.here}}</router-link>
+                {{translations.routines.toGenerate}}
+                </span>
         </div>
         <div>
         </div>
         <hr/>
         <div v-on:click="toggleShowCurrentWeek" class="row clickable text-center justify-content-center">
-            <h3 class="text-success text-center text-uppercase">show current week</h3>
+            <h3 class="text-success text-center text-uppercase">{{translations.routines.currentWeek}}</h3>
             <div class="clickable" v-if="showCurrentWeek">
                 <font-awesome-icon icon="minus" class="text-danger mx-2 my-2"/>
             </div>
@@ -64,18 +69,18 @@
             <TrainingWeek :trainingWeek="activeWeek"/>
         </div>
         <div v-if="!activeWeek && showCurrentWeek">
-            <p class="text-muted text-center">No currently active training week!</p>
+            <p class="text-muted text-center">{{translations.routines.noCurrentWeek}}</p>
             <div v-if="isCycleOver">
                 <p class="text-muted">Your current training cycle is over.</p>
-                   <span class="text-muted">Click
+                   <span class="text-muted">{{translations.routines.click}}
                        <router-link to="/routines/generate" class="text-center text-uppercase">
-                            HERE
+                            {{translations.routines.here}}
                        </router-link>
-                       to generate a new one!
+                       {{translations.routines.toGenere}}
                     </span>
             </div>
             <div v-else-if="isCycleNotStarted">
-                <p class="text-muted">Your first training week starts at {{ firstWeekStartingDate }}</p>
+                <p class="text-muted">{{translations.routines.firstWeekStartsAt}} {{ firstWeekStartingDate }}</p>
             </div>
         </div>
         <hr/>
@@ -91,6 +96,7 @@ import store from "../../store";
 import router from "../../router";
 import TrainingWeek from "../../components/TrainingWeek.vue";
 import { ITrainingWeek } from '../../domain/TrainingWeek';
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component({
     components: {
@@ -153,6 +159,10 @@ export default class RoutineIndex extends Vue {
     private async deleteActiveRoutine() {
         await store.dispatch("deleteActiveRoutine")
         this.toggleShowConfirmDelete();
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 }
 </script>
