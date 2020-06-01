@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h3 class="pb-1">Routine templates</h3>
-        <p class="pb-2 border-bottom text-muted">Please choose a base routine template</p>
+        <h3 class="pb-1">{{ translations.routines.routineTemplates }}</h3>
+        <p class="pb-2 border-bottom text-muted">{{ translations.routines.pleasePick }}</p>
         <div v-if="baseRoutines" class="row d-flex justify-content-center">
             <div v-for="routine in baseRoutines" :key="routine.id" class="card shadow rounded mb-3 mx-1 col-sm-12 col-md-8 col-xl-5">
                 <div class="card-body text-center">
@@ -9,7 +9,7 @@
                     <p class="card-text"> {{ routine.description }} </p>
                 </div>
             <div class="card-footer">
-                <button @click="selectRoutine(routine.id)" class="btn btn-outline-success">SELECT</button>
+                <button @click="selectRoutine(routine.id)" class="btn text-uppercase btn-outline-success">{{translations.routines.select}}</button>
             </div>
             </div>
         </div>
@@ -22,11 +22,16 @@
 
 import { Component, Vue } from "vue-property-decorator"
 import store from "../store"
+import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component
 export default class BaseRoutineSelection extends Vue {
     get baseRoutines() {
         return store.state.baseRoutines;
+    }
+
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 
     async mounted() {

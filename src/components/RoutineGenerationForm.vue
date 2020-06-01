@@ -240,9 +240,9 @@ export default class RoutineGenerationForm extends Vue {
     calculate () {
         if (this._isFormValid()) {
             this.squatOneRepMax = RepMaxCalculator.GetSingleRepMax(this.squatMax.value, this.squatReps.value)
-            this.deadliftOneRepMax = RepMaxCalculator.GetSingleRepMax(this.benchMax.value, this.benchReps.value)
+            this.deadliftOneRepMax = RepMaxCalculator.GetSingleRepMax(this.deadliftMax.value, this.deadliftReps.value)
             this.pressOneRepMax = RepMaxCalculator.GetSingleRepMax(this.pressMax.value, this.pressReps.value)
-            this.benchOneRepMax = RepMaxCalculator.GetSingleRepMax(this.deadliftMax.value, this.deadliftReps.value)
+            this.benchOneRepMax = RepMaxCalculator.GetSingleRepMax(this.benchMax.value, this.benchReps.value)
 
             this.singleRepMaxesCalculated = true;
         }
