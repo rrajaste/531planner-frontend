@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <tr v-for="measurement in bodyMeasurements" :key="measurement.Id">
-                    <td >{{ measurement.loggedAt }}</td>
+                    <td >{{ toLocaleDateString(measurement.loggedAt) }}</td>
                     <td >{{ measurement.height }}</td>
                     <td >{{ measurement.weight }}</td>
                     <td >{{ measurement.chest }}</td>
@@ -46,6 +46,7 @@ import { Component, Vue } from "vue-property-decorator"
 import { IBodyMeasurement } from "../domain/BodyMeasurement"
 import store from '@/store'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component
 export default class BodyMeasurementsLog extends Vue {
@@ -72,6 +73,10 @@ export default class BodyMeasurementsLog extends Vue {
         if (apiResponse == null) {
             this.message = "Failed to communicate with backend api"
         }
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 }
 </script>

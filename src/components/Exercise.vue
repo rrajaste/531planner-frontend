@@ -37,7 +37,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { IExercise } from "../domain/Exercise";
 import store from "@/store";
 import { UnitTypes } from "@/types/UnitTypes";
-import { UnitTypeConverter } from "../calculators/unitTypeConverter";
+import { UnitTypeConverter } from "../converters/unitTypeConverter";
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 
 @Component

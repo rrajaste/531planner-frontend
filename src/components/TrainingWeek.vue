@@ -1,6 +1,6 @@
 <template>
     <div class="card shadow rounded">
-        <h5 class="card-title text-muted mt-3 mb-0">{{ trainingWeek.startingDate }} - {{ trainingWeek.endingDate }}</h5>
+        <h5 class="card-title text-muted mt-3 mb-0">{{ toLocaleDateString(trainingWeek.startingDate) }} - {{ toLocaleDateString(trainingWeek.endingDate) }}</h5>
         <h2 class="card-title text-uppercase mt-3 mb-0">{{translations.routines.trainingWeek}} {{ trainingWeek.weekNumber }}</h2>
         <hr>
         <div class="row d-flex justify-content-center">
@@ -17,6 +17,7 @@ import { ITrainingWeek } from "../domain/TrainingWeek"
 import TrainingDay from "./TrainingDay.vue"
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 import store from '@/store';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component({
     components: {
@@ -29,6 +30,10 @@ export default class TrainingWeek extends Vue {
 
     get translations(): IAppTranslation {
         return store.getters.translations;
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 }
 </script>

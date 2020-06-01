@@ -2,7 +2,7 @@
     <div class="m-1 p-0 training-day mb-3">
         <ul class="list-group p-1">
             <li class="list-group-item">
-                <h5 class="text-uppercase">{{ trainingDay.date }}</h5>
+                <h5 class="text-uppercase">{{ toLocaleDateString(trainingDay.date) }}</h5>
                 <p class="m-0" :title="trainingDay.description">{{ trainingDay.name }}</p>
             </li>
             <li class="list-group-item p-0">
@@ -39,6 +39,7 @@ import { ITrainingDay } from "../domain/TrainingDay";
 import Exercise from "./Exercise.vue";
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 import store from '@/store';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component({
     components: {
@@ -52,10 +53,14 @@ export default class TrainingDay extends Vue {
     get translations(): IAppTranslation {
         return store.getters.translations;
     }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
+    }
 }
 </script>
 <style scoped>
 .training-day {
-    min-width: 220px;
+    width: 220px;
 }
 </style>

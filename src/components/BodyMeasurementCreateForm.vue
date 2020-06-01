@@ -130,7 +130,7 @@ import { IBodyMeasurementCreate, IBodyMeasurement } from "../domain/BodyMeasurem
 import StringInputObject from "../formvalidation/StringInputObject"
 import UnitTypeSelection from "./UnitTypeSelection.vue"
 import store from '@/store'
-import { UnitTypeConverter } from '../calculators/unitTypeConverter'
+import { UnitTypeConverter } from '../converters/unitTypeConverter'
 import { UnitTypes } from '../types/UnitTypes'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 

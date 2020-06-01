@@ -4,7 +4,7 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-2">{{translations.bodyMeasurements.loggedAt}}</dt>
-            <dd class="col-sm-10">{{ bodyMeasurement.loggedAt }}</dd>
+            <dd class="col-sm-10">{{ toLocaleDateString(bodyMeasurement.loggedAt) }}</dd>
             <dt class="col-sm-2">{{translations.bodyMeasurements.height}}</dt>
             <dd class="col-sm-10">{{ bodyMeasurement.height }}</dd>
             <dt class="col-sm-2">{{translations.bodyMeasurements.weight}}</dt>
@@ -27,6 +27,7 @@ import { Component, Prop, Vue } from "vue-property-decorator"
 import { IBodyMeasurementCreate, IBodyMeasurement } from "../domain/BodyMeasurement"
 import store from '@/store'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component
 export default class BodymeasurementDetails extends Vue {
@@ -35,6 +36,10 @@ export default class BodymeasurementDetails extends Vue {
 
     get translations(): IAppTranslation {
         return store.getters.translations;
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 }
 </script>

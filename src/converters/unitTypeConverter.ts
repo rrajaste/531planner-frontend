@@ -1,4 +1,5 @@
 import { IBodyMeasurement } from '@/domain/BodyMeasurement'
+import store from '@/store'
 
 export class UnitTypeConverter {
     static kilogramsToPounds(kilograms: number) {
@@ -34,5 +35,10 @@ export class UnitTypeConverter {
             loggedAt: bodyMeasurement.loggedAt
         }
         return convertedMeasurement
+    }
+
+    static toLocalString(date: Date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString(store.state.currentCulture.code, options)
     }
 }

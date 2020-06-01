@@ -18,6 +18,7 @@ import LineChart from "./LineChart.vue"
 import store from '@/store'
 import { INutritionIntake } from '../domain/NutritionIntake'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation'
+import { UnitTypeConverter } from '@/converters/unitTypeConverter'
 
 @Component({
     components: {
@@ -46,12 +47,16 @@ export default class CaloriesChart extends Vue {
         }
     }
 
-    get chartXData(): Date[] {
+    get chartXData(): string[] {
         if (this.nutritionIntakes !== null) {
-            return this.nutritionIntakes.map(intake => intake.loggedAt)
+            return this.nutritionIntakes.map(intake => this.toLocaleDateString(intake.loggedAt))
         } else {
             return []
         }
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 
     get minYValue(): number {

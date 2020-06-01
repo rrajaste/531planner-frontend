@@ -17,7 +17,7 @@
             </b>
             <span class="text-lowercase">(g)</span>
         </h5>
-        <h3 class="text-uppercase mb-3"><b>{{translations.nutrition.loggedAt}}</b></h3>
+        <h3 class="text-uppercase mb-3"><b>{{translations.nutrition.logged}}</b></h3>
         <h5 class="text-uppercase">
             {{translations.nutrition.averageCalories}}:
             <b>
@@ -58,6 +58,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { INutritionStatistics } from "../domain/NutritionStatistics";
 import store from "@/store";
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component
 export default class CurrentBodyStats extends Vue {
@@ -75,6 +76,10 @@ export default class CurrentBodyStats extends Vue {
 
     getChangeStringValue(change: number): string {
         return change < 0 ? change.toString() : "+" + change.toString();
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 
     mounted() {

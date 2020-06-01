@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 <tr v-for="intake in nutritionIntakes" :key="intake.Id">
-                    <td>{{ intake.loggedAt }}</td>
+                    <td>{{ toLocaleDateString(new Date(intake.loggedAt)) }}</td>
                     <td>{{ intake.calories }}{{ }}</td>
                     <td>{{ intake.protein }}</td>
                     <td>{{ intake.fats }}</td>
@@ -45,6 +45,7 @@ import { INutritionIntake } from "@/domain/NutritionIntake";
 import store from "@/store";
 import router from "@/router";
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component
 export default class NutrtionLog extends Vue {
@@ -54,6 +55,10 @@ export default class NutrtionLog extends Vue {
 
     get translations(): IAppTranslation {
         return store.getters.translations;
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 }
 </script>

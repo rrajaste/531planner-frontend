@@ -15,7 +15,7 @@ import { IBodyMeasurementEdit, IBodyMeasurement } from "@/domain/BodyMeasurement
 import store from "../../store"
 import router from '../../router'
 import { UnitTypes } from '../../types/UnitTypes'
-import { UnitTypeConverter } from '../../calculators/unitTypeConverter'
+import { UnitTypeConverter } from '../../converters/unitTypeConverter'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 @Component({

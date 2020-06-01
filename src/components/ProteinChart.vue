@@ -18,6 +18,7 @@ import LineChart from "./LineChart.vue"
 import store from '@/store'
 import { INutritionIntake } from '../domain/NutritionIntake'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation'
+import { UnitTypeConverter } from '@/converters/unitTypeConverter'
 
 @Component({
     components: {
@@ -50,9 +51,10 @@ export default class ProteinChart extends Vue {
         }
     }
 
-    get chartXData(): Date[] {
+    get chartXData(): string[] {
         if (this.nutritionIntakes !== null) {
-            return this.nutritionIntakes.map(intake => intake.loggedAt)
+            const converter = this.toLocaleDateString
+            return this.nutritionIntakes.map(intake => converter(intake.loggedAt))
         } else {
             return []
         }
@@ -82,6 +84,10 @@ export default class ProteinChart extends Vue {
                 ]
             }
         };
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 
     async mounted() {

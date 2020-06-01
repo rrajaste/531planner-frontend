@@ -4,8 +4,8 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-2">{{ translations.nutrition.loggedAt}}</dt>
-            <dd class="col-sm-10">{{ nutritionIntake.loggedAt }}</dd>
-            <dt class="col-sm-2">{{ translations.nutrition.caloreis}}</dt>
+            <dd class="col-sm-10">{{ toLocaleDateString(nutritionIntake.loggedAt) }}</dd>
+            <dt class="col-sm-2">{{ translations.nutrition.calories}}</dt>
             <dd class="col-sm-10">{{ nutritionIntake.calories }}</dd>
             <dt class="col-sm-2">{{ translations.nutrition.protein}}</dt>
             <dd class="col-sm-10">{{ nutritionIntake.protein }}</dd>
@@ -22,6 +22,7 @@ import { Component, Prop, Vue } from "vue-property-decorator"
 import { INutritionIntake } from '../domain/NutritionIntake'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 import store from '@/store';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component
 export default class NutritionIntakeDetails extends Vue {
@@ -30,6 +31,10 @@ export default class NutritionIntakeDetails extends Vue {
 
     get translations(): IAppTranslation {
         return store.getters.translations;
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 }
 </script>

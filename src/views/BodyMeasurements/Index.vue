@@ -44,6 +44,7 @@ import CurrentBodyStats from "@/components/CurrentBodyStats.vue";
 import UnitTypeSelection from "@/components/UnitTypeSelection.vue"
 import BodyStatsChart from "@/components/LineChart.vue";
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component({
     components: {
@@ -62,8 +63,8 @@ export default class BodymeasurementsIndex extends Vue {
         return store.getters.translations;
     }
 
-    get chartXData(): Date[] {
-        return this.bodyMeasurements.map(measurement => measurement.loggedAt);
+    get chartXData(): string[] {
+        return this.bodyMeasurements.map(measurement => this.toLocaleDateString(measurement.loggedAt));
     }
 
     get chartYData(): number[] {
@@ -100,6 +101,10 @@ export default class BodymeasurementsIndex extends Vue {
             pointBackgroundColor: "#363457",
             backgroundColor: ""
         };
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 
     async mounted() {

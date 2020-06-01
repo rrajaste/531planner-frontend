@@ -23,10 +23,6 @@
 
 import { Component, Vue } from "vue-property-decorator"
 import { UnitTypes } from "../types/UnitTypes"
-import NumberInputObject from "../formvalidation/NumberInputObject"
-import RepMaxCalculator from "../calculators/singleRepetitionMaxCalculator"
-import { UnitTypeConverter } from "../calculators/unitTypeConverter"
-import { IWendlerMaxes } from "../domain/WendlerMaxes"
 import store from '@/store'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 

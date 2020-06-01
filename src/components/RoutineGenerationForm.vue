@@ -149,9 +149,9 @@
 import { Component, Vue } from "vue-property-decorator"
 import { UnitTypes } from "../types/UnitTypes"
 import NumberInputObject from "../formvalidation/NumberInputObject"
-import RepMaxCalculator from "../calculators/singleRepetitionMaxCalculator"
+import RepMaxCalculator from "../converters/singleRepetitionMaxCalculator"
 import UnitTypeSelection from "./UnitTypeSelection.vue"
-import { UnitTypeConverter } from "../calculators/unitTypeConverter"
+import { UnitTypeConverter } from "../converters/unitTypeConverter"
 import { IWendlerMaxes } from "../domain/WendlerMaxes"
 import store from '@/store'
 import { IAppTranslation } from '@/resources/translations/IAppTranslation'

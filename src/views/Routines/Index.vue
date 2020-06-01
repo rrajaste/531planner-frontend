@@ -80,7 +80,7 @@
                     </span>
             </div>
             <div v-else-if="isCycleNotStarted">
-                <p class="text-muted">{{translations.routines.firstWeekStartsAt}} {{ firstWeekStartingDate }}</p>
+                <p class="text-muted">{{translations.routines.firstWeekStartsAt}} {{ toLocaleDateString(firstWeekStartingDate) }}</p>
             </div>
         </div>
         <hr/>
@@ -97,6 +97,7 @@ import router from "../../router";
 import TrainingWeek from "../../components/TrainingWeek.vue";
 import { ITrainingWeek } from '../../domain/TrainingWeek';
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
+import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
 @Component({
     components: {
@@ -163,6 +164,10 @@ export default class RoutineIndex extends Vue {
 
     get translations(): IAppTranslation {
         return store.getters.translations;
+    }
+
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
     }
 }
 </script>
