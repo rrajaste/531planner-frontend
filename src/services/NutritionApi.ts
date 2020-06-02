@@ -12,7 +12,10 @@ export abstract class NutritionApi {
         try {
             const response = await this.axios.get<INutritionIntake[]>(url, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
-                return response.data
+                const data = response.data
+                if (data) {
+                    return data.sort((a, b) => (+new Date(a.loggedAt) - (+new Date(b.loggedAt))))
+                }
             }
             return null
         } catch (error) {

@@ -44,13 +44,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { INutritionIntake } from "@/domain/NutritionIntake";
 import store from "@/store";
 import router from "@/router";
-import { IAppTranslation } from '@/resources/translations/IAppTranslation';
-import { UnitTypeConverter } from '@/converters/unitTypeConverter';
+import { IAppTranslation } from "@/resources/translations/IAppTranslation";
+import { UnitTypeConverter } from "@/converters/unitTypeConverter";
 
 @Component
 export default class NutrtionLog extends Vue {
     get nutritionIntakes() {
-        return store.state.nutritionIntakes;
+        return store.getters.nutritionIntakesDescending
     }
 
     get translations(): IAppTranslation {
@@ -58,7 +58,7 @@ export default class NutrtionLog extends Vue {
     }
 
     toLocaleDateString(date: Date) {
-        return UnitTypeConverter.toLocalString(date)
+        return UnitTypeConverter.toLocalString(date);
     }
 }
 </script>

@@ -1,40 +1,23 @@
 <template>
-    <div>
-        <h1 class="display-4 text-uppercase text-center">{{translations.bodyMeasurements.indexTitle}}</h1>
-        <div class="text-center m-3">
-            <h3>
-                <router-link
-                    to="/bodymeasurements/create"
-                    class="text-uppercase text-center m-2 p-2"
-                >{{translations.bodyMeasurements.addNew}}</router-link>
-            </h3>
-        </div>
-        <div>
-            <UnitTypeSelection/>
-        </div>
-        <div>
-            <div class="text-center m-3">
-                <h2 class="text-uppercase text-center border-top pt-4 pb-3">{{translations.bodyMeasurements.currentStats}}</h2>
-            </div>
-            <CurrentBodyStats />
-        </div>
-        <WeightChart/>
-        <div>
-            <h2 class="text-uppercase text-center border-top pt-4 pb-3">{{translations.bodyMeasurements.bodyMeasurementsLog}}</h2>
-            <BodyMeasurementsLog />
-        </div>
+    <div v-if="bodyMeasurements.length > 1">
+        <BodyStatsChart
+            :xData="chartXData"
+            :yData="chartYData"
+            :chartColors="chartColors"
+            :options="chartOptions"
+            :label=this.translations.bodyMeasurements.weight
+        />
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { IBodyMeasurement } from "../../domain/BodyMeasurement";
-import store from "../../store";
-import router from "@/router";
+import { Component, Vue } from "vue-property-decorator";
+import { IBodyMeasurement } from "@/domain/BodyMeasurement";
+import store from "@/store";
 import BodyMeasurementsLog from "@/components/BodyMeasurementsLog.vue";
 import CurrentBodyStats from "@/components/CurrentBodyStats.vue";
 import UnitTypeSelection from "@/components/UnitTypeSelection.vue"
-import WeightChart from "@/components/WeightChart.vue";
+import BodyStatsChart from "@/components/LineChart.vue";
 import { IAppTranslation } from '@/resources/translations/IAppTranslation';
 import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 
@@ -42,11 +25,11 @@ import { UnitTypeConverter } from '@/converters/unitTypeConverter';
     components: {
         BodyMeasurementsLog,
         CurrentBodyStats,
-        UnitTypeSelection,
-        WeightChart
+        BodyStatsChart,
+        UnitTypeSelection
     }
 })
-export default class BodymeasurementsIndex extends Vue {
+export default class WeightChart extends Vue {
     get bodyMeasurements(): IBodyMeasurement[] {
         return store.getters.convertedBodyMeasurements;
     }
@@ -56,7 +39,7 @@ export default class BodymeasurementsIndex extends Vue {
     }
 
     get chartXData(): string[] {
-        return this.bodyMeasurements.map(measurement => this.toLocaleDateString(measurement.loggedAt));
+        return this.bodyMeasurements.map(measurement => this.toLocaleDateString(measurement.loggedAt))
     }
 
     get chartYData(): number[] {
@@ -64,9 +47,6 @@ export default class BodymeasurementsIndex extends Vue {
     }
 
     get minYValue(): number {
-        if (this.bodyMeasurements.length < 2) {
-            return 0
-        }
         const orderedArray: IBodyMeasurement[] = this.bodyMeasurements.sort((a, b) => (a.weight - b.weight));
         const minWeight: number = orderedArray[0].weight
         return minWeight / 1.2;
@@ -100,13 +80,6 @@ export default class BodymeasurementsIndex extends Vue {
 
     toLocaleDateString(date: Date) {
         return UnitTypeConverter.toLocalString(date)
-    }
-
-    async mounted() {
-        if (!store.getters.isLoggedIn) {
-            router.push("account/login");
-        }
-        await store.dispatch("getAllBodyMeasurements");
     }
 }
 </script>

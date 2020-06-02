@@ -78,7 +78,7 @@ export const English: IAppTranslation = {
         statistics: "Statistics",
         alreadyLogged: "You have already logged today",
         predictedNeeds: "Predicted daily needs",
-        logged: "Logged at",
+        logged: "Logged",
         proteinNeed: "Protein need",
         averageCalories: "Average calories",
         averageProtein: "Average protein",
@@ -137,6 +137,7 @@ export const English: IAppTranslation = {
         accessoryLifts: "Accessories",
         warmUp: "Warm up",
         workSets: "Work sets",
-        firstWeekStartsAt: "Your first week starts at"
+        firstWeekStartsAt: "Your first week starts at",
+        alreadyLogged: "Today is already logged"
     }
 }

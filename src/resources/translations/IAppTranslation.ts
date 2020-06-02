@@ -129,6 +129,7 @@ export interface IAppTranslation {
         accessoryLifts: string,
         warmUp: string,
         workSets: string,
-        firstWeekStartsAt: string
+        firstWeekStartsAt: string,
+        alreadyLogged: string
     }
 }

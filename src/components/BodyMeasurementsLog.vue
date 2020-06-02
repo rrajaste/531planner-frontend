@@ -51,7 +51,7 @@ import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 @Component
 export default class BodyMeasurementsLog extends Vue {
     get bodyMeasurements(): IBodyMeasurement[] {
-        return store.getters.convertedBodyMeasurements;
+        return store.getters.convertedBodyMeasurements.concat().reverse();
     }
 
     get weightAbbreviation () {
@@ -67,13 +67,6 @@ export default class BodyMeasurementsLog extends Vue {
     }
 
     private message = ""
-
-    async mounted () {
-        const apiResponse = await store.dispatch("getAllBodyMeasurements")
-        if (apiResponse == null) {
-            this.message = "Failed to communicate with backend api"
-        }
-    }
 
     toLocaleDateString(date: Date) {
         return UnitTypeConverter.toLocalString(date)

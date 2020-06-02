@@ -1,7 +1,7 @@
 <template>
     <div v-if="nutritionIntakes && nutritionIntakes.length > 1">
         <div v-if="nutritionIntakes.length > 1">
-            <h4 class="text-center text-uppercase">{{translations.nutrition.protein}}</h4>
+            <h4 class="text-center text-uppercase">{{ translations.nutrition.protein }}</h4>
             <LineChart
                 :xData="chartXData"
                 :yData="chartYData"
@@ -30,10 +30,6 @@ export default class ProteinChart extends Vue {
         return store.state.nutritionIntakes
     }
 
-    get translations(): IAppTranslation {
-        return store.getters.translations;
-    }
-
     get chartColors() {
         return {
             borderColor: "#E56399",
@@ -53,19 +49,17 @@ export default class ProteinChart extends Vue {
 
     get chartXData(): string[] {
         if (this.nutritionIntakes !== null) {
-            const converter = this.toLocaleDateString
-            return this.nutritionIntakes.map(intake => converter(intake.loggedAt))
+            return this.nutritionIntakes.map(intake => this.toLocaleDateString(intake.loggedAt))
         } else {
             return []
         }
     }
 
+    toLocaleDateString(date: Date) {
+        return UnitTypeConverter.toLocalString(date)
+    }
+
     get minYValue(): number {
-        if (this.nutritionIntakes) {
-            const orderedArray: INutritionIntake[] = this.nutritionIntakes.sort((a, b) => (a.protein - b.protein));
-            const min: number = orderedArray[0].protein
-            return min / 1.3
-        }
         return 0
     }
 
@@ -86,12 +80,8 @@ export default class ProteinChart extends Vue {
         };
     }
 
-    toLocaleDateString(date: Date) {
-        return UnitTypeConverter.toLocalString(date)
-    }
-
-    async mounted() {
-        await store.dispatch("getAllNutritionIntakes")
+    get translations(): IAppTranslation {
+        return store.getters.translations;
     }
 }
 </script>

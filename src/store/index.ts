@@ -25,6 +25,7 @@ import { INutritionStatistics } from '@/domain/NutritionStatistics'
 import { CultureApi } from '@/services/CultureApi'
 import { ICulture } from '@/domain/Culture'
 import LanguageStringManager from '@/resources/LanguageStringManager'
+import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 
 Vue.use(Vuex)
 
@@ -114,7 +115,7 @@ export default new Vuex.Store({
                 return context.bodyMeasurements.map(
                     measurement => UnitTypeConverter.bodyMeasurementToImperial(measurement))
             }
-            return context.bodyMeasurements
+            return context.bodyMeasurements.map(measurement => UnitTypeConverter.bodyMeasurementToMetric(measurement))
         },
         convertedBodyMeasurementToMutate(context): IBodyMeasurement | null {
             let mappedMeasurement = context.bodyMeasurementToMutate
@@ -166,14 +167,31 @@ export default new Vuex.Store({
             const firstWeek = context.activeCycle.trainingWeeks[0]
             return firstWeek.startingDate
         },
-        bodyMeasurementLogStartDate(context): Date | null {
-            if (context.bodyMeasurements !== null && context.bodyMeasurements.length > 0) {
-                return context.bodyMeasurements[0].loggedAt
+        translations(context): IAppTranslation {
+            return context.langStringManager.getTranslation(context.currentCulture)
+        },
+        isTodayLogged(context): boolean | null {
+            const intakes = context.nutritionIntakes;
+            console.log(context.nutritionIntakes)
+            if (intakes !== null && intakes.length > 0) {
+                const lastLogDate = new Date(intakes[intakes.length - 1].loggedAt)
+                const currentDate = new Date()
+                return (lastLogDate.toDateString() === currentDate.toDateString())
             }
             return null
         },
-        translations(context) {
-            return context.langStringManager.getTranslation(context.currentCulture)
+        nutritionIntakesDescending(context): INutritionIntake[] | null {
+            if (context.nutritionIntakes) {
+                return context.nutritionIntakes.concat().sort((a, b) => (+new Date(b.loggedAt) - (+new Date(a.loggedAt))))
+            }
+            return context.nutritionIntakes
+        },
+
+        nutritionIntakesAscending(context): INutritionIntake[] | null {
+            if (context.nutritionIntakes) {
+                return context.nutritionIntakes.concat().sort((a, b) => (+new Date(a.loggedAt) - (+new Date(b.loggedAt))))
+            }
+            return context.nutritionIntakes
         }
 
     },

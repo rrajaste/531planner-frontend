@@ -17,7 +17,6 @@ export abstract class TrainingCycleApi {
             }
             return null
         } catch (error) {
-            console.log(error)
             return null
         }
     }
@@ -25,5 +24,4 @@ export abstract class TrainingCycleApi {
     static getRequestCultureQueryString(): string {
         return store.state.currentCulture.code === "et-EE" ? "?culture=et-EE" : "?culture=en-GB"
     }
-}
 }

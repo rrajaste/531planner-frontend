@@ -137,6 +137,7 @@ export const Estonian: IAppTranslation = {
         accessoryLifts: "Lisaharjutused",
         warmUp: "Soojendus",
         workSets: "Põhiseeriad",
-        firstWeekStartsAt: "Esimene nädal algab"
+        firstWeekStartsAt: "Esimene nädal algab",
+        alreadyLogged: "Tänane on juba logitud"
     }
 }

@@ -83,8 +83,6 @@
                 <p class="text-muted">{{translations.routines.firstWeekStartsAt}} {{ toLocaleDateString(firstWeekStartingDate) }}</p>
             </div>
         </div>
-        <hr/>
-        <hr/>
     </div>
 </template>
 

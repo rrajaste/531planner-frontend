@@ -19,7 +19,10 @@ export abstract class BodyMeasurementApi {
         try {
             const response = await this.axios.get<IBodyMeasurement[]>(url, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
-                return response.data
+                const data = response.data
+                if (data) {
+                    return data.sort((a, b) => (+new Date(a.loggedAt)) - (+new Date(b.loggedAt)))
+                }
             }
             return null
         } catch (error) {
@@ -31,7 +34,6 @@ export abstract class BodyMeasurementApi {
         const url = ApiUrls.bodyMeasurements
         try {
             const response = await this.axios.get(url + id, { headers: { Authorization: "Bearer " + jwt } })
-            console.log("Response", response)
             if (response.status === 200) {
                 return response.data as IBodyMeasurement
             }

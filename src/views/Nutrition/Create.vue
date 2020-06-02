@@ -27,9 +27,16 @@ import { IAppTranslation } from '@/resources/translations/IAppTranslation'
 export default class NutritionIntakesCreate extends Vue {
     private message = ""
 
+    get isTodayLogged(): boolean | null {
+        return store.getters.isTodayLogged
+    }
+
     async mounted () {
         if (!store.getters.isLoggedIn) {
             router.push("/account/login")
+        }
+        if (this.isTodayLogged !== false) {
+            router.push("/nutrition")
         }
     }
 

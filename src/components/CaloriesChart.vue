@@ -83,9 +83,5 @@ export default class CaloriesChart extends Vue {
     get translations(): IAppTranslation {
         return store.getters.translations;
     }
-
-    async mounted() {
-        await store.dispatch("getAllNutritionIntakes")
-    }
 }
 </script>
