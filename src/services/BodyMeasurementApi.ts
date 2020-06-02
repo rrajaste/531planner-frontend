@@ -58,7 +58,6 @@ export abstract class BodyMeasurementApi {
 
     static async create (dto: IBodyMeasurementCreate, jwt: string): Promise<IBodyMeasurement | null> {
         const url = ApiUrls.bodyMeasurements
-        console.log("sent data", JSON.stringify(dto))
         try {
             const response = await this.axios.post<IBodyMeasurement>(url, dto, { headers: { Authorization: "Bearer " + jwt } })
             if (response.status === 200) {
@@ -66,7 +65,6 @@ export abstract class BodyMeasurementApi {
             }
             return null
         } catch (error) {
-            console.log("error", error as Function)
             return null
         }
     }
@@ -80,7 +78,6 @@ export abstract class BodyMeasurementApi {
             }
             return null
         } catch (error) {
-            console.log("error", error)
             return null
         }
     }

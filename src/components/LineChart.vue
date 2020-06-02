@@ -28,7 +28,6 @@ export default {
                 pointBackgroundColor,
                 backgroundColor
             } = this.chartColors;
-
             this.renderChart(
                 {
                     labels: this.xData,
@@ -50,10 +49,8 @@ export default {
     mounted() {
         this.createChart();
     },
-    watch: {
-        xData: function() {
-            this.createChart();
-        }
+    updated() {
+        this.createChart();
     }
 };
 </script>

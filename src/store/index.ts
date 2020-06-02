@@ -172,7 +172,6 @@ export default new Vuex.Store({
         },
         isTodayLogged(context): boolean | null {
             const intakes = context.nutritionIntakes;
-            console.log(context.nutritionIntakes)
             if (intakes !== null && intakes.length > 0) {
                 const lastLogDate = new Date(intakes[intakes.length - 1].loggedAt)
                 const currentDate = new Date()
