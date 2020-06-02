@@ -51,7 +51,7 @@ import { UnitTypeConverter } from '@/converters/unitTypeConverter';
 @Component
 export default class BodyMeasurementsLog extends Vue {
     get bodyMeasurements(): IBodyMeasurement[] {
-        return store.getters.convertedBodyMeasurements.concat().reverse();
+        return [...store.getters.convertedBodyMeasurements].reverse();
     }
 
     get weightAbbreviation () {

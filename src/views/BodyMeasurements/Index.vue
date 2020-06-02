@@ -18,7 +18,7 @@
             </div>
             <CurrentBodyStats />
         </div>
-        <WeightChart/>
+        <WeightChart v-if="bodyMeasurements"/>
         <div>
             <h2 class="text-uppercase text-center border-top pt-4 pb-3">{{translations.bodyMeasurements.bodyMeasurementsLog}}</h2>
             <BodyMeasurementsLog />
@@ -67,7 +67,7 @@ export default class BodymeasurementsIndex extends Vue {
         if (this.bodyMeasurements.length < 2) {
             return 0
         }
-        const orderedArray: IBodyMeasurement[] = this.bodyMeasurements.sort((a, b) => (a.weight - b.weight));
+        const orderedArray: IBodyMeasurement[] = [...this.bodyMeasurements].sort((a, b) => (a.weight - b.weight));
         const minWeight: number = orderedArray[0].weight
         return minWeight / 1.2;
     }

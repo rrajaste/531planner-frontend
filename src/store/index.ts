@@ -111,11 +111,14 @@ export default new Vuex.Store({
             return context.username
         },
         convertedBodyMeasurements(context): IBodyMeasurement[] | null {
+            let mappedMeasurements: IBodyMeasurement[] | null = null;
             if (context.unitType === UnitTypes.imperial) {
-                return context.bodyMeasurements.map(
+                mappedMeasurements = context.bodyMeasurements.map(
                     measurement => UnitTypeConverter.bodyMeasurementToImperial(measurement))
+            } else {
+                mappedMeasurements = context.bodyMeasurements.map(measurement => UnitTypeConverter.bodyMeasurementToMetric(measurement))
             }
-            return context.bodyMeasurements.map(measurement => UnitTypeConverter.bodyMeasurementToMetric(measurement))
+            return mappedMeasurements
         },
         convertedBodyMeasurementToMutate(context): IBodyMeasurement | null {
             let mappedMeasurement = context.bodyMeasurementToMutate
@@ -181,14 +184,14 @@ export default new Vuex.Store({
         },
         nutritionIntakesDescending(context): INutritionIntake[] | null {
             if (context.nutritionIntakes) {
-                return context.nutritionIntakes.concat().sort((a, b) => (+new Date(b.loggedAt) - (+new Date(a.loggedAt))))
+                return [...context.nutritionIntakes].sort((a, b) => (+new Date(b.loggedAt) - (+new Date(a.loggedAt))))
             }
             return context.nutritionIntakes
         },
 
         nutritionIntakesAscending(context): INutritionIntake[] | null {
             if (context.nutritionIntakes) {
-                return context.nutritionIntakes.concat().sort((a, b) => (+new Date(a.loggedAt) - (+new Date(b.loggedAt))))
+                return [...context.nutritionIntakes].sort((a, b) => (+new Date(a.loggedAt) - (+new Date(b.loggedAt))))
             }
             return context.nutritionIntakes
         }

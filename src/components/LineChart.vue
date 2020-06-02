@@ -34,7 +34,7 @@ export default {
                     datasets: [
                         {
                             label: this.label,
-                            data: this.yData,
+                            data: this.chartData,
                             borderColor: borderColor,
                             pointBorderColor: pointBorderColor,
                             pointBackgroundColor: pointBackgroundColor,
@@ -49,8 +49,15 @@ export default {
     mounted() {
         this.createChart();
     },
-    updated() {
-        this.createChart();
+    computed: {
+        chartData: function() {
+            return this.yData;
+        }
+    },
+    watch: {
+        chartData: function() {
+            this.createChart();
+        }
     }
 };
 </script>

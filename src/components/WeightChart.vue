@@ -5,7 +5,7 @@
             :yData="chartYData"
             :chartColors="chartColors"
             :options="chartOptions"
-            :label=this.translations.bodyMeasurements.weight
+            :label="this.translations.bodyMeasurements.weight"
         />
     </div>
 </template>
@@ -16,10 +16,10 @@ import { IBodyMeasurement } from "@/domain/BodyMeasurement";
 import store from "@/store";
 import BodyMeasurementsLog from "@/components/BodyMeasurementsLog.vue";
 import CurrentBodyStats from "@/components/CurrentBodyStats.vue";
-import UnitTypeSelection from "@/components/UnitTypeSelection.vue"
+import UnitTypeSelection from "@/components/UnitTypeSelection.vue";
 import BodyStatsChart from "@/components/LineChart.vue";
-import { IAppTranslation } from '@/resources/translations/IAppTranslation';
-import { UnitTypeConverter } from '@/converters/unitTypeConverter';
+import { IAppTranslation } from "@/resources/translations/IAppTranslation";
+import { UnitTypeConverter } from "@/converters/unitTypeConverter";
 
 @Component({
     components: {
@@ -39,7 +39,9 @@ export default class WeightChart extends Vue {
     }
 
     get chartXData(): string[] {
-        return this.bodyMeasurements.map(measurement => this.toLocaleDateString(measurement.loggedAt))
+        return this.bodyMeasurements.map(measurement =>
+            this.toLocaleDateString(measurement.loggedAt)
+        );
     }
 
     get chartYData(): number[] {
@@ -47,8 +49,10 @@ export default class WeightChart extends Vue {
     }
 
     get minYValue(): number {
-        const orderedArray: IBodyMeasurement[] = this.bodyMeasurements.sort((a, b) => (a.weight - b.weight));
-        const minWeight: number = orderedArray[0].weight
+        const orderedArray: IBodyMeasurement[] = [
+            ...this.bodyMeasurements
+        ].sort((a, b) => a.weight - b.weight);
+        const minWeight: number = orderedArray[0].weight;
         return minWeight / 1.2;
     }
 
@@ -79,7 +83,7 @@ export default class WeightChart extends Vue {
     }
 
     toLocaleDateString(date: Date) {
-        return UnitTypeConverter.toLocalString(date)
+        return UnitTypeConverter.toLocalString(date);
     }
 }
 </script>

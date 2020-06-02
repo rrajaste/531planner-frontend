@@ -50,6 +50,7 @@ export default class BodymeasurementsDelete extends Vue {
     async onSubmit () {
         const apiResponse = await store.dispatch("deleteBodyMeasurement", this.id)
         if (apiResponse !== false) {
+            store.dispatch("getAllBodyMeasurements")
             router.push("/bodymeasurements")
         } else {
             this.message = "Failed to communicate with backend api"
