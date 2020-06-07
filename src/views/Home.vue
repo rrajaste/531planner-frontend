@@ -1,6 +1,6 @@
 <template>
     <div id="greeting-text" class="text-center">
-        <h1 class="display-4 text-uppercase">{{ translations.home.title }}</h1>
+        <h1 class="display-4 text-uppercase">TEST</h1>
         <h2>{{ translations.home.subtitle }}</h2>
         <hr />
         <h3 class="text-font-weight-bold">{{ translations.home.whatIsTitle }}</h3>

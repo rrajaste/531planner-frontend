@@ -1,5 +1,5 @@
 export const ApiUrls = {
-    apiBaseUrl: "http://531planner.azurewebsites.net/api/v1.0/",
+    apiBaseUrl: "https://531planner.azurewebsites.net/api/v1.0/",
     // apiBaseUrl: "https://localhost:5001/api/v1.0/",
     login: "account/login",
     register: "account/register",

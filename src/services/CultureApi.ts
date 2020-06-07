@@ -11,6 +11,7 @@ export abstract class CultureApi {
         const url = ApiUrls.culture
         try {
             const response = await this.axios.get(url)
+            console.log("resp", response)
             if (response.status === 200) {
                 return response.data as ICulture[]
             }
